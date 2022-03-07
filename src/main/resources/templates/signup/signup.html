@@ -4,39 +4,45 @@
 <body>
 
 
-<section >
+<section>
 
-<h1>Create Account</h1>
-<form method="post">
-    <div class="form-group">
-        <label>Username</label>
-        <input type="text" class="form-control" th:field="${user.username}">
-    </div>
-    <div class="form-group">
-        <label>First Name: </label>
-        <input type="text" class="form-control" th:field="${user.firstName}">
-    </div>
-    <div class="form-group">
-        <label>Last Name: </label>
-        <input type="text" class="form-control" th:field="${user.lastName}">
-    </div>
-    <div class="form-group">
-        <label>Email</label>
-        <input type="text" class="form-control" th:field="${user.email}">
-    </div>
-    <div class="form-group">
-        <label>Password: </label>
-        <input type="text" class="form-control">
-    </div>
-    <div class="form-group">
-        <label>Repeat Password: </label>
-        <input type="text" name="verify" class="form-control" th:field="${user.passsword}">
-    </div>
-    <div class="form-group">
-        <input class="btn btn-success" type="submit" value="Create Account"/>
-    </div>
-
-</form>
+    <h1>Create Account</h1>
+    <form method="post">
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text" class="form-control" th:field="${user.userName}">
+            <span th:errors="${user.userName}" class="error"></span>
+        </div>
+        <div class="form-group">
+            <label>First Name: </label>
+            <input type="text" class="form-control" th:field="${user.firstName}">
+            <span th:errors="${user.firstName}" class="error"></span>
+        </div>
+        <div class="form-group">
+            <label>Last Name: </label>
+            <input type="text" class="form-control" th:field="${user.lastName}">
+            <span th:errors="${user.lastName}" class="error"></span>
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="text" class="form-control" th:field="${user.email}">
+            <span th:errors="${user.email}" class="error"></span>
+        </div>
+        <div class="form-group">
+            <label>Password: </label>
+            <input type="text" class="form-control" th:field="${user.password}">
+            <span th:errors="${user.password}" class="error"></span>
+        </div>
+        <div class="form-group">
+            <label>Repeat Password: </label>
+            <input type="text" name="verify" class="form-control" th:field="${user.verifyPassword}">
+            <span th:errors="${user.verifyPassword}" class="error"></span>
+            <span th:text="${errorMessage}" class="error"></span>
+        </div>
+        <div class="form-group">
+            <input class="btn btn-success" type="submit" value="Create Account"/>
+        </div>
+    </form>
 
 </section>
 </body>

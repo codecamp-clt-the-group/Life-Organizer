@@ -1,6 +1,7 @@
 package org.launchcode.lifeorganizer.models;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
@@ -12,29 +13,30 @@ import javax.validation.constraints.Size;
 public class User {
 
     @Id
+    @GeneratedValue
     private int id;
 
-    @NotBlank
+    @NotBlank(message = "Username required")
     @Size(min = 6, max = 20)
     private String userName;
 
-    @NotBlank
+    @NotBlank(message = "Password required")
     @Size(min = 6)
     private String password;
 
-    @NotBlank
+    @NotBlank(message = "Name required")
     @Size(max = 25)
     private String firstName;
 
-    @NotBlank
+    @NotBlank(message = "Last name required")
     @Size(max = 50)
     private String lastName;
 
     @Email
-    @NotBlank
+    @NotBlank(message = "Email required")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "passwords must match")
     @Transient
     private String verifyPassword;
 
@@ -48,6 +50,18 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.verifyPassword = verifyPassword;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getVerifyPassword() {
+        return verifyPassword;
+    }
+
+    public void setVerifyPassword(String verifyPassword) {
         this.verifyPassword = verifyPassword;
     }
 
