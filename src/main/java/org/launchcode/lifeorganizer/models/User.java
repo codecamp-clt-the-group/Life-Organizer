@@ -3,17 +3,38 @@ package org.launchcode.lifeorganizer.models;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 
 @Entity
 public class User {
+
     @Id
+    private int id;
+
+    @NotBlank
+    @Size(min = 6, max = 20)
     private String userName;
+
+    @NotBlank
+    @Size(min = 6)
     private String password;
+
+    @NotBlank
+    @Size(max = 25)
     private String firstName;
+
+    @NotBlank
+    @Size(max = 50)
     private String lastName;
+
+    @Email
+    @NotBlank
     private String email;
 
+    @NotBlank
     @Transient
     private String verifyPassword;
 
@@ -21,13 +42,13 @@ public class User {
     public User() {
     }
 
-    public User(String userName, String password, String firstName, String lastName, String email, String verifyPassword ) {
+    public User(String userName, String password, String firstName, String lastName, String email, String verifyPassword) {
         this.userName = userName;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.verifyPassword=verifyPassword;
+        this.verifyPassword = verifyPassword;
     }
 
     public String getUserName() {
@@ -68,5 +89,9 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean verifyPassword() {
+        return this.verifyPassword.equals(this.password);
     }
 }
