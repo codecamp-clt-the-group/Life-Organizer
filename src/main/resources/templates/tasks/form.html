@@ -8,8 +8,15 @@
 </head>
 <body>
 
-<th:block th:fragment="header">
-    <h1 th:text="${title}"></h1>
-</th:block>
+<header th:replace="fragments :: header"></header>
+
+<form method="post">
+    <label>Task Name:
+        <input type="text" th:field="${task.name}">
+    </label>
+    <p th:errors="${task.name}"></p>
+    <button>Submit</button>
+</form>
+
 </body>
 </html>
