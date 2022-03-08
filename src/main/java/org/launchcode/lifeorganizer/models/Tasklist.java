@@ -1,9 +1,6 @@
 package org.launchcode.lifeorganizer.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +11,9 @@ public class Tasklist {
     @GeneratedValue
     private int id;
 
-//    @OneToMany(mappedBy = "tasklist")
-    private List<Task> taskList = new ArrayList<>();
+    @OneToMany
+    @JoinColumn(name = "tasklist_id")
+    private List<Task> tasks = new ArrayList<>();
 
     public Tasklist () {}
 
@@ -23,11 +21,11 @@ public class Tasklist {
         return id;
     }
 
-    public List<Task> getTaskList() {
-        return taskList;
+    public List<Task> getTasks() {
+        return tasks;
     }
 
-    public void setTaskList(List<Task> taskList) {
-        this.taskList = taskList;
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 }

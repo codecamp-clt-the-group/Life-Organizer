@@ -19,8 +19,7 @@ public class Task {
 
     private boolean isComplete = false;
 
-//    @ManyToOne
-//    @JoinColumn(name="tasklist_id")
+    @ManyToOne
     private Tasklist tasklist;
 
     public Task () {}

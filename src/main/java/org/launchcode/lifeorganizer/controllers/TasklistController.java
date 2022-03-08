@@ -9,11 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 @Controller
+@RequestMapping("tasklist")
 public class TasklistController {
 
     @Autowired
@@ -22,13 +24,13 @@ public class TasklistController {
     @Autowired
     private TaskRepository taskRepository;
 
-    @GetMapping("generate")
+    @GetMapping("generator")
     public String displayForm(Model model) {
         model.addAttribute("title", "Generate Task List");
         return "tasklist/generator";
     }
 
-    @PostMapping("generate")
+    @PostMapping("generator")
     public String processForm(@RequestParam int timeAvailable, Model model) {
         model.addAttribute("title", "Generated Task List");
         Iterable<Task> allTasks = taskRepository.findAll();
@@ -46,7 +48,7 @@ public class TasklistController {
             }
         }
         Tasklist listOfTasks = null;
-        listOfTasks.setTaskList(selectedTasks);
+        listOfTasks.setTasks(selectedTasks);
         tasklistRepository.save(listOfTasks);
         return "tasklist/list";
     }
