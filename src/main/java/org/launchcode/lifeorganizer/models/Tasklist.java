@@ -11,8 +11,7 @@ public class Tasklist {
     @GeneratedValue
     private int id;
 
-    @OneToMany
-    @JoinColumn(name = "tasklist_id")
+    @OneToMany(mappedBy = "tasklist")
     private List<Task> tasks = new ArrayList<>();
 
     public Tasklist () {}

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -34,8 +35,8 @@ public class TasklistController {
     public String processForm(@RequestParam int timeAvailable, Model model) {
         model.addAttribute("title", "Generated Task List");
         Iterable<Task> allTasks = taskRepository.findAll();
-        List<Task> timeRequiredTasks=null;
-        List<Task> selectedTasks=null;
+        List<Task> timeRequiredTasks=new ArrayList<>();
+        List<Task> selectedTasks=new ArrayList<>();
         for (Task task : allTasks) {
             if (task.getTimeRequired()>0) {
                 timeRequiredTasks.add(task);
@@ -47,9 +48,17 @@ public class TasklistController {
                 timeAvailable-=task.getTimeRequired();
             }
         }
-        Tasklist listOfTasks = null;
-        listOfTasks.setTasks(selectedTasks);
-        tasklistRepository.save(listOfTasks);
+//        Tasklist listOfTasks = null;
+//        listOfTasks.setTasks(selectedTasks);
+//        tasklistRepository.save(listOfTasks);
+
+        if (selectedTasks.size()>0) {
+          tasklistRepository.save(new Tasklist());
+//          for (Task task : selectedTasks) {
+//              task.setTasklist();
+//          }
+            taskRepository.saveAll(selectedTasks);
+        }
         return "tasklist/list";
     }
 
