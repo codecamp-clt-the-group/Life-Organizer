@@ -7,10 +7,7 @@ import org.launchcode.lifeorganizer.models.Tasklist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,24 +45,39 @@ public class TasklistController {
                 timeAvailable-=task.getTimeRequired();
             }
         }
+
+        int id = tasklistRepository.save(new Tasklist()).getId();
+
+
 //        Tasklist listOfTasks = null;
 //        listOfTasks.setTasks(selectedTasks);
 //        tasklistRepository.save(listOfTasks);
 
         if (selectedTasks.size()>0) {
-          tasklistRepository.save(new Tasklist());
-//          for (Task task : selectedTasks) {
-//              task.setTasklist();
-//          }
-            taskRepository.saveAll(selectedTasks);
+//          tasklistRepository.save(new Tasklist());
+          for (Task task : selectedTasks) {
+              task.setTasklist_id(id);
+              taskRepository.save(task);
+          }
+//            taskRepository.saveAll(selectedTasks);
         }
-        return "tasklist/list";
+        return "redirect:/tasklist/" + id;
     }
 
 
-    @GetMapping("tasklist/list")
-    public String displayTaskList(Model model) {
-        model.addAttribute("title", "Generate Task List");
+    @GetMapping("{id}")
+    public String displayTaskList(Model model, @PathVariable int id) {
+        model.addAttribute("title", "Generated Task List");
+        Iterable<Task> tasks = taskRepository.findAll();
+        List<Task> selectedTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getTasklist_id() == id) {
+                selectedTasks.add(task);
+            }
+        }
+        System.out.println(selectedTasks);
+
+        model.addAttribute("tasks", selectedTasks);
         return "tasklist/list";
     }
 }
