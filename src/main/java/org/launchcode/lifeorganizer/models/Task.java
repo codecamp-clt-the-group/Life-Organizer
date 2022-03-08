@@ -1,8 +1,6 @@
 package org.launchcode.lifeorganizer.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -20,6 +18,10 @@ public class Task {
     private int timeRequired;
 
     private boolean isComplete = false;
+
+//    @ManyToOne
+//    @JoinColumn(name="tasklist_id")
+    private Tasklist tasklist;
 
     public Task () {}
 
@@ -53,5 +55,13 @@ public class Task {
 
     public void setTimeRequired(int timeRequired) {
         this.timeRequired = timeRequired;
+    }
+
+    public Tasklist getTasklist() {
+        return tasklist;
+    }
+
+    public void setTasklist(Tasklist tasklist) {
+        this.tasklist = tasklist;
     }
 }
