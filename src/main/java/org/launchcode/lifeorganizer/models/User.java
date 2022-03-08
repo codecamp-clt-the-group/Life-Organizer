@@ -25,49 +25,29 @@ public class User {
     private String userName;
 
 
-    @NotBlank(message = "Name required")
-    @Size(max = 25)
+
     private String firstName;
-
-    @NotBlank(message = "Last name required")
-    @Size(max = 50)
     private String lastName;
-
-    @Email
-    @NotBlank(message = "Email required")
     private String email;
 
     @NotBlank(message = "Password required")
     @Size(min = 6)
     private String pwdHash;
 
-    @NotBlank(message = "passwords must match")
-    @Transient
-    private String verifyPassword;
-
     //no-args-constructor
     public User() {
     }
 
-    public User(String userName, String firstName, String lastName, String email, String password, String verifyPassword) {
+    public User(String userName, String firstName, String lastName, String email, String password){
         this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.pwdHash = encoder.encode(password);
-        this.verifyPassword = verifyPassword;
     }
 
     public int getId() {
         return id;
-    }
-
-    public String getVerifyPassword() {
-        return verifyPassword;
-    }
-
-    public void setVerifyPassword(String verifyPassword) {
-        this.verifyPassword = verifyPassword;
     }
 
     public String getUserName() {
@@ -110,7 +90,7 @@ public class User {
         this.email = email;
     }
 
-    public boolean verifyPassword() {
+    public boolean verifyPassword(String verifyPassword) {
         return encoder.matches(verifyPassword, pwdHash);
     }
 }
