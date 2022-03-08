@@ -10,9 +10,9 @@
             <div class="col-sm-4 ">
                 <div class="row">
                     <label class="col-3">Username:</label>
-                    <input type="text" class="form-control col-9" th:field="${user.userName}">
+                    <input type="text" class="form-control col-9" th:field="${signupFormDTO.userName}">
                 </div>
-                <span th:errors="${user.userName}" class="row text-danger justify-content-end "></span>
+                <span th:errors="${signupFormDTO.userName}" class="row text-danger justify-content-end "></span>
             </div>
         </div>
 
@@ -20,9 +20,10 @@
             <div class="col-sm-4 ">
                 <div class="row">
                     <label class="col-3">First Name:</label>
-                    <input type="text" class="form-control col-9" th:field="${user.firstName}">
+                    <input type="text" class="form-control col-9" th:field="${signupFormDTO.firstName}">
                 </div>
-                <span th:errors="${user.firstName}" class="row text-danger justify-content-end "></span>
+                <span th:errors="${signupFormDTO.firstName}" class="row text-danger justify-content-end "></span>
+
             </div>
         </div>
 
@@ -30,9 +31,9 @@
             <div class="col-sm-4 ">
                 <div class="row">
                     <label class="col-3">Last Name:</label>
-                    <input type="text" class="form-control col-9" th:field="${user.lastName}">
+                    <input type="text" class="form-control col-9" th:field="${signupFormDTO.lastName}">
                 </div>
-                <span th:errors="${user.lastName}" class="row text-danger justify-content-end "></span>
+                <span th:errors="${signupFormDTO.lastName}" class="row text-danger justify-content-end "></span>
             </div>
         </div>
 
@@ -40,9 +41,9 @@
             <div class="col-sm-4 ">
                 <div class="row">
                     <label class="col-3">Email:</label>
-                    <input type="text" class="form-control col-9" th:field="${user.email}">
+                    <input type="text" class="form-control col-9" th:field="${signupFormDTO.email}">
                 </div>
-                <span th:errors="${user.email}" class="row text-danger justify-content-end "></span>
+                <span th:errors="${signupFormDTO.email}" class="row text-danger justify-content-end "></span>
             </div>
         </div>
 
@@ -50,9 +51,9 @@
             <div class="col-sm-4 ">
                 <div class="row">
                     <label class="col-3">Password:</label>
-                    <input type="password" class="form-control col-9" th:field="${user.pwdHash}">
+                    <input type="password" class="form-control col-9" th:field="${signupFormDTO.pwdHash}">
                 </div>
-                <span th:errors="${user.pwdHash}" class="row text-danger justify-content-end "></span>
+                <span th:errors="${signupFormDTO.pwdHash}" class="row text-danger justify-content-end "></span>
             </div>
         </div>
 
@@ -60,10 +61,10 @@
             <div class="col-sm-4 ">
                 <div class="row">
                     <label class="col-4">Repeat Password:</label>
-                    <input type="password" class="form-control col-8" th:field="${user.verifyPassword}">
+                    <input type="password" class="form-control col-8" th:field="${signupFormDTO.verifyPassword}">
                 </div>
                 <span th:text="${errorMessage}" class="row text-danger  justify-content-end "></span>
-                <span th:errors="${user.verifyPassword}" class="row text-danger justify-content-end "></span>
+                <span th:errors="${signupFormDTO.verifyPassword}" class="row text-danger justify-content-end "></span>
             </div>
         </div>
 
