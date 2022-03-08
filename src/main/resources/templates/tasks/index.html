@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+<header th:replace="fragments :: header"></header>
+
+<table>
+    <tr>
+        <th colspan="2">Task name</th>
+    </tr>
+    <tr th:each="task : ${tasks}">
+        <td>
+            <span th:if="${task.isComplete}" style="text-decoration: line-through"><a th:href="${'/tasks/'+ task.id}" th:text="${task.name}"></a></span>
+            <span th:unless="${task.isComplete}"><a th:href="${'/tasks/'+ task.id}" th:text="${task.name}"></a></span>
+        </td>
+        <td>
+            <form method="post" action="delete">
+                <input type="hidden" name="id" th:value="${task.id}">
+                <button>Delete</button>
+            </form>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
