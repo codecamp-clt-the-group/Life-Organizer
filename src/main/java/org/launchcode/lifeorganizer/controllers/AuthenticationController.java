@@ -1,4 +1,4 @@
-package org.launchcode.lifeorganizer.controller;
+package org.launchcode.lifeorganizer.controllers;
 
 import org.launchcode.lifeorganizer.data.UserRepository;
 import org.launchcode.lifeorganizer.models.User;
