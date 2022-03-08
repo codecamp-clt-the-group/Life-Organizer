@@ -11,12 +11,8 @@
 <header th:replace="fragments :: header"></header>
 
 <form method="post">
-    <label>Task Name:
-        <input type="text" th:field="${task.name}">
-    </label>
-    <p th:errors="${task.name}"></p>
-    <label>Time Required (optional):
-        <input type="number" th:field="${task.timeRequired}">
+    <label>How many minutes:
+        <input type="number" name="timeAvailable">
     </label>
     <button>Submit</button>
 </form>

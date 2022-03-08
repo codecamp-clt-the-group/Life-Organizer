@@ -60,4 +60,10 @@ public class TaskController {
         }
         return "redirect:";
     }
+
+    @GetMapping
+    public String displayGenerator(Model model) {
+        model.addAttribute("title", "Generate your tasks");
+        return "tasks/generator";
+    }
 }

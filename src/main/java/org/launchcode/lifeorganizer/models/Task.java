@@ -17,6 +17,8 @@ public class Task {
     @Size(min = 3, max = 200, message = "Task must be between 3 and 200 characters.")
     private String name;
 
+    private int timeRequired;
+
     private boolean isComplete = false;
 
     public Task () {}
@@ -43,5 +45,13 @@ public class Task {
         } else {
             this.isComplete = true;
         }
+    }
+
+    public int getTimeRequired() {
+        return timeRequired;
+    }
+
+    public void setTimeRequired(int timeRequired) {
+        this.timeRequired = timeRequired;
     }
 }
