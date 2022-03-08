@@ -50,9 +50,9 @@
             <div class="col-sm-4 ">
                 <div class="row">
                     <label class="col-3">Password:</label>
-                    <input type="password" class="form-control col-9" th:field="${user.password}">
+                    <input type="password" class="form-control col-9" th:field="${user.pwdHash}">
                 </div>
-                <span th:errors="${user.password}" class="row text-danger justify-content-end "></span>
+                <span th:errors="${user.pwdHash}" class="row text-danger justify-content-end "></span>
             </div>
         </div>
 
@@ -66,6 +66,8 @@
                 <span th:errors="${user.verifyPassword}" class="row text-danger justify-content-end "></span>
             </div>
         </div>
+
+
 
         <div class="row form-group justify-content-center">
             <input class="btn btn-success" type="submit" value="Create Account"/>

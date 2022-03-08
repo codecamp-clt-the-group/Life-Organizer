@@ -1,5 +1,7 @@
 package org.launchcode.lifeorganizer.models;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -8,9 +10,11 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-
 @Entity
 public class User {
+
+    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
 
     @Id
     @GeneratedValue
@@ -20,9 +24,6 @@ public class User {
     @Size(min = 6, max = 20)
     private String userName;
 
-    @NotBlank(message = "Password required")
-    @Size(min = 6)
-    private String password;
 
     @NotBlank(message = "Name required")
     @Size(max = 25)
@@ -36,6 +37,10 @@ public class User {
     @NotBlank(message = "Email required")
     private String email;
 
+    @NotBlank(message = "Password required")
+    @Size(min = 6)
+    private String pwdHash;
+
     @NotBlank(message = "passwords must match")
     @Transient
     private String verifyPassword;
@@ -44,12 +49,12 @@ public class User {
     public User() {
     }
 
-    public User(String userName, String password, String firstName, String lastName, String email, String verifyPassword) {
+    public User(String userName, String firstName, String lastName, String email, String password, String verifyPassword) {
         this.userName = userName;
-        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.pwdHash = encoder.encode(password);
         this.verifyPassword = verifyPassword;
     }
 
@@ -73,12 +78,12 @@ public class User {
         this.userName = userName;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPwdHash() {
+        return pwdHash;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPwdHash(String password) {
+        this.pwdHash = encoder.encode(password);
     }
 
     public String getFirstName() {
@@ -106,6 +111,6 @@ public class User {
     }
 
     public boolean verifyPassword() {
-        return this.verifyPassword.equals(this.password);
+        return encoder.matches(verifyPassword, pwdHash);
     }
 }
