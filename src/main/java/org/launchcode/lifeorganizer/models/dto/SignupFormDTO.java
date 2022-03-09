@@ -4,7 +4,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-public class SignupFormDTO extends LoginFormDTO{
+public class SignupFormDTO extends LoginFormDTO {
+
     private String verifyPassword;
 
     @NotBlank(message = "Name required")

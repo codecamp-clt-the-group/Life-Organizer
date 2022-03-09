@@ -5,8 +5,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Transient;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -23,9 +21,6 @@ public class User {
     @NotBlank(message = "Username required")
     @Size(min = 6, max = 20)
     private String userName;
-
-
-
     private String firstName;
     private String lastName;
     private String email;
@@ -38,7 +33,7 @@ public class User {
     public User() {
     }
 
-    public User(String userName, String firstName, String lastName, String email, String password){
+    public User(String userName, String firstName, String lastName, String email, String password) {
         this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
