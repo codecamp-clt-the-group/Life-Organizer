@@ -1,8 +1,6 @@
 package org.launchcode.lifeorganizer.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -16,6 +14,8 @@ public class Task {
     @NotEmpty
     @Size(min = 3, max = 200, message = "Task must be between 3 and 200 characters.")
     private String name;
+
+    private int timeRequired;
 
     private boolean isComplete = false;
 
@@ -43,5 +43,13 @@ public class Task {
         } else {
             this.isComplete = true;
         }
+    }
+
+    public int getTimeRequired() {
+        return timeRequired;
+    }
+
+    public void setTimeRequired(int timeRequired) {
+        this.timeRequired = timeRequired;
     }
 }
