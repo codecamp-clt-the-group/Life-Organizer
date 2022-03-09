@@ -1,20 +1,20 @@
 package org.launchcode.lifeorganizer.controllers;
-
-import org.launchcode.lifeorganizer.data.UserRepository;
-import org.launchcode.lifeorganizer.models.User;
-import org.launchcode.lifeorganizer.models.dto.SignupFormDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.launchcode.lifeorganizer.models.dto.SignupFormDTO;
+import org.launchcode.lifeorganizer.models.dto.LoginFormDTO;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.launchcode.lifeorganizer.data.UserRepository;
+import org.springframework.stereotype.Controller;
+import org.launchcode.lifeorganizer.models.User;
+import org.springframework.validation.Errors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import org.springframework.ui.Model;
 import javax.validation.Valid;
 import java.util.Optional;
+
 
 @Controller
 public class AuthenticationController {
@@ -76,6 +76,39 @@ public class AuthenticationController {
 
         userRepository.save(newUser);
         setUserInSession(request.getSession(), newUser);
+
+        return "redirect:";
+    }
+
+
+    @GetMapping("login")
+    public String displayLoginForm(Model model) {
+        model.addAttribute(new LoginFormDTO());
+        return "login";
+    }
+
+
+    @PostMapping("login")
+    public String processLoginForm(@ModelAttribute @Valid LoginFormDTO loginFormDTO,
+                                   Errors errors, HttpServletRequest request,
+                                   Model model) {
+
+        if (userRepository.findByUserName(loginFormDTO.getUserName()) == null){
+            errors.rejectValue("userName", "userName.invalid", "The username provided is not valid");
+            return "login";
+        }
+        User theUser = userRepository.findByUserName(loginFormDTO.getUserName());
+
+        String password = loginFormDTO.getPwdHash();
+
+        if (!theUser.verifyPassword(password)) {
+            errors.rejectValue("pwdHash", "pwdHash.invalid", "Invalid Password");
+        }
+        if (errors.hasErrors()) {
+            return "login";
+        }
+        setUserInSession(request.getSession(), theUser);
+
         return "redirect:";
     }
 

@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -44,13 +45,13 @@ public class TaskController {
     }
 
     @GetMapping("{id}")
-    public String toggleIsComplete(@PathVariable int id) {
+    public String toggleIsComplete(@PathVariable int id, HttpServletRequest request) {
         Optional<Task> task = taskRepository.findById(id);
         Task newTask = task.get();
         newTask.setComplete();
         taskRepository.save(newTask);
 
-        return "redirect:";
+        return "redirect:" + request.getHeader("Referer");
     }
 
     @PostMapping("delete")
@@ -60,4 +61,5 @@ public class TaskController {
         }
         return "redirect:";
     }
+
 }
