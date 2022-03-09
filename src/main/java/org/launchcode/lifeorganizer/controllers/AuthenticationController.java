@@ -66,7 +66,7 @@ public class AuthenticationController {
         String password = signupFormDTO.getPwdHash();
         String verifyPassword = signupFormDTO.getVerifyPassword();
         if (!password.equals(verifyPassword)) {
-            errors.rejectValue("password", "password.mismatch", "Passwords must match");
+            errors.rejectValue("pwdHash", "pwdHash.mismatch", "Passwords must match");
         }
         if (errors.hasErrors()) {
             model.addAttribute("title", SIGN_UP_TITLE);
@@ -76,6 +76,7 @@ public class AuthenticationController {
 
         userRepository.save(newUser);
         setUserInSession(request.getSession(), newUser);
+
         return "redirect:";
     }
 
@@ -107,6 +108,7 @@ public class AuthenticationController {
             return "login";
         }
         setUserInSession(request.getSession(), theUser);
+
         return "redirect:";
     }
 

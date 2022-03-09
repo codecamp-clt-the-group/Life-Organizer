@@ -63,7 +63,6 @@
                     <label class="col-4">Repeat Password:</label>
                     <input type="password" class="form-control col-8" th:field="${signupFormDTO.verifyPassword}">
                 </div>
-                <span th:text="${errorMessage}" class="row text-danger  justify-content-end "></span>
                 <span th:errors="${signupFormDTO.verifyPassword}" class="row text-danger justify-content-end "></span>
             </div>
         </div>
