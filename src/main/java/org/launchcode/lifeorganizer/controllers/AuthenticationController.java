@@ -53,31 +53,27 @@ public class AuthenticationController {
 
     @PostMapping("/signup")
     public String processSignupForm(@ModelAttribute @Valid SignupFormDTO signupFormDTO, Errors errors, HttpServletRequest request, Model model) {
-        if (errors.hasErrors()) {
-            model.addAttribute("title", SIGN_UP_TITLE);
-            return "signup";
-        }
+
         User existingUser = userRepository.findByUserName(signupFormDTO.getUserName());
 
         if (existingUser != null) {
             errors.rejectValue("userName", "userName.alreadyexists", "A user with that username already exists.");
-            model.addAttribute("title", SIGN_UP_TITLE);
-            return "signup";
         }
         User existingEmail = userRepository.findByEmail(signupFormDTO.getEmail());
         if (existingEmail != null) {
             errors.rejectValue("email", "email.alreadyexists", "A user with that email already exists.");
-            model.addAttribute("title", SIGN_UP_TITLE);
-            return "signup";
         }
         String password = signupFormDTO.getPwdHash();
         String verifyPassword = signupFormDTO.getVerifyPassword();
         if (!password.equals(verifyPassword)) {
             errors.rejectValue("password", "password.mismatch", "Passwords must match");
-            model.addAttribute("title", "Sign-up");
+        }
+        if (errors.hasErrors()) {
+            model.addAttribute("title", SIGN_UP_TITLE);
             return "signup";
         }
         User newUser = new User(signupFormDTO.getUserName(), signupFormDTO.getFirstName(), signupFormDTO.getLastName(), signupFormDTO.getEmail(), signupFormDTO.getPwdHash());
+
         userRepository.save(newUser);
         setUserInSession(request.getSession(), newUser);
         return "redirect:";
@@ -95,27 +91,23 @@ public class AuthenticationController {
     public String processLoginForm(@ModelAttribute @Valid LoginFormDTO loginFormDTO,
                                    Errors errors, HttpServletRequest request,
                                    Model model) {
-        if (errors.hasErrors()) {
-            return "login";
-        }
 
-        User theUser = userRepository.findByUserName(loginFormDTO.getUserName());
-
-        if (theUser == null) {
+        if (userRepository.findByUserName(loginFormDTO.getUserName()) == null){
             errors.rejectValue("userName", "userName.invalid", "The username provided is not valid");
             return "login";
         }
+        User theUser = userRepository.findByUserName(loginFormDTO.getUserName());
 
         String password = loginFormDTO.getPwdHash();
 
         if (!theUser.verifyPassword(password)) {
             errors.rejectValue("pwdHash", "pwdHash.invalid", "Invalid Password");
+        }
+        if (errors.hasErrors()) {
             return "login";
         }
         setUserInSession(request.getSession(), theUser);
         return "redirect:";
-
-
     }
 
 }
