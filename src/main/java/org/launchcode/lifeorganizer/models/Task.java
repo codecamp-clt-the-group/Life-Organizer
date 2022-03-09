@@ -19,11 +19,6 @@ public class Task {
 
     private boolean isComplete = false;
 
-//    @ManyToOne
-//    @JoinColumn(name = "tasklist_id")
-//    private Tasklist tasklist;
-    private int tasklist_id = 0;
-
     public Task () {}
 
     public int getId() {
@@ -57,20 +52,4 @@ public class Task {
     public void setTimeRequired(int timeRequired) {
         this.timeRequired = timeRequired;
     }
-
-    public int getTasklist_id() {
-        return tasklist_id;
-    }
-
-    public void setTasklist_id(int tasklist_id) {
-        this.tasklist_id = tasklist_id;
-    }
-
-    //    public Tasklist getTasklist() {
-//        return tasklist;
-//    }
-//
-//    public void setTasklist(Tasklist tasklist) {
-//        this.tasklist = tasklist;
-//    }
 }

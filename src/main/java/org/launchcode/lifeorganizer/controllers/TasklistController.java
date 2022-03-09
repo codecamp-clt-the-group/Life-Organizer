@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("tasklist")
@@ -29,55 +30,30 @@ public class TasklistController {
     }
 
     @PostMapping("generator")
-    public String processForm(@RequestParam int timeAvailable, Model model) {
-        model.addAttribute("title", "Generated Task List");
+    public String processForm(@RequestParam int timeAvailable) {
         Iterable<Task> allTasks = taskRepository.findAll();
-        List<Task> timeRequiredTasks=new ArrayList<>();
         List<Task> selectedTasks=new ArrayList<>();
         for (Task task : allTasks) {
-            if (task.getTimeRequired()>0) {
-                timeRequiredTasks.add(task);
-            }
-        }
-        for (Task task : timeRequiredTasks) {
-            if (timeAvailable>task.getTimeRequired()) {
+            if (task.getTimeRequired() > 0 && timeAvailable > task.getTimeRequired()) {
                 selectedTasks.add(task);
-                timeAvailable-=task.getTimeRequired();
+                timeAvailable = timeAvailable - task.getTimeRequired();
             }
         }
 
-        int id = tasklistRepository.save(new Tasklist()).getId();
+        Tasklist tasklist = new Tasklist();
 
-
-//        Tasklist listOfTasks = null;
-//        listOfTasks.setTasks(selectedTasks);
-//        tasklistRepository.save(listOfTasks);
-
-        if (selectedTasks.size()>0) {
-//          tasklistRepository.save(new Tasklist());
-          for (Task task : selectedTasks) {
-              task.setTasklist_id(id);
-              taskRepository.save(task);
-          }
-//            taskRepository.saveAll(selectedTasks);
+        if (selectedTasks.size() > 0) {
+            tasklist.setTasks(selectedTasks);
+            tasklistRepository.save(tasklist);
         }
-        return "redirect:/tasklist/" + id;
+        return "redirect:/tasklist/" + tasklist.getId();
     }
-
 
     @GetMapping("{id}")
     public String displayTaskList(Model model, @PathVariable int id) {
         model.addAttribute("title", "Generated Task List");
-        Iterable<Task> tasks = taskRepository.findAll();
-        List<Task> selectedTasks = new ArrayList<>();
-        for (Task task : tasks) {
-            if (task.getTasklist_id() == id) {
-                selectedTasks.add(task);
-            }
-        }
-        System.out.println(selectedTasks);
-
-        model.addAttribute("tasks", selectedTasks);
+        Optional<Tasklist> tasklist = tasklistRepository.findById(id);
+        model.addAttribute("tasks", tasklist.get().getTasks());
         return "tasklist/list";
     }
 }
