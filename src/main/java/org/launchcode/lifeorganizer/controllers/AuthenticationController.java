@@ -2,6 +2,7 @@ package org.launchcode.lifeorganizer.controllers;
 
 import org.launchcode.lifeorganizer.data.UserRepository;
 import org.launchcode.lifeorganizer.models.User;
+import org.launchcode.lifeorganizer.models.dto.LoginFormDTO;
 import org.launchcode.lifeorganizer.models.dto.SignupFormDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,40 +46,75 @@ public class AuthenticationController {
     @GetMapping("/signup")
     public String displaySignupForm(Model model) {
         model.addAttribute(new SignupFormDTO());
-        model.addAttribute("title","Sign-up");
+        model.addAttribute("title", "Sign-up");
         return "signup";
     }
 
     @PostMapping("/signup")
     public String processSignupForm(@ModelAttribute @Valid SignupFormDTO signupFormDTO, Errors errors, HttpServletRequest request, Model model) {
         if (errors.hasErrors()) {
-            model.addAttribute("title","Sign-up");
+            model.addAttribute("title", "Sign-up");
             return "signup";
         }
         User existingUser = userRepository.findByUserName(signupFormDTO.getUserName());
 
-        if(existingUser != null){
-            errors.rejectValue("userName","userName.alreadyexists","A user with that username already exists.");
-            model.addAttribute("title","Sign-up");
+        if (existingUser != null) {
+            errors.rejectValue("userName", "userName.alreadyexists", "A user with that username already exists.");
+            model.addAttribute("title", "Sign-up");
             return "signup";
         }
         User existingEmail = userRepository.findByEmail(signupFormDTO.getEmail());
-        if(existingEmail != null){
-            errors.rejectValue("email","email.alreadyexists","A user with that email already exists.");
-            model.addAttribute("title","Sign-up");
+        if (existingEmail != null) {
+            errors.rejectValue("email", "email.alreadyexists", "A user with that email already exists.");
+            model.addAttribute("title", "Sign-up");
             return "signup";
         }
         String password = signupFormDTO.getPwdHash();
         String verifyPassword = signupFormDTO.getVerifyPassword();
         if (!password.equals(verifyPassword)) {
-            errors.rejectValue("password","password.mismatch","Passwords must match");
-            model.addAttribute("title","Sign-up");
+            errors.rejectValue("password", "password.mismatch", "Passwords must match");
+            model.addAttribute("title", "Sign-up");
             return "signup";
         }
-        User newUser = new User(signupFormDTO.getUserName(),signupFormDTO.getFirstName(),signupFormDTO.getLastName(),signupFormDTO.getEmail(),signupFormDTO.getPwdHash());
+        User newUser = new User(signupFormDTO.getUserName(), signupFormDTO.getFirstName(), signupFormDTO.getLastName(), signupFormDTO.getEmail(), signupFormDTO.getPwdHash());
         userRepository.save(newUser);
-        setUserInSession(request.getSession(),newUser);
+        setUserInSession(request.getSession(), newUser);
         return "redirect:";
+    }
+
+
+    @GetMapping("login")
+    public String displayLoginForm(Model model) {
+        model.addAttribute(new LoginFormDTO());
+        return "login";
+    }
+
+
+    @PostMapping("login")
+    public String processLoginForm(@ModelAttribute @Valid LoginFormDTO loginFormDTO,
+                                   Errors errors, HttpServletRequest request,
+                                   Model model) {
+        if (errors.hasErrors()) {
+            return "login";
+        }
+
+        User theUser = userRepository.findByUserName(loginFormDTO.getUserName());
+
+        if (theUser == null) {
+            errors.rejectValue("userName", "userName.invalid", "The username provided is not valid");
+            return "login";
+        }
+
+        String password = loginFormDTO.getPwdHash();
+
+        if (!theUser.verifyPassword(password)) {
+            errors.rejectValue("pwdHash", "pwdHash.invalid", "Invalid Password");
+            return "login";
+        }
+        setUserInSession(request.getSession(), theUser);
+        return "redirect:";
+
+
     }
 
 }
