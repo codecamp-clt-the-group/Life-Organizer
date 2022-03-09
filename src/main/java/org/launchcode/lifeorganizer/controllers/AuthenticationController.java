@@ -21,6 +21,8 @@ public class AuthenticationController {
     @Autowired
     UserRepository userRepository;
 
+    static final String SIGN_UP_TITLE = "Sign-Up";
+
     private static final String userSessionKey = "user";
 
     public User getUserFromSession(HttpSession session) {
@@ -28,10 +30,13 @@ public class AuthenticationController {
         if (userId == null) {
             return null;
         }
+
         Optional<User> user = userRepository.findById(userId);
+
         if (user.isEmpty()) {
             return null;
         }
+
         return user.get();
     }
 
@@ -42,37 +47,33 @@ public class AuthenticationController {
     @GetMapping("/signup")
     public String displaySignupForm(Model model) {
         model.addAttribute(new SignupFormDTO());
-        model.addAttribute("title", "Sign-up");
+        model.addAttribute("title", SIGN_UP_TITLE);
         return "signup";
     }
 
     @PostMapping("/signup")
     public String processSignupForm(@ModelAttribute @Valid SignupFormDTO signupFormDTO, Errors errors, HttpServletRequest request, Model model) {
-        if (errors.hasErrors()) {
-            model.addAttribute("title", "Sign-up");
-            return "signup";
-        }
+
         User existingUser = userRepository.findByUserName(signupFormDTO.getUserName());
 
         if (existingUser != null) {
             errors.rejectValue("userName", "userName.alreadyexists", "A user with that username already exists.");
-            model.addAttribute("title", "Sign-up");
-            return "signup";
         }
         User existingEmail = userRepository.findByEmail(signupFormDTO.getEmail());
         if (existingEmail != null) {
             errors.rejectValue("email", "email.alreadyexists", "A user with that email already exists.");
-            model.addAttribute("title", "Sign-up");
-            return "signup";
         }
         String password = signupFormDTO.getPwdHash();
         String verifyPassword = signupFormDTO.getVerifyPassword();
         if (!password.equals(verifyPassword)) {
             errors.rejectValue("pwdHash", "pwdHash.mismatch", "Passwords must match");
-            model.addAttribute("title", "Sign-up");
+        }
+        if (errors.hasErrors()) {
+            model.addAttribute("title", SIGN_UP_TITLE);
             return "signup";
         }
         User newUser = new User(signupFormDTO.getUserName(), signupFormDTO.getFirstName(), signupFormDTO.getLastName(), signupFormDTO.getEmail(), signupFormDTO.getPwdHash());
+
         userRepository.save(newUser);
         setUserInSession(request.getSession(), newUser);
         return "redirect:";
