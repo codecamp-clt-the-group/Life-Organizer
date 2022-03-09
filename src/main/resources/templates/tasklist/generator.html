@@ -14,6 +14,7 @@
     <label>How many minutes:
         <input type="number" name="timeAvailable">
     </label>
+    <p th:if="error" th:text="${error}"></p>
     <button>Submit</button>
 </form>
 

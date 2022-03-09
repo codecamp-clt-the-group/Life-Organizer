@@ -30,8 +30,10 @@ public class TasklistController {
     }
 
     @PostMapping("generator")
-    public String processForm(@RequestParam int timeAvailable) {
-        Iterable<Task> allTasks = taskRepository.findAll();
+    public String processForm(@RequestParam int timeAvailable, Model model) {
+//        Iterable<Task> allTasks = taskRepository.findAll();
+        Iterable<Task> allTasks = taskRepository.findTasksForTasklist();
+
         List<Task> selectedTasks=new ArrayList<>();
         for (Task task : allTasks) {
             if (task.getTimeRequired() > 0 && timeAvailable > task.getTimeRequired()) {
@@ -45,6 +47,10 @@ public class TasklistController {
         if (selectedTasks.size() > 0) {
             tasklist.setTasks(selectedTasks);
             tasklistRepository.save(tasklist);
+        } else {
+            model.addAttribute("title", "Generate Task List");
+            model.addAttribute("error", "No tasks available for your timeframe of " + timeAvailable + ".");
+            return "tasklist/generator";
         }
         return "redirect:/tasklist/" + tasklist.getId();
     }

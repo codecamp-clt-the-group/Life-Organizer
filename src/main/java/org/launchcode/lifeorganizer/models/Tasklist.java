@@ -11,7 +11,9 @@ public class Tasklist {
     @GeneratedValue
     private int id;
 
-    @OneToMany(cascade = CascadeType.ALL)
+
+
+    @OneToMany
     @JoinColumn(name = "tasklist_id")
     private List<Task> tasks = new ArrayList<>();
 

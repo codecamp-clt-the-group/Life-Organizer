@@ -21,7 +21,7 @@
         </td>
         <td th:text="${task.timeRequired}"></td>
         <td>
-            <form method="post" action="delete">
+            <form method="post" action="/tasks/delete">
                 <input type="hidden" name="id" th:value="${task.id}">
                 <button>Delete</button>
             </form>
