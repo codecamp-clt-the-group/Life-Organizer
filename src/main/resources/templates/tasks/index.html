@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<head th:replace="fragments :: head"></head>
 <body>
+<div th:replace="fragments :: nav-bar"></div>
 
 <header th:replace="fragments :: header"></header>
+
+
 
 <table>
     <tr>
@@ -28,6 +26,5 @@
         </td>
     </tr>
 </table>
-
 </body>
 </html>

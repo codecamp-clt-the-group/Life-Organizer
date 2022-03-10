@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body>
+<div th:replace="fragments :: nav-bar"></div>
+<header th:replace="fragments :: header"></header>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <form method="post" action="/tasklist/create">
+            <div>
+                <h2>Suggested Tasks</h2>
+                <ul class="list-group" th:if="${suggestedTasks}">
+                    <li class="list-group-item" th:each="task : ${suggestedTasks}">
+                        <label>
+                        <input type="checkbox" name="taskIds" th:value="${task.id}">
+                            <span th:text="${task.name}"></span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h2>All Tasks</h2>
+                <ul class="list-group" th:if="${allTasks}">
+                    <li class="list-group-item" th:each="task : ${allTasks}">
+                        <label>
+                            <input type="checkbox" name="taskIds" th:value="${task.id}">
+                            <span th:text="${task.name}"></span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+                <button class="btn-primary btn">Submit</button>
+            </form>
+
+        </div>
+        <div class="col">
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

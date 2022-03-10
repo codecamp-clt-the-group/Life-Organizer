@@ -34,7 +34,7 @@ public class TaskController {
     public String displayForm(Model model) {
         model.addAttribute("title", "Create a new task");
         model.addAttribute("task", new Task());
-        return "tasks/form";
+        return "tasks/create";
     }
 
     @PostMapping("create")
@@ -42,7 +42,7 @@ public class TaskController {
         User user = authenticationController.getUserFromSession(request.getSession());
         if (errors.hasErrors()) {
             model.addAttribute("title", "Invalid data. Create a new task");
-            return "tasks/form";
+            return "tasks/create";
         }
         task.setUser(user);
         taskRepository.save(task);
@@ -67,5 +67,6 @@ public class TaskController {
         }
         return "redirect:";
     }
+
 
 }
