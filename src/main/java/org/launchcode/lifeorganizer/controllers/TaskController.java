@@ -2,6 +2,7 @@ package org.launchcode.lifeorganizer.controllers;
 
 import org.launchcode.lifeorganizer.data.TaskRepository;
 import org.launchcode.lifeorganizer.models.Task;
+import org.launchcode.lifeorganizer.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,9 @@ public class TaskController {
     @Autowired
     private TaskRepository taskRepository;
 
+    @Autowired
+    private AuthenticationController authenticationController;
+
     @GetMapping
     public String displayAllTasks(Model model) {
         model.addAttribute("title", "All Tasks");
@@ -34,11 +38,13 @@ public class TaskController {
     }
 
     @PostMapping("create")
-    public String processCreateForm(@ModelAttribute @Valid Task task, Errors errors, Model model) {
+    public String processCreateForm(@ModelAttribute @Valid Task task, Errors errors, HttpServletRequest request, Model model) {
+        User user = authenticationController.getUserFromSession(request.getSession());
         if (errors.hasErrors()) {
             model.addAttribute("title", "Invalid data. Create a new task");
             return "tasks/form";
         }
+        task.setUser(user);
         taskRepository.save(task);
 
         return "redirect:";
