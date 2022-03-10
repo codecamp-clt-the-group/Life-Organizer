@@ -23,6 +23,14 @@ public class TasklistController {
     @Autowired
     private TaskRepository taskRepository;
 
+    @GetMapping("")
+    public String displayIndex(Model model) {
+        model.addAttribute("title", "My Tasklists");
+        model.addAttribute("tasklists", tasklistRepository.findAll());
+
+        return "tasklist/index";
+    }
+
     @GetMapping("generator")
     public String displayForm(Model model) {
         model.addAttribute("title", "Generate Task List");
@@ -34,25 +42,27 @@ public class TasklistController {
 //        Iterable<Task> allTasks = taskRepository.findAll();
         Iterable<Task> allTasks = taskRepository.findTasksForTasklist();
 
-        List<Task> selectedTasks=new ArrayList<>();
+        List<Task> suggestedTasks=new ArrayList<>();
         for (Task task : allTasks) {
             if (task.getTimeRequired() > 0 && timeAvailable > task.getTimeRequired()) {
-                selectedTasks.add(task);
+                suggestedTasks.add(task);
                 timeAvailable = timeAvailable - task.getTimeRequired();
             }
         }
 
-        Tasklist tasklist = new Tasklist();
+        model.addAttribute("allTasks", allTasks);
 
-        if (selectedTasks.size() > 0) {
-            tasklist.setTasks(selectedTasks);
-            tasklistRepository.save(tasklist);
-        } else {
-            model.addAttribute("title", "Generate Task List");
-            model.addAttribute("error", "No tasks available for your timeframe of " + timeAvailable + ".");
-            return "tasklist/generator";
+
+        if (suggestedTasks.size() > 0) {
+
+            model.addAttribute("suggestedTasks", suggestedTasks);
         }
-        return "redirect:/tasklist/" + tasklist.getId();
+//        else {
+//            model.addAttribute("title", "Generate Task List");
+//            model.addAttribute("error", "No tasks available for your timeframe of " + timeAvailable + ".");
+//            return "tasklist/generator";
+//        }
+        return "tasklist/suggested";
     }
 
     @GetMapping("{id}")
@@ -61,5 +71,24 @@ public class TasklistController {
         Optional<Tasklist> tasklist = tasklistRepository.findById(id);
         model.addAttribute("tasks", tasklist.get().getTasks());
         return "tasklist/list";
+    }
+
+    @PostMapping("create")
+    public String createTasklist(@RequestParam int[] taskIds, Model model) {
+        System.out.println(taskIds.toString());
+
+        List<Integer> ids = new ArrayList<>();
+
+        for(int c : taskIds) {
+            if(!ids.contains(c)) {
+              ids.add(c);
+            }
+        }
+
+        Tasklist tasklist = new Tasklist();
+        List<Task> selectedTasks = (List<Task>) taskRepository.findAllById(ids);
+        tasklist.setTasks(selectedTasks);
+        tasklistRepository.save(tasklist);
+        return "redirect:";
     }
 }
