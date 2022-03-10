@@ -26,6 +26,12 @@ public class Task {
 
     public Task () {}
 
+    public Task(String name, int timeRequired, boolean isComplete) {
+        this.name = name;
+        this.timeRequired = timeRequired;
+        this.isComplete = isComplete;
+    }
+
     public int getId() {
         return id;
     }
