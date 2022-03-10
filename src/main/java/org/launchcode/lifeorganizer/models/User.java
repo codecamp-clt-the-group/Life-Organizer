@@ -2,11 +2,11 @@ package org.launchcode.lifeorganizer.models;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User {
@@ -17,6 +17,10 @@ public class User {
     @Id
     @GeneratedValue
     private int id;
+
+    @OneToMany
+    @JoinColumn(name="user_id")
+    private final List<Task> tasks = new ArrayList<>();
 
     @NotBlank(message = "Username required")
     @Size(min = 6, max = 20)
@@ -87,5 +91,9 @@ public class User {
 
     public boolean verifyPassword(String verifyPassword) {
         return encoder.matches(verifyPassword, pwdHash);
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
     }
 }
