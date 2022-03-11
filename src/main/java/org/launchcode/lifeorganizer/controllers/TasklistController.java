@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("tasklist")
@@ -22,6 +23,14 @@ public class TasklistController {
     @Autowired
     private TaskRepository taskRepository;
 
+    @GetMapping("")
+    public String displayIndex(Model model) {
+        model.addAttribute("title", "My Tasklists");
+        model.addAttribute("tasklists", tasklistRepository.findAll());
+
+        return "tasklist/index";
+    }
+
     @GetMapping("generator")
     public String displayForm(Model model) {
         model.addAttribute("title", "Generate Task List");
@@ -30,54 +39,56 @@ public class TasklistController {
 
     @PostMapping("generator")
     public String processForm(@RequestParam int timeAvailable, Model model) {
-        model.addAttribute("title", "Generated Task List");
-        Iterable<Task> allTasks = taskRepository.findAll();
-        List<Task> timeRequiredTasks=new ArrayList<>();
-        List<Task> selectedTasks=new ArrayList<>();
+//        Iterable<Task> allTasks = taskRepository.findAll();
+        Iterable<Task> allTasks = taskRepository.findTasksForTasklist();
+
+        List<Task> suggestedTasks=new ArrayList<>();
         for (Task task : allTasks) {
-            if (task.getTimeRequired()>0) {
-                timeRequiredTasks.add(task);
-            }
-        }
-        for (Task task : timeRequiredTasks) {
-            if (timeAvailable>task.getTimeRequired()) {
-                selectedTasks.add(task);
-                timeAvailable-=task.getTimeRequired();
+            if (task.getTimeRequired() > 0 && timeAvailable > task.getTimeRequired()) {
+                suggestedTasks.add(task);
+                timeAvailable = timeAvailable - task.getTimeRequired();
             }
         }
 
-        int id = tasklistRepository.save(new Tasklist()).getId();
+        model.addAttribute("allTasks", allTasks);
 
 
-//        Tasklist listOfTasks = null;
-//        listOfTasks.setTasks(selectedTasks);
-//        tasklistRepository.save(listOfTasks);
+        if (suggestedTasks.size() > 0) {
 
-        if (selectedTasks.size()>0) {
-//          tasklistRepository.save(new Tasklist());
-          for (Task task : selectedTasks) {
-              task.setTasklist_id(id);
-              taskRepository.save(task);
-          }
-//            taskRepository.saveAll(selectedTasks);
+            model.addAttribute("suggestedTasks", suggestedTasks);
         }
-        return "redirect:/tasklist/" + id;
+//        else {
+//            model.addAttribute("title", "Generate Task List");
+//            model.addAttribute("error", "No tasks available for your timeframe of " + timeAvailable + ".");
+//            return "tasklist/generator";
+//        }
+        return "tasklist/suggested";
     }
-
 
     @GetMapping("{id}")
     public String displayTaskList(Model model, @PathVariable int id) {
         model.addAttribute("title", "Generated Task List");
-        Iterable<Task> tasks = taskRepository.findAll();
-        List<Task> selectedTasks = new ArrayList<>();
-        for (Task task : tasks) {
-            if (task.getTasklist_id() == id) {
-                selectedTasks.add(task);
+        Optional<Tasklist> tasklist = tasklistRepository.findById(id);
+        model.addAttribute("tasks", tasklist.get().getTasks());
+        return "tasklist/list";
+    }
+
+    @PostMapping("create")
+    public String createTasklist(@RequestParam int[] taskIds, Model model) {
+        System.out.println(taskIds.toString());
+
+        List<Integer> ids = new ArrayList<>();
+
+        for(int c : taskIds) {
+            if(!ids.contains(c)) {
+              ids.add(c);
             }
         }
-        System.out.println(selectedTasks);
 
-        model.addAttribute("tasks", selectedTasks);
-        return "tasklist/list";
+        Tasklist tasklist = new Tasklist();
+        List<Task> selectedTasks = (List<Task>) taskRepository.findAllById(ids);
+        tasklist.setTasks(selectedTasks);
+        tasklistRepository.save(tasklist);
+        return "redirect:";
     }
 }

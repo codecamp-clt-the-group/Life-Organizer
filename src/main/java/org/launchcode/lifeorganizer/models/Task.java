@@ -2,6 +2,7 @@ package org.launchcode.lifeorganizer.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -11,6 +12,9 @@ public class Task {
     @GeneratedValue
     private int id;
 
+    @ManyToOne
+    private User user;
+
     @NotEmpty
     @Size(min = 3, max = 200, message = "Task must be between 3 and 200 characters.")
     private String name;
@@ -18,11 +22,6 @@ public class Task {
     private int timeRequired;
 
     private boolean isComplete = false;
-
-//    @ManyToOne
-//    @JoinColumn(name = "tasklist_id")
-//    private Tasklist tasklist;
-    private int tasklist_id = 0;
 
     public Task () {}
 
@@ -64,19 +63,12 @@ public class Task {
         this.timeRequired = timeRequired;
     }
 
-    public int getTasklist_id() {
-        return tasklist_id;
+    public User getUser() {
+        return user;
     }
 
-    public void setTasklist_id(int tasklist_id) {
-        this.tasklist_id = tasklist_id;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    //    public Tasklist getTasklist() {
-//        return tasklist;
-//    }
-//
-//    public void setTasklist(Tasklist tasklist) {
-//        this.tasklist = tasklist;
-//    }
 }

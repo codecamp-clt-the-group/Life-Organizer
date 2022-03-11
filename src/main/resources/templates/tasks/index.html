@@ -1,15 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<head th:replace="fragments :: head"></head>
 <body>
 
-<header th:replace="fragments :: header"></header>
-
+<nav th:replace="fragments::navbar"></nav>
 <table>
     <tr>
         <th colspan="3">Task name</th>
@@ -21,13 +15,12 @@
         </td>
         <td th:text="${task.timeRequired}"></td>
         <td>
-            <form method="post" action="delete">
+            <form method="post" action="/tasks/delete">
                 <input type="hidden" name="id" th:value="${task.id}">
                 <button>Delete</button>
             </form>
         </td>
     </tr>
 </table>
-
 </body>
 </html>

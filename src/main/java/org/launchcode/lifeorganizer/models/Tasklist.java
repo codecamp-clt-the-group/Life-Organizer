@@ -11,8 +11,11 @@ public class Tasklist {
     @GeneratedValue
     private int id;
 
-//    @OneToMany(mappedBy = "tasklist")
-//    private List<Task> tasks = new ArrayList<>();
+
+
+    @OneToMany
+    @JoinColumn(name = "tasklist_id")
+    private List<Task> tasks = new ArrayList<>();
 
     public Tasklist () {}
 
@@ -20,11 +23,11 @@ public class Tasklist {
         return id;
     }
 
-//    public List<Task> getTasks() {
-//        return tasks;
-//    }
-//
-//    public void setTasks(List<Task> tasks) {
-//        this.tasks = tasks;
-//    }
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
 }
