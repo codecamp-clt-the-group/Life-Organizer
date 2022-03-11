@@ -2,10 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
 <body>
-<div th:replace="fragments :: nav-bar"></div>
-
-<header th:replace="fragments :: header"></header>
-
+<nav th:replace="fragments::navbar"></nav>
 <form method="post">
     <label>How many minutes:
         <input type="number" name="timeAvailable">
