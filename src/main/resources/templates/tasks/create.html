@@ -1,10 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
+<<<<<<< HEAD:src/main/resources/templates/tasks/form.html
 <header th:replace="fragments::header"></header>
 
 
 <body>
+=======
+<body>
+<div th:replace="fragments :: nav-bar"></div>
+
+<header th:replace="fragments :: header"></header>
+
+>>>>>>> main:src/main/resources/templates/tasks/create.html
 <form method="post">
     <label>Task Name:
         <input type="text" th:field="${task.name}">
