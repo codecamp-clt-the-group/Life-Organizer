@@ -1,6 +1,7 @@
 package org.launchcode.lifeorganizer.controllers;
 
 import org.launchcode.lifeorganizer.data.TaskRepository;
+import org.launchcode.lifeorganizer.data.UserRepository;
 import org.launchcode.lifeorganizer.models.Task;
 import org.launchcode.lifeorganizer.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -23,10 +25,30 @@ public class TaskController {
     @Autowired
     private AuthenticationController authenticationController;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    private static final String userSessionKey = "user";
+
+    public User getUserFromSession(HttpSession session) {
+        Integer userId = (Integer) session.getAttribute(userSessionKey);
+        if (userId == null) {
+            return null;
+        }
+        Optional<User> user = userRepository.findById(userId);
+
+        if (user.isEmpty()) {
+            return null;
+        }
+        return user.get();
+    }
+
+
     @GetMapping
-    public String displayAllTasks(Model model) {
+    public String displayAllTasks(Model model, HttpServletRequest session) {
         model.addAttribute("title", "All Tasks");
-        model.addAttribute("tasks", taskRepository.findAll());
+        User user = getUserFromSession(session.getSession());
+        model.addAttribute("tasks", taskRepository.findAllByUserId(user.getId()));
         return "tasks/index";
     }
 

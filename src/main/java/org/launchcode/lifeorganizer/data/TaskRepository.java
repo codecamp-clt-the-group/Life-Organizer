@@ -11,4 +11,6 @@ import java.util.List;
 public interface TaskRepository extends CrudRepository<Task, Integer> {
     @Query(value = "SELECT * FROM TASK WHERE tasklist_id is null", nativeQuery = true)
     List<Task> findTasksForTasklist();
+
+    List<Task> findAllByUserId(int id);
 }
