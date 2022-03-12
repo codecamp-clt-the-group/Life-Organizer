@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body>
+<nav th:replace="fragments::navbar"></nav>
+
+<div>
+    <table>
+        <tr><th>User name</th><td th:text="${user.userName}"></td></tr>
+        <tr><th>Name</th><td th:text="${user.firstName}+' '+${user.lastName}"></td></tr>
+        <tr><th>Email</th><td th:text="${user.email}"></td></tr>
+        <tr><td><a th:href="@{tasks/create}" th:text="Settings"></a></td></tr>
+    </table>
+</div>
+<div>
+<!--    <p th:if="${TaskList}==null"></p>-->
+    <div th:each="tasklist: ${TaskLists}">
+<!--        th:if="${TaskLists} ?: 'No task lists available'">-->
+        <table>
+<!--            <tr><td th:text="${tasklist.id}"></td></tr>-->
+            <tr th:each="task: ${tasklist.tasks}"><td th:text="${task.name}"></td><td th:text="${task.timeRequired}"></td><td><button th:value="${task.isComplete}" th:text="done"></button></td></tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>
