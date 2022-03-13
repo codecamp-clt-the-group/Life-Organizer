@@ -35,10 +35,16 @@ public class ProfileController {
     }
 
     @GetMapping("options")
-    public String displayChangeForm(Model model){
-//        User current = authenticationController.getUserFromSession(request.getSession());
+    public String displayChangeForm(Model model, HttpServletRequest request){
+        User current = authenticationController.getUserFromSession(request.getSession());
         model.addAttribute("title","Options");
-        model.addAttribute(new OptionFormDTO());
+        model.addAttribute("user",current);
+        OptionFormDTO newOption = new OptionFormDTO();
+        newOption.setEmail(current.getEmail());
+        newOption.setFirstName(current.getFirstName());
+        newOption.setLastName(current.getLastName());
+        newOption.setUserName(current.getUserName());
+        model.addAttribute("optionFormDTO",newOption);
         return "profile/options";
     }
 
@@ -50,16 +56,16 @@ public class ProfileController {
         if(!current.verifyPassword(optionFormDTO.getPwdHash())){
             errors.rejectValue("pwdHash", "pwdHash.invalid", "Incorrect password");
         }
-        if(toUpdate.verifyPassword(optionFormDTO.getNewPassword())){
-            errors.rejectValue("newPassword", "newPassword.invalid", "New password cannot be the same as the current password");
+        if(current.verifyPassword(optionFormDTO.getNewPassword())){
+            errors.rejectValue("pwdHash", "pwdHash.invalid", "New password cannot be the same as the current password");
         }
         String newPass = optionFormDTO.getNewPassword();
-        String verify = optionFormDTO.getVerifyPass();
+        String verify = optionFormDTO.getVerifyPassword();
         if(!newPass.equals(verify)){
             errors.rejectValue("newPassword", "newPassword.mismatch", "Passwords must match");
         }
+        model.addAttribute("title", "Options");
         if (errors.hasErrors()) {
-            model.addAttribute("title", "Options");
             return "profile/options";
         }
         toUpdate.setPwdHash(newPass);
