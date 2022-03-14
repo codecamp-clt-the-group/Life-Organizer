@@ -22,8 +22,6 @@ dependencies {
 	implementation 'mysql:mysql-connector-java'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation 'org.apache.commons:commons-csv:1.4'
-	testImplementation("org.jmockit:jmockit:1.49")
 }
 
 tasks.named('test') {
