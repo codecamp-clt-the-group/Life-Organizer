@@ -23,9 +23,6 @@ public class AuthenticationController {
     @Autowired
     UserRepository userRepository;
 
-    @Autowired
-    DefaultTaskRepository defaultTaskRepository;
-
     static final String SIGN_UP_TITLE = "Sign-Up";
 
     private static final String userSessionKey = "user";
@@ -81,9 +78,6 @@ public class AuthenticationController {
 
         userRepository.save(newUser);
         setUserInSession(request.getSession(), newUser);
-
-        defaultTaskRepository.saveAll(DefaultTask.findAll());
-
 
         return "redirect:";
     }
