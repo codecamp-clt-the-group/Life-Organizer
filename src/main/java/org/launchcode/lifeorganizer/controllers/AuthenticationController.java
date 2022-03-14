@@ -1,4 +1,6 @@
 package org.launchcode.lifeorganizer.controllers;
+import org.launchcode.lifeorganizer.data.DefaultTaskRepository;
+import org.launchcode.lifeorganizer.models.DefaultTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.launchcode.lifeorganizer.models.dto.SignupFormDTO;
