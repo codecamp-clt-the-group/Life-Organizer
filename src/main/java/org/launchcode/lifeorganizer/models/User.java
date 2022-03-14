@@ -19,6 +19,10 @@ public class User {
     private int id;
 
     @OneToMany
+    @JoinColumn(name = "user_id")
+    private final List<Tasklist> tasklists = new ArrayList<>();
+
+    @OneToMany
     @JoinColumn(name="user_id")
     private final List<Task> tasks = new ArrayList<>();
 
@@ -95,5 +99,9 @@ public class User {
 
     public List<Task> getTasks() {
         return tasks;
+    }
+
+    public List<Tasklist> getTasklists() {
+        return tasklists;
     }
 }
