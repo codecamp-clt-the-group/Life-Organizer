@@ -5,7 +5,7 @@
 <nav th:replace="fragments::navbar"></nav>
 <section class="align-content-center mt-4">
     <h1 class="text-center" th:text="${title}"></h1>
-    <h5 class="text-center" th:text="${msg}"></h5>
+    <p class="text-center text-success" th:text="${msg}"></p>
     <form method="post" class="container-fluid pt-4">
         <input type="hidden" th:value="${optionFormDTO.userName}" name="userName">
         <input type="hidden" th:value="${optionFormDTO.firstName}" name="firstName">
@@ -15,7 +15,7 @@
         <div class="form-group row justify-content-center">
             <div class="col-sm-4 ">
                 <div class="row">
-                    <label class="col-3">Current Password:</label>
+                    <label class="col-3">Password:</label>
                     <input type="password" class="form-control col-9" th:field="${optionFormDTO.pwdHash}">
                 </div>
                 <span th:errors="${optionFormDTO.pwdHash}" class="row text-danger justify-content-end "></span>
