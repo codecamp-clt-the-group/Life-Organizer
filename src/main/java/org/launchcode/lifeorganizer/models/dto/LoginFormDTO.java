@@ -11,7 +11,7 @@ public class LoginFormDTO {
 
     @NotNull
     @NotBlank
-    @Size(min = 6)
+    @Size(min = 6,message = "must be at least 6 characters long")
     private String pwdHash;
 
 
