@@ -4,16 +4,75 @@
 
 <body>
 <nav th:replace="fragments::navbar"></nav>
-<form method="post">
-    <label>Task Name:
-        <input type="text" th:field="${task.name}">
-    </label>
-    <p th:errors="${task.name}"></p>
-    <label>Time Required (optional):
-        <input type="number" th:field="${task.timeRequired}">
-    </label>
-    <button>Submit</button>
-</form>
+
+
+<section class="vh-100 logged-in-section  ">
+    <div class="container py-5 h-100">
+        <div class="row  justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card list-card text-white shadow-lg" style="border-radius: 1rem;">
+                    <h1 class="text-black p-4">Create new Task</h1>
+                    <div class="createTask-view card-body col-10 col-md-7 col-lg-9 col-xl-9  p-2 text-center">
+                        <div class=" mb-md-2 mt-3 ">
+                            <form class="text-black" method="post">
+
+                                <div class="form-outline form-black  mb-4">
+                                    <input type="text" id="taskName" class="form-control form-control-lg "
+                                           th:field="${task.name}"/>
+                                    <label class="form-label" for="taskName">Task Name:</label>
+                                    <div class="form-notch">
+                                        <div class="form-notch-leading" style="width: 9px;"></div>
+                                        <div class="form-notch-middle" style="width: 65px;"></div>
+                                        <div class="form-notch-trailing"></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-outline form-black  mb-4">
+                                    <input type="number" min="0" id="time" class="form-control form-control-lg "
+                                           th:field="${task.timeRequired}"/>
+                                    <label class="form-label" for="time">Time required</label>
+                                    <div class="form-notch">
+                                        <div class="form-notch-leading" style="width: 9px;"></div>
+                                        <div class="form-notch-middle" style="width: 90px;"></div>
+                                        <div class="form-notch-trailing"></div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-outline-dark btn-sm px-5" type="submit">create</button>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const inputs = document.querySelectorAll("input");
+
+        inputs.forEach(e => {
+            if (e.value) {
+                e.classList.add('active');
+            }
+        });
+
+        inputs.forEach(el => {
+            el.addEventListener('blur', e => {
+                if (e.target.value) {
+                    e.target.classList.add('active');
+                } else {
+                    e.target.classList.remove('active')
+                }
+            })
+        });
+
+
+    </script>
+
+
+</section>
+
 
 </body>
 </html>

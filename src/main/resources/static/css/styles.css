@@ -29,9 +29,6 @@ input{
     background-color: rgba(97,160,255,0) !important;
 }
 
-/*nav{*/
-/*    max-width: 900px;*/
-/*}*/
 .login-register-card{
     justify-content: center;
     align-items: center;
@@ -60,8 +57,6 @@ input{
     background-attachment: fixed;
 }
 
-
-
 .error_span{
     font-size:0.75rem;
 }
@@ -77,6 +72,10 @@ input{
     overflow-y: auto;
 }
 
+.createTask-view{
+    min-height: 30vh!important;
+    max-height: 40vh!important;
+}
 .list-card{
     justify-content: center;
     align-items: center;
