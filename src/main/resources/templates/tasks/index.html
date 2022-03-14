@@ -2,25 +2,110 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
 <body>
-
 <nav th:replace="fragments::navbar"></nav>
-<table>
-    <tr>
-        <th colspan="3">Task name</th>
-    </tr>
-    <tr th:each="task : ${tasks}">
-        <td>
-            <span th:if="${task.isComplete}" style="text-decoration: line-through"><a th:href="${'/tasks/'+ task.id}" th:text="${task.name}"></a></span>
-            <span th:unless="${task.isComplete}"><a th:href="${'/tasks/'+ task.id}" th:text="${task.name}"></a></span>
-        </td>
-        <td th:text="${task.timeRequired}"></td>
-        <td>
-            <form method="post" action="/tasks/delete">
-                <input type="hidden" name="id" th:value="${task.id}">
-                <button>Delete</button>
-            </form>
-        </td>
-    </tr>
-</table>
+
+
+<section class="vh-100 logged-in-section  ">
+
+    <div class="container py-5 h-100">
+        <div class="row  justify-content-center align-items-center h-100">
+
+            <div class="col-12  col-md-8 col-lg-10 col-xl-10">
+                <div class="card list-card text-white shadow-lg" style="border-radius: 1rem;">
+                    <h1 class="text-black">My Tasks</h1>
+                    <div class="list-view card-body col-10 col-md-7 col-lg-9 col-xl-9  p-2 text-center">
+                        <div class=" mb-md-2 mt-3 ">
+                            <table class=" table ">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Estimated time</th>
+                                    <th scope="col"></th>
+                                </tr>
+                                </thead>
+
+                                <tr th:each="task : ${tasks}">
+                                    <td>
+                                        <span th:if="${task.isComplete}" style="text-decoration: line-through"><a
+                                                th:href="${'/tasks/'+ task.id}" th:text="${task.name}"></a></span>
+                                        <span th:unless="${task.isComplete}"><a th:href="${'/tasks/'+ task.id}"
+                                                                                th:text="${task.name}"></a></span>
+                                    </td>
+                                    <td th:text="${task.timeRequired}"></td>
+                                    <td>
+                                        <form method="post" action="/tasks/delete">
+                                            <input type="hidden" name="id" th:value="${task.id}">
+                                            <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+
+                                <tr th:each="task : ${tasks}">
+                                    <td>
+                                        <span th:if="${task.isComplete}" style="text-decoration: line-through"><a
+                                                th:href="${'/tasks/'+ task.id}" th:text="${task.name}"></a></span>
+                                        <span th:unless="${task.isComplete}"><a th:href="${'/tasks/'+ task.id}"
+                                                                                th:text="${task.name}"></a></span>
+                                    </td>
+                                    <td th:text="${task.timeRequired}"></td>
+                                    <td>
+                                        <form method="post" action="/tasks/delete">
+                                            <input type="hidden" name="id" th:value="${task.id}">
+                                            <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+
+                                <tr th:each="task : ${tasks}">
+                                    <td>
+                                        <span th:if="${task.isComplete}" style="text-decoration: line-through"><a
+                                                th:href="${'/tasks/'+ task.id}" th:text="${task.name}"></a></span>
+                                        <span th:unless="${task.isComplete}"><a th:href="${'/tasks/'+ task.id}"
+                                                                                th:text="${task.name}"></a></span>
+                                    </td>
+                                    <td th:text="${task.timeRequired}"></td>
+                                    <td>
+                                        <form method="post" action="/tasks/delete">
+                                            <input type="hidden" name="id" th:value="${task.id}">
+                                            <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <a class="pb-1" th:href="@{/tasks/create}"><button th:href="@{/tasks/create}" class="btn btn-sm btn-outline-success">New task</button></a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!--<table>-->
+<!--    <tr>-->
+<!--        <th colspan="3">Task name</th>-->
+<!--    </tr>-->
+<!--    <tr th:each="task : ${tasks}">-->
+<!--        <td>-->
+<!--            <span th:if="${task.isComplete}" style="text-decoration: line-through"><a th:href="${'/tasks/'+ task.id}" th:text="${task.name}"></a></span>-->
+<!--            <span th:unless="${task.isComplete}"><a th:href="${'/tasks/'+ task.id}" th:text="${task.name}"></a></span>-->
+<!--        </td>-->
+<!--        <td th:text="${task.timeRequired}"></td>-->
+<!--        <td>-->
+<!--            <form method="post" action="/tasks/delete">-->
+<!--                <input type="hidden" name="id" th:value="${task.id}">-->
+<!--                <button>Delete</button>-->
+<!--            </form>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--</table>-->
+
+
 </body>
 </html>
