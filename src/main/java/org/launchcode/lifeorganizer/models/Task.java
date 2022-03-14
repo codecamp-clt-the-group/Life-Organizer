@@ -21,7 +21,7 @@ public class Task {
 
     private int timeRequired;
 
-    private boolean isComplete = false;
+    boolean isComplete = false;
 
     public Task () {}
 
