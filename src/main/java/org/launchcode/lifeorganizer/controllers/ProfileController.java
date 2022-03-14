@@ -38,9 +38,9 @@ public class ProfileController {
     public String displayChangeForm(Model model, HttpServletRequest request){
         User current = authenticationController.getUserFromSession(request.getSession());
         model.addAttribute("title","Options");
-        model.addAttribute("user",current);
         OptionFormDTO newOption = new OptionFormDTO();
         newOption.setEmail(current.getEmail());
+        newOption.setPwdHash(current.getPwdHash());
         newOption.setFirstName(current.getFirstName());
         newOption.setLastName(current.getLastName());
         newOption.setUserName(current.getUserName());
@@ -52,25 +52,50 @@ public class ProfileController {
     public String processDisplayChangeForm(@ModelAttribute @Valid OptionFormDTO optionFormDTO, Errors errors, HttpServletRequest request, Model model){
         User current = authenticationController.getUserFromSession(request.getSession());
         User toUpdate = userRepository.findById(current.getId()).get();
-
-        if(!current.verifyPassword(optionFormDTO.getPwdHash())){
-            errors.rejectValue("pwdHash", "pwdHash.invalid", "Incorrect password");
-        }
-        if(current.verifyPassword(optionFormDTO.getNewPassword())){
-            errors.rejectValue("pwdHash", "pwdHash.invalid", "New password cannot be the same as the current password");
-        }
+        String curPass = optionFormDTO.getPwdHash();
         String newPass = optionFormDTO.getNewPassword();
         String verify = optionFormDTO.getVerifyPassword();
-        if(!newPass.equals(verify)){
-            errors.rejectValue("newPassword", "newPassword.mismatch", "Passwords must match");
+        if(newPass != "" || verify != "") {
+            if (!current.verifyPassword(curPass)) {
+                errors.rejectValue("pwdHash", "pwdHash.invalid", "Incorrect password");
+            }
+            if (newPass.length() >= 6) {
+                if (current.verifyPassword(newPass)) {
+                    errors.rejectValue("newPassword", "newPassword.invalid", "New password cannot be the same as the current password");
+                }
+            } else {
+                errors.rejectValue("newPassword", "newPassword.invalid", "Password must be at least 6 characters");
+            }
+            if (!newPass.equals(verify)) {
+                errors.rejectValue("verifyPassword", "verifyPassword.mismatch", "Passwords must match");
+            }
+            toUpdate.setPwdHash(newPass);
+        }else{
+            toUpdate.setPwdHash(current.getPwdHash());
         }
+
+        // Changes the users name
+        String newFirst = optionFormDTO.getFirstName();
+        String newLast = optionFormDTO.getLastName();
+        toUpdate.setFirstName(newFirst);
+        toUpdate.setLastName(newLast);
+
+        // Changes the users username
+        String newUserName = optionFormDTO.getUserName();
+        toUpdate.setUserName(newUserName);
+
+
+        // Changes the users email
+        String newEmail = optionFormDTO.getEmail();
+        toUpdate.setEmail(newEmail);
+
         model.addAttribute("title", "Options");
         if (errors.hasErrors()) {
             return "profile/options";
         }
-        toUpdate.setPwdHash(newPass);
+
         userRepository.save(toUpdate);
-        model.addAttribute("msg","Password changed successfully");
+        model.addAttribute("msg","Profile updated successfully");
         return "profile/options";
     }
 }
