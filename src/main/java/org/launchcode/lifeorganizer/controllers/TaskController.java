@@ -126,8 +126,12 @@ public class TaskController {
     }
 
     @PostMapping("convert-default-task")
-    public String processConvertDefaultTask(@RequestParam(required = false) int id, Model model) {
-        taskRepository.save(new Task(defaultTaskRepository.findById(id).get().getName(), defaultTaskRepository.findById(id).get().getTimeRequired(), false));
+    public String processConvertDefaultTask(@RequestParam(required = false) int id,HttpServletRequest request, Model model) {
+        Task newTask = new Task(defaultTaskRepository.findById(id).get().getName(), defaultTaskRepository.findById(id).get().getTimeRequired(), false);
+        User user = authenticationController.getUserFromSession(request.getSession());
+
+        newTask.setUser(user);
+        taskRepository.save(newTask);
         return "redirect:";
     }
 }
