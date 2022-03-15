@@ -80,7 +80,6 @@ input{
     justify-content: center;
     align-items: center;
     margin: 0;
-    /*background-image: linear-gradient(to top, #0f2027, #12252c, #152931, #192e37, #1c333c, #1e3741, #213c46, #23404b, #254551, #274957, #2a4e5e, #2c5364);*/
     background-blend-mode: multiply, multiply;
     background-attachment: fixed;
 }
