@@ -54,11 +54,14 @@ public class ProfileController {
         User current = authenticationController.getUserFromSession(request.getSession());
         User toUpdate = userRepository.findById(current.getId()).get();
 
-        String curPass = optionFormDTO.getCurrentPassword();//PwdHash();
+        String curPass = optionFormDTO.getCurrentPassword();
         String newPass = optionFormDTO.getNewPassword();
         String verify = optionFormDTO.getVerifyPassword();
+        String newFirst = optionFormDTO.getFirstName();
+        String newLast = optionFormDTO.getLastName();
+        String newEmail = optionFormDTO.getEmail();
 
-        if(!newPass.equals("") || !verify.equals("") || !curPass.equals("")) {
+        if(!newPass.equals("") || !verify.equals("") || current.verifyPassword(curPass)) {
             if (!current.verifyPassword(curPass)) {
                 errors.rejectValue("pwdHash", "pwdHash.invalid", "Incorrect password");
             }
@@ -72,26 +75,16 @@ public class ProfileController {
             if (!newPass.equals(verify)) {
                 errors.rejectValue("verifyPassword", "verifyPassword.mismatch", "Passwords must match");
             }
-            toUpdate.setPwdHash(newPass);
-        }else{
-            toUpdate.setPwdHash(current.getPwdHash());
         }
-
-        // Changes the users name
-        String newFirst = optionFormDTO.getFirstName();
-        String newLast = optionFormDTO.getLastName();
-        toUpdate.setFirstName(newFirst);
-        toUpdate.setLastName(newLast);
-
-        // Changes the users email
-        String newEmail = optionFormDTO.getEmail();
-        toUpdate.setEmail(newEmail);
-        boolean pass = true;
         model.addAttribute("title", "Options");
         if (errors.hasErrors()) {
-            pass = false;
             return "profile/options";
         }
+
+        toUpdate.setPwdHash(newPass);
+        toUpdate.setFirstName(newFirst);
+        toUpdate.setLastName(newLast);
+        toUpdate.setEmail(newEmail);
 
         userRepository.save(toUpdate);
         model.addAttribute("msg","Profile updated successfully");
