@@ -158,28 +158,6 @@ public class TaskController {
         return "tasks/default";
     }
 
-    @GetMapping("default-create")
-    public String displayDefaultCreateForm(Model model) {
-        model.addAttribute("title", "Create a new default task");
-        model.addAttribute("defaultTask", new DefaultTask());
-        model.addAttribute("defaultTasks", defaultTaskRepository.findAll());
-        return "tasks/default-create";
-    }
-
-    @PostMapping("default-create")
-    public String processDefaultForm(@ModelAttribute @Valid DefaultTask defaultTask, Errors errors, HttpServletRequest request, Model model) {
-//        User user = authenticationController.getUserFromSession(request.getSession());
-        if (errors.hasErrors()) {
-            model.addAttribute("title", "Invalid data. Create a new task");
-            return "tasks/default";
-        }
-//        task.setUser(user);
-        defaultTaskRepository.save(defaultTask);
-        model.addAttribute("defaultTasks", defaultTaskRepository.findAll());
-
-        return "tasks/default";
-    }
-
     @PostMapping("convert-default-task")
     public String processConvertDefaultTask(@RequestParam(required = false) int id,HttpServletRequest request, Model model) {
         Task newTask = new Task(defaultTaskRepository.findById(id).get().getName(), defaultTaskRepository.findById(id).get().getTimeRequired(), false);
