@@ -16,11 +16,12 @@
                 <li th:each="task : ${suggestedTasks}">
                     <label>
                         <input type="checkbox" name="taskIds" th:value="${task.id}">
-                        <span th:text="${task.name}"></span>
+                        <span th:replace="fragments :: displayTask"></span>
+                        <span th:replace="fragments :: displayRequiredTime"></span>
                     </label>
                 </li>
             </ul>
-            <p th:if="${suggestedTasks} != true">No tasks suggested for your timeframe</p>
+            <p th:if="${suggestedTasks} == null">No tasks suggested for your timeframe</p>
         </div>
         <div>
             <h2>All available Tasks</h2>
@@ -28,7 +29,8 @@
                 <li th:each="task : ${allTasks}">
                     <label>
                         <input type="checkbox" name="taskIds" th:value="${task.id}">
-                        <span th:text="${task.name}"></span>
+                        <span th:replace="fragments :: displayTask"></span>
+                        <span th:replace="fragments :: displayRequiredTime"></span>
                     </label>
                 </li>
             </ul>
