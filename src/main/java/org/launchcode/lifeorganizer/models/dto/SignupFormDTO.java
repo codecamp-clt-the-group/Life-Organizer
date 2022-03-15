@@ -2,6 +2,7 @@ package org.launchcode.lifeorganizer.models.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class SignupFormDTO extends LoginFormDTO {
@@ -9,10 +10,12 @@ public class SignupFormDTO extends LoginFormDTO {
     private String verifyPassword;
 
     @NotBlank(message = "Name required")
+    @NotNull
     @Size(max = 25)
     private String firstName;
 
     @NotBlank(message = "Last name required")
+    @NotNull
     @Size(max = 50)
     private String lastName;
 

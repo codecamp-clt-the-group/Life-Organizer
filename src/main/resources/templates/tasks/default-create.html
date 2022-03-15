@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body>
+
+<nav th:replace="fragments::navbar"></nav>
+
+<form method="post">
+    <label>Default Task Name:
+        <input type="text" th:field="${defaultTask.name}">
+    </label>
+    <p th:errors="${defaultTask.name}"></p>
+    <label>Time Required (optional):
+        <input type="number" th:field="${defaultTask.timeRequired}">
+    </label>
+    <button>Submit</button>
+</form>
+
+</body>
+</html>
