@@ -70,5 +70,9 @@
         </ul>
     </div>
 </nav>
+
+<select th:name="priority" th:fragment="selectPriority">
+    <option th:each="i: ${T(org.launchcode.lifeorganizer.models.TaskPriority).values()}" th:value="${i}" th:text="${i.displayName}"></option>
+</select>
 </body>
 </html>
