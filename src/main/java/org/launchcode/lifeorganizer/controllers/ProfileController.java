@@ -61,9 +61,10 @@ public class ProfileController {
         String newLast = optionFormDTO.getLastName();
         String newEmail = optionFormDTO.getEmail();
 
-        if(!newPass.equals("") || !verify.equals("") || current.verifyPassword(curPass)) {
+
+        if(!newPass.equals("") || !verify.equals("") || !curPass.equals("")) {
             if (!current.verifyPassword(curPass)) {
-                errors.rejectValue("pwdHash", "pwdHash.invalid", "Incorrect password");
+                errors.rejectValue("currentPassword", "currentPassword.invalid", "Incorrect password");
             }
             if (newPass.length() >= 6) {
                 if (current.verifyPassword(newPass)) {
@@ -76,15 +77,20 @@ public class ProfileController {
                 errors.rejectValue("verifyPassword", "verifyPassword.mismatch", "Passwords must match");
             }
         }
+
         model.addAttribute("title", "Options");
         if (errors.hasErrors()) {
             return "profile/options";
         }
 
-        toUpdate.setPwdHash(newPass);
+        if(!newPass.equals("")){
+            toUpdate.setPwdHash(newPass);
+        }
+
         toUpdate.setFirstName(newFirst);
         toUpdate.setLastName(newLast);
         toUpdate.setEmail(newEmail);
+
 
         userRepository.save(toUpdate);
         model.addAttribute("msg","Profile updated successfully");
