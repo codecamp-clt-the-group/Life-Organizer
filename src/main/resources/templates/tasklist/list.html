@@ -19,6 +19,11 @@
         </td>
     </tr>
 </table>
+<h1 th:text="${tasklist}"></h1>
+<ul>
+    <li th:each="task : ${tasks}"><a th:replace="fragments :: displayTaskWithLink"></a> <span th:replace="fragments :: displayRequiredTime"></span></li>
+</ul>
+
 
 </body>
 </html>

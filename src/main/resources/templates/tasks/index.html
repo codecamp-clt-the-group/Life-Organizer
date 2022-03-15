@@ -27,16 +27,17 @@
                                 <tbody>
                                 <tr th:each="task : ${tasks}">
                                     <td>
-                                        <span th:if="${task.isComplete}" style="text-decoration: line-through"><a
-                                                th:href="${'/tasks/'+ task.id}" th:text="${task.name}"></a></span>
-                                        <span th:unless="${task.isComplete}"><a th:href="${'/tasks/'+ task.id}"
-                                                                                th:text="${task.name}"></a></span>
+                                        <a th:replace="fragments :: displayTaskWithLink"></a>
+                                    </td>
+                                    <td>
+                                        <span th:replace="fragments :: displayRequiredTime"></span>
                                     </td>
                                     <td th:text="${task.timeRequired}"></td>
                                     <td th:text="${task.priority}"></td>
                                     <td>
                                         <form method="post" action="/tasks/delete">
                                             <input type="hidden" name="id" th:value="${task.id}">
+                                            <a th:href="${'/tasks/'+ task.id + '/edit'}" class="btn btn-sm btn-outline-success">EDIT</a>
                                             <button class="btn btn-sm btn-outline-danger">Delete</button>
                                         </form>
                                     </td>

@@ -8,6 +8,7 @@
     <p class="text-center text-success bg-success" th:text="${msg}"></p>
     <form method="post" class="container-fluid pt-4">
         <input type="hidden" th:field="${optionFormDTO.pwdHash}">
+        <input type="hidden" th:field="${optionFormDTO.userName}">
         <h4>Password</h4>
         <div class="form-group row justify-content-center">
             <div class="col-sm-4 ">
