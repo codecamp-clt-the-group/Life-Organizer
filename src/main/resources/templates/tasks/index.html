@@ -36,6 +36,7 @@
                                     <td>
                                         <form method="post" action="/tasks/delete">
                                             <input type="hidden" name="id" th:value="${task.id}">
+                                            <a th:href="${'/tasks/'+ task.id + '/edit'}" class="btn btn-sm btn-outline-success">EDIT</a>
                                             <button class="btn btn-sm btn-outline-danger">Delete</button>
                                         </form>
                                     </td>
