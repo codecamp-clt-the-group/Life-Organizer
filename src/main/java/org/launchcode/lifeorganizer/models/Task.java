@@ -4,6 +4,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Task {
@@ -15,15 +17,24 @@ public class Task {
     @ManyToOne
     private User user;
 
+    @ManyToMany(mappedBy = "tasks")
+    private List<Tasklist> tasklists = new ArrayList<>();
+
     @NotEmpty
     @Size(min = 3, max = 200, message = "Task must be between 3 and 200 characters.")
     private String name;
 
     private int timeRequired;
 
-    private boolean isComplete = false;
+    boolean isComplete = false;
 
     public Task () {}
+
+    public Task(String name, int timeRequired, boolean isComplete) {
+        this.name = name;
+        this.timeRequired = timeRequired;
+        this.isComplete = isComplete;
+    }
 
     public int getId() {
         return id;
@@ -65,4 +76,12 @@ public class Task {
         this.user = user;
     }
 
+
+    public List<Tasklist> getTasklists() {
+        return tasklists;
+    }
+
+    public void setTasklists(List<Tasklist> tasklists) {
+        this.tasklists = tasklists;
+    }
 }
