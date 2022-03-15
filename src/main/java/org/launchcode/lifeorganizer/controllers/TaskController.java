@@ -1,7 +1,9 @@
 package org.launchcode.lifeorganizer.controllers;
 
+import org.launchcode.lifeorganizer.data.DefaultTaskRepository;
 import org.launchcode.lifeorganizer.data.TaskRepository;
 import org.launchcode.lifeorganizer.data.UserRepository;
+import org.launchcode.lifeorganizer.models.DefaultTask;
 import org.launchcode.lifeorganizer.models.Task;
 import org.launchcode.lifeorganizer.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class TaskController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private DefaultTaskRepository defaultTaskRepository;
+
     private static final String userSessionKey = "user";
 
     public User getUserFromSession(HttpSession session) {
@@ -42,7 +47,6 @@ public class TaskController {
         }
         return user.get();
     }
-
 
     @GetMapping
     public String displayAllTasks(Model model, HttpServletRequest session) {
@@ -69,6 +73,7 @@ public class TaskController {
         task.setUser(user);
         taskRepository.save(task);
 
+
         return "redirect:";
     }
 
@@ -90,5 +95,43 @@ public class TaskController {
         return "redirect:";
     }
 
+    @GetMapping("default")
+    public String displayDefaultForm(Model model) {
+        model.addAttribute("title", "Create a new default task");
+     //   model.addAttribute("defaultTask", new DefaultTask());
+        model.addAttribute("defaultTasks", defaultTaskRepository.findAll());
+        return "tasks/default";
+    }
 
+    @GetMapping("default-create")
+    public String displayDefaultCreateForm(Model model) {
+        model.addAttribute("title", "Create a new default task");
+        model.addAttribute("defaultTask", new DefaultTask());
+        model.addAttribute("defaultTasks", defaultTaskRepository.findAll());
+        return "tasks/default-create";
+    }
+
+    @PostMapping("default-create")
+    public String processDefaultForm(@ModelAttribute @Valid DefaultTask defaultTask, Errors errors, HttpServletRequest request, Model model) {
+//        User user = authenticationController.getUserFromSession(request.getSession());
+        if (errors.hasErrors()) {
+            model.addAttribute("title", "Invalid data. Create a new task");
+            return "tasks/default";
+        }
+//        task.setUser(user);
+        defaultTaskRepository.save(defaultTask);
+        model.addAttribute("defaultTasks", defaultTaskRepository.findAll());
+
+        return "tasks/default";
+    }
+
+    @PostMapping("convert-default-task")
+    public String processConvertDefaultTask(@RequestParam(required = false) int id,HttpServletRequest request, Model model) {
+        Task newTask = new Task(defaultTaskRepository.findById(id).get().getName(), defaultTaskRepository.findById(id).get().getTimeRequired(), false);
+        User user = authenticationController.getUserFromSession(request.getSession());
+
+        newTask.setUser(user);
+        taskRepository.save(newTask);
+        return "redirect:";
+    }
 }

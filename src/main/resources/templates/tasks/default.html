@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body>
+
+<nav th:replace="fragments::navbar"></nav>
+
+<table>
+    <tr>
+        <th colspan="3">Task name</th>
+    </tr>
+    <tr th:each="defaultTask : ${defaultTasks}">
+        <td th:text="${defaultTask.name}"></td>
+        <td th:text="${defaultTask.timeRequired}"></td>
+        <td>
+            <form method="post" action="/tasks/convert-default-task">
+                <input type="hidden" name="id" th:value="${defaultTask.id}">
+                <button>Add to my tasks</button>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
