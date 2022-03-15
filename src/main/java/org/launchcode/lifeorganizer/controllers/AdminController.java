@@ -51,7 +51,6 @@ public class AdminController {
         model.addAttribute("title", "Create a new default task");
         model.addAttribute("defaultTask", new DefaultTask());
         model.addAttribute("defaultTasks", defaultTaskRepository.findAll());
-
         return "admin/default-create";
     }
 
