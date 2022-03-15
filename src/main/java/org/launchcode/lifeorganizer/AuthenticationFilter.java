@@ -16,6 +16,7 @@ import java.util.List;
 public class AuthenticationFilter extends HandlerInterceptorAdapter {
     @Autowired
     UserRepository userRepository;
+
     @Autowired
     AuthenticationController authenticationController;
 
@@ -24,21 +25,30 @@ public class AuthenticationFilter extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response,
-                             Object handler) throws IOException {
+                             Object handler) throws IOException, IllegalAccessException {
 
-        if (isWhitelisted(request.getRequestURI())) {
+        String requestPath = request.getRequestURI();
+
+        if (isWhitelisted(requestPath)) {
             return true;
         }
 
         HttpSession session = request.getSession();
         User user = authenticationController.getUserFromSession(session);
 
-        if (user != null) {
-            return true;
+        if (user == null) {
+            response.sendRedirect("/login");
+            return false;
         }
 
-        response.sendRedirect("/login");
-        return false;
+        if (requestPath.startsWith("/admin")) {
+            if(user.isAdmin()) {
+                return true;
+            } else {
+                throw new IllegalAccessException("Path restricted to admin users");
+            }
+        }
+            return true;
     }
 
     private static boolean isWhitelisted(String path) {
