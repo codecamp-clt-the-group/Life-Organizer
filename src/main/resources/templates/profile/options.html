@@ -5,27 +5,17 @@
 <nav th:replace="fragments::navbar"></nav>
 <section class="align-content-center mt-4">
     <h1 class="text-center" th:text="${title}"></h1>
-    <p class="text-center text-success" th:text="${msg}"></p>
+    <p class="text-center text-success bg-success" th:text="${msg}"></p>
     <form method="post" class="container-fluid pt-4">
-        <h4>Username:</h4>
-        <div class="form-group row justify-content-center">
-            <div class="col-sm-4 ">
-                <div class="row">
-                    <label class="col-3">Username:</label>
-                    <input type="text" class="form-control col-9" th:field="${optionFormDTO.userName}">
-                </div>
-                <span th:errors="${optionFormDTO.userName}" class="row text-danger justify-content-end "></span>
-            </div>
-        </div>
-
+        <input type="hidden" th:field="${optionFormDTO.pwdHash}">
         <h4>Password</h4>
         <div class="form-group row justify-content-center">
             <div class="col-sm-4 ">
                 <div class="row">
                     <label class="col-3">Current:</label>
-                    <input type="password" class="form-control col-9" th:field="${optionFormDTO.pwdHash}">
+                    <input type="password" class="form-control col-9" th:field="${optionFormDTO.currentPassword}">
                 </div>
-                <span th:errors="${optionFormDTO.pwdHash}" class="row text-danger justify-content-end "></span>
+                <span th:errors="${optionFormDTO.currentPassword}" class="row text-danger justify-content-end "></span>
             </div>
         </div>
         <div class="form-group row justify-content-center">

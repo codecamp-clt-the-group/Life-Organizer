@@ -45,6 +45,7 @@ public class ProfileController {
         newOption.setLastName(current.getLastName());
         newOption.setUserName(current.getUserName());
         model.addAttribute("optionFormDTO",newOption);
+        model.addAttribute("user",current);
         return "profile/options";
     }
 
@@ -52,10 +53,12 @@ public class ProfileController {
     public String processDisplayChangeForm(@ModelAttribute @Valid OptionFormDTO optionFormDTO, Errors errors, HttpServletRequest request, Model model){
         User current = authenticationController.getUserFromSession(request.getSession());
         User toUpdate = userRepository.findById(current.getId()).get();
-        String curPass = optionFormDTO.getPwdHash();
+
+        String curPass = optionFormDTO.getCurrentPassword();//PwdHash();
         String newPass = optionFormDTO.getNewPassword();
         String verify = optionFormDTO.getVerifyPassword();
-        if(newPass != "" || verify != "") {
+
+        if(!newPass.equals("") || !verify.equals("") || !curPass.equals("")) {
             if (!current.verifyPassword(curPass)) {
                 errors.rejectValue("pwdHash", "pwdHash.invalid", "Incorrect password");
             }
@@ -80,17 +83,13 @@ public class ProfileController {
         toUpdate.setFirstName(newFirst);
         toUpdate.setLastName(newLast);
 
-        // Changes the users username
-        String newUserName = optionFormDTO.getUserName();
-        toUpdate.setUserName(newUserName);
-
-
         // Changes the users email
         String newEmail = optionFormDTO.getEmail();
         toUpdate.setEmail(newEmail);
-
+        boolean pass = true;
         model.addAttribute("title", "Options");
         if (errors.hasErrors()) {
+            pass = false;
             return "profile/options";
         }
 
