@@ -71,6 +71,9 @@
     </div>
 </nav>
 
-<span th:fragment="displayTask"><a th:href="@{/tasks/${task.getId()}}" th:text="${task.name}" th:class="${task.isComplete}? 'text-decoration-line-through'"></a> <span th:text="|(${task.timeRequired} minutes)|"></span></span>
+<a th:fragment="displayTaskWithLink" th:href="|/tasks/${task.id}|" th:text="${task.name}" th:class="${task.isComplete}? 'text-decoration-line-through'"></a>
+<span th:fragment="displayTask" th:text="${task.name}"></span>
+
+<span th:fragment="displayRequiredTime" th:text="|(${task.timeRequired} minutes)|"></span>
 </body>
 </html>
