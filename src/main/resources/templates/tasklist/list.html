@@ -14,6 +14,7 @@
             <span th:unless="${task.isComplete}"><a th:href="${'/tasks/'+ task.id}" th:text="${task.name}"></a></span>
         </td>
         <td th:text="${task.timeRequired}"></td>
+        <td th:text="${task.priority}"></td>
         <td>
         </td>
     </tr>

@@ -20,6 +20,7 @@
                                 <tr>
                                     <th scope="col">Name</th>
                                     <th scope="col">Estimated time</th>
+                                    <th scope="col">Priority</th>
                                     <th scope="col"></th>
                                 </tr>
                                 </thead>
@@ -32,6 +33,7 @@
                                                                                 th:text="${task.name}"></a></span>
                                     </td>
                                     <td th:text="${task.timeRequired}"></td>
+                                    <td th:text="${task.priority}"></td>
                                     <td>
                                         <form method="post" action="/tasks/delete">
                                             <input type="hidden" name="id" th:value="${task.id}">
