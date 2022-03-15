@@ -18,6 +18,8 @@ public class DefaultTask{
 
     private int timeRequired;
 
+    private TaskPriority priority;
+
     public DefaultTask () {}
 
     public DefaultTask(int id, String name, int timeRequired) {
@@ -41,5 +43,13 @@ public class DefaultTask{
 
     public void setTimeRequired(int timeRequired) {
         this.timeRequired = timeRequired;
+    }
+
+    public TaskPriority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(TaskPriority priority) {
+        this.priority = priority;
     }
 }

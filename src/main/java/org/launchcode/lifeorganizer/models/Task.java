@@ -30,6 +30,8 @@ public class Task {
 
     boolean isComplete = false;
 
+    private TaskPriority priority;
+
     public Task () {}
 
     public Task(String name, int timeRequired, boolean isComplete) {
@@ -85,5 +87,13 @@ public class Task {
 
     public void setTasklists(List<Tasklist> tasklists) {
         this.tasklists = tasklists;
+    }
+
+    public TaskPriority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(TaskPriority priority) {
+        this.priority = priority;
     }
 }
