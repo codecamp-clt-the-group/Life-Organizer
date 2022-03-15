@@ -62,7 +62,8 @@
                     Profile
                 </a>
                 <div class="dropdown-menu" aria-labelledby="profileDropdown">
-                    <a class="dropdown-item" href="#">Update</a>
+                    <a class="dropdown-item" th:href="@{/profile}">View</a>
+                    <a class="dropdown-item" th:href="@{/profile/options}">Options</a>
                     <a class="dropdown-item" th:href="@{/logout}">Sign out</a>
                 </div>
             </li>
