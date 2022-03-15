@@ -101,6 +101,8 @@ public class TasklistController {
         // if there is any tasks fit in allocated available time
         if (suggestedTasks.size() > 0) {
             model.addAttribute("suggestedTasks", suggestedTasks);
+        } else {
+            model.addAttribute("suggestedTasks", null);
         }
 
         return "tasklist/suggested";
@@ -117,6 +119,7 @@ public class TasklistController {
         // checking if the user owns that tasklist
         if (tasklist.isPresent() && tasklist.get().getUser().getId() == user.getId()) {
             model.addAttribute("tasks", tasklist.get().getTasks());
+            model.addAttribute("tasklist", tasklist.get().getName());
             return "tasklist/list";
         }
 
