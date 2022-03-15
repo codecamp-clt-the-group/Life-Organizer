@@ -38,6 +38,10 @@ public class TasklistController {
     private static final String userSessionKey = "user";
 
     public User getUserFromSession(HttpSession session) {
+        return getLoggedUser(session, userSessionKey, userRepository);
+    }
+
+    static User getLoggedUser(HttpSession session, String userSessionKey, UserRepository userRepository) {
         Integer userId = (Integer) session.getAttribute(userSessionKey);
         if (userId == null) {
             return null;
@@ -90,7 +94,7 @@ public class TasklistController {
         model.addAttribute("allTasks", availableTasks);
 
         // generate suggested tasks for available time allocation
-        List<Task> suggestedTasks=new ArrayList<>();
+        List<Task> suggestedTasks = new ArrayList<>();
         for (Task task : availableTasks) {
             if (task.getTimeRequired() > 0 && timeAvailable > task.getTimeRequired()) {
                 suggestedTasks.add(task);
@@ -139,9 +143,9 @@ public class TasklistController {
 
         // remove duplications from task_ids
         List<Integer> ids = new ArrayList<>();
-        for(int c : taskIds) {
-            if(!ids.contains(c)) {
-              ids.add(c);
+        for (int c : taskIds) {
+            if (!ids.contains(c)) {
+                ids.add(c);
             }
         }
 
