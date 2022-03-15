@@ -71,6 +71,12 @@ public class TasklistController {
     public String processForm(@RequestParam int timeAvailable, HttpServletRequest request, Model model) {
         User user = authenticationController.getUserFromSession(request.getSession());
 
+        // check if the time variable if valid
+        if (Math.signum(timeAvailable) != 1.0) {
+            model.addAttribute("error", "No tasks available for your timeframe of " + timeAvailable + " minutes.");
+            return "tasklist/generator";
+        }
+
         // find all tasks owned by user
         Iterable<Task> allTasks = taskRepository.findAllByUserId(user.getId());
 

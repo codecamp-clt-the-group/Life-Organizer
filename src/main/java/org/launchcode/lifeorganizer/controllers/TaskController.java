@@ -67,7 +67,6 @@ public class TaskController {
     public String processCreateForm(@ModelAttribute @Valid Task task, Errors errors, HttpServletRequest request, Model model) {
         User user = authenticationController.getUserFromSession(request.getSession());
         if (errors.hasErrors()) {
-            model.addAttribute("title", "Invalid data. Create a new task");
             return "tasks/create";
         }
         task.setUser(user);
