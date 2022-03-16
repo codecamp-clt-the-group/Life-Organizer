@@ -20,10 +20,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("admin")
-public class AdminController {
-
-    @Autowired
-    private AuthenticationController authenticationController;
+public class AdminController extends BaseController{
 
     @Autowired
     private UserRepository userRepository;
@@ -32,19 +29,6 @@ public class AdminController {
     private DefaultTaskRepository defaultTaskRepository;
 
     private static final String userSessionKey = "user";
-
-    public User getUserFromSession(HttpSession session) {
-        Integer userId = (Integer) session.getAttribute(userSessionKey);
-        if (userId == null) {
-            return null;
-        }
-        Optional<User> user = userRepository.findById(userId);
-
-        if (user.isEmpty()) {
-            return null;
-        }
-        return user.get();
-    }
 
     @GetMapping("default-create")
     public String displayDefaultCreateForm(Model model) {
@@ -55,7 +39,7 @@ public class AdminController {
     }
 
     @PostMapping("default-create")
-    public String processDefaultForm(@ModelAttribute @Valid DefaultTask defaultTask, Errors errors, HttpServletRequest request, Model model) {
+    public String processDefaultForm(@ModelAttribute @Valid DefaultTask defaultTask, Errors errors, Model model) {
 //        User user = authenticationController.getUserFromSession(request.getSession());
         if (errors.hasErrors()) {
             model.addAttribute("title", "Invalid data. Create a new task");
