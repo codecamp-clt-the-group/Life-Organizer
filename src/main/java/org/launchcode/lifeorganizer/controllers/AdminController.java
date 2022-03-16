@@ -1,8 +1,10 @@
 package org.launchcode.lifeorganizer.controllers;
 
 import org.launchcode.lifeorganizer.data.DefaultTaskRepository;
+import org.launchcode.lifeorganizer.data.TagRepository;
 import org.launchcode.lifeorganizer.data.UserRepository;
 import org.launchcode.lifeorganizer.models.DefaultTask;
+import org.launchcode.lifeorganizer.models.Tag;
 import org.launchcode.lifeorganizer.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +32,9 @@ public class AdminController {
 
     @Autowired
     private DefaultTaskRepository defaultTaskRepository;
+
+    @Autowired
+    private TagRepository tagRepository;
 
     private static final String userSessionKey = "user";
 
@@ -66,5 +71,22 @@ public class AdminController {
         model.addAttribute("defaultTasks", defaultTaskRepository.findAll());
 
         return "tasks/default";
+    }
+
+    @GetMapping("tags")
+    public String displayTagsPage(Model model) {
+        model.addAttribute(new Tag());
+        model.addAttribute("tags", tagRepository.findAll());
+        return "admin/tags";
+    }
+
+    @PostMapping("tags")
+    public String processTags(@ModelAttribute @Valid Tag tag, Errors errors, HttpServletRequest request) {
+        if (errors.hasErrors()) {
+            return "admin/tags";
+        }
+        tagRepository.save(tag);
+
+        return "redirect:" + request.getHeader("Referer");
     }
 }
