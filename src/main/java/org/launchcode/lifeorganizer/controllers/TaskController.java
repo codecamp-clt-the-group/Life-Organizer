@@ -78,11 +78,19 @@ public class TaskController {
 
     @GetMapping("{id}")
     public String toggleIsComplete(@PathVariable int id, HttpServletRequest request) {
-        Optional<Task> task = taskRepository.findById(id);
-        Task newTask = task.get();
-        newTask.setComplete();
-        taskRepository.save(newTask);
+        User user = authenticationController.getUserFromSession(request.getSession());
 
+        // find the requested task
+        Optional<Task> task = taskRepository.findById(id);
+
+        // check if the user owns that task
+        if (task.isPresent() && task.get().getUser().getId() == user.getId()) {
+            Task newTask = task.get();
+
+            // set complete and save
+            newTask.setComplete();
+            taskRepository.save(newTask);
+        }
         return "redirect:" + request.getHeader("Referer");
     }
 
@@ -129,11 +137,18 @@ public class TaskController {
     }
 
     @PostMapping("delete")
-    public String processDelete(@RequestParam(required = false) int id) {
-        if (id > 0) {
+    public String processDelete(@RequestParam(required = false) int id, HttpServletRequest request) {
+        User user = authenticationController.getUserFromSession(request.getSession());
+
+        // find the requested task
+        Optional<Task> task = taskRepository.findById(id);
+
+        // check if the user owns that task
+        if (task.isPresent() && task.get().getUser().getId() == user.getId()) {
+            // Remove
             taskRepository.deleteById(id);
         }
-        return "redirect:";
+        return "redirect:" + request.getHeader("Referer");
     }
 
     @GetMapping("default")
@@ -141,28 +156,6 @@ public class TaskController {
         model.addAttribute("title", "Create a new default task");
      //   model.addAttribute("defaultTask", new DefaultTask());
         model.addAttribute("defaultTasks", defaultTaskRepository.findAll());
-        return "tasks/default";
-    }
-
-    @GetMapping("default-create")
-    public String displayDefaultCreateForm(Model model) {
-        model.addAttribute("title", "Create a new default task");
-        model.addAttribute("defaultTask", new DefaultTask());
-        model.addAttribute("defaultTasks", defaultTaskRepository.findAll());
-        return "tasks/default-create";
-    }
-
-    @PostMapping("default-create")
-    public String processDefaultForm(@ModelAttribute @Valid DefaultTask defaultTask, Errors errors, HttpServletRequest request, Model model) {
-//        User user = authenticationController.getUserFromSession(request.getSession());
-        if (errors.hasErrors()) {
-            model.addAttribute("title", "Invalid data. Create a new task");
-            return "tasks/default";
-        }
-//        task.setUser(user);
-        defaultTaskRepository.save(defaultTask);
-        model.addAttribute("defaultTasks", defaultTaskRepository.findAll());
-
         return "tasks/default";
     }
 
