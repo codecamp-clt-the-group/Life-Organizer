@@ -17,6 +17,8 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Optional;
 
+import static org.launchcode.lifeorganizer.controllers.TasklistController.getLoggedUser;
+
 
 @Controller
 public class AuthenticationController{
@@ -29,18 +31,7 @@ public class AuthenticationController{
     private static final String userSessionKey = "user";
 
     public User getUserFromSession(HttpSession session) {
-        Integer userId = (Integer) session.getAttribute(userSessionKey);
-        if (userId == null) {
-            return null;
-        }
-
-        Optional<User> user = userRepository.findById(userId);
-
-        if (user.isEmpty()) {
-            return null;
-        }
-
-        return user.get();
+        return getLoggedUser(session, userSessionKey, userRepository);
     }
 
     private static void setUserInSession(HttpSession session, User user) {
