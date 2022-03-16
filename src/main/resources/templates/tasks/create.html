@@ -13,6 +13,15 @@
         <input type="number" min="0" th:field="${task.timeRequired}">
     </label>
     <p th:errors="${task.timeRequired}"></p>
+    <div th:if="${#lists.size(tags) > 0}">
+        <h3>Tags (optional):</h3>
+        <th:block th:each="tag : ${tags}">
+            <div class="form-check form-check-inline">
+                <input type="checkbox" th:field="${task.tags}" th:value="${tag.id}" class="form-check-input">
+                <label class="form-check-label" th:for="${#ids.prev('tags')}" th:text="${tag.name}"></label>
+            </div>
+        </th:block>
+    </div>
     <button>Submit</button>
 </form>
 
