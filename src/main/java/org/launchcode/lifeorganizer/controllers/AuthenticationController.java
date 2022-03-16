@@ -1,25 +1,26 @@
 package org.launchcode.lifeorganizer.controllers;
-import org.launchcode.lifeorganizer.data.DefaultTaskRepository;
-import org.launchcode.lifeorganizer.models.DefaultTask;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.launchcode.lifeorganizer.models.dto.SignupFormDTO;
-import org.launchcode.lifeorganizer.models.dto.LoginFormDTO;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.GetMapping;
+
 import org.launchcode.lifeorganizer.data.UserRepository;
-import org.springframework.stereotype.Controller;
 import org.launchcode.lifeorganizer.models.User;
+import org.launchcode.lifeorganizer.models.dto.LoginFormDTO;
+import org.launchcode.lifeorganizer.models.dto.SignupFormDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import org.springframework.ui.Model;
 import javax.validation.Valid;
 import java.util.Optional;
 
 
 @Controller
-public class AuthenticationController {
+public class AuthenticationController{
+
     @Autowired
     UserRepository userRepository;
 
@@ -79,6 +80,8 @@ public class AuthenticationController {
         userRepository.save(newUser);
         setUserInSession(request.getSession(), newUser);
 
+
+
         return "redirect:";
     }
 
@@ -111,7 +114,12 @@ public class AuthenticationController {
         }
         setUserInSession(request.getSession(), theUser);
 
-        return "redirect:";
+        HttpSession session = request.getSession();
+        User user = getUserFromSession(session);
+
+        model.addAttribute("user", user);
+
+        return "index";
     }
 
     @GetMapping("/logout")

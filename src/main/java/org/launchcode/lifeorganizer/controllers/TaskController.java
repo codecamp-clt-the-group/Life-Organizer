@@ -19,13 +19,10 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("tasks")
-public class TaskController {
+public class TaskController extends BaseController{
 
     @Autowired
     private TaskRepository taskRepository;
-
-    @Autowired
-    private AuthenticationController authenticationController;
 
     @Autowired
     private UserRepository userRepository;
