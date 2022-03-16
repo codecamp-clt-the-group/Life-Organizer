@@ -16,7 +16,7 @@
                             <p class="text-white-50 mb-5">Please enter your username and password!</p>
                             <form method="post">
                                 <div class="form-outline  form-white mb-4">
-                                    <input type="text" id="typeUsername" class="form-control form-control-lg"
+                                    <input type="text" id="typeUsername" class="form-control form-control-lg active"
                                            th:field="${loginFormDTO.userName}"/>
                                     <label class="form-label" for="typeUsername">Username</label>
                                     <div class="form-notch">
@@ -34,7 +34,7 @@
 
                                 <div class="form-outline form-white mb-4">
                                     <input type="password" id="typePasswordX"
-                                           class="form-control form-control-lg "
+                                           class="form-control form-control-lg active"
                                            th:field="${loginFormDTO.pwdHash}"/>
                                     <label class="form-label" for="typePasswordX">Password</label>
                                     <div class="form-notch">

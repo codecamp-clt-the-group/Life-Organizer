@@ -17,6 +17,8 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Optional;
 
+import static org.launchcode.lifeorganizer.controllers.TasklistController.getLoggedUser;
+
 @Controller
 @RequestMapping("tasks")
 public class TaskController {
@@ -36,16 +38,7 @@ public class TaskController {
     private static final String userSessionKey = "user";
 
     public User getUserFromSession(HttpSession session) {
-        Integer userId = (Integer) session.getAttribute(userSessionKey);
-        if (userId == null) {
-            return null;
-        }
-        Optional<User> user = userRepository.findById(userId);
-
-        if (user.isEmpty()) {
-            return null;
-        }
-        return user.get();
+        return getLoggedUser(session, userSessionKey, userRepository);
     }
 
     @GetMapping
@@ -58,21 +51,23 @@ public class TaskController {
 
     @GetMapping("create")
     public String displayForm(Model model) {
-        model.addAttribute("title", "Create a new task");
+        model.addAttribute("title", "Create new task");
         model.addAttribute("task", new Task());
+        model.addAttribute("btnName","Create");
         return "tasks/create";
     }
+
 
     @PostMapping("create")
     public String processCreateForm(@ModelAttribute @Valid Task task, Errors errors, HttpServletRequest request, Model model) {
         User user = authenticationController.getUserFromSession(request.getSession());
         if (errors.hasErrors()) {
+            model.addAttribute("title", "Create new task");
+            model.addAttribute("btnName","Create");
             return "tasks/create";
         }
         task.setUser(user);
         taskRepository.save(task);
-
-
         return "redirect:";
     }
 
@@ -105,6 +100,8 @@ public class TaskController {
         if (task.isPresent() && task.get().getUser().getId() == user.getId()) {
         // return the form to edit the task
             model.addAttribute("task", task.get());
+            model.addAttribute("title","Edit Task");
+            model.addAttribute("btnName","edit");
             return "tasks/create";
         }
         // if user doesn't own the task, redirect to tasks/index
@@ -119,7 +116,8 @@ public class TaskController {
         Optional<Task> requestedTask = taskRepository.findById(id);
 
         if (errors.hasErrors() || requestedTask.get().getUser().getId() != user.getId()) {
-            model.addAttribute("title", "Invalid data. Editing Task: " + requestedTask.get().getName() + ".");
+            model.addAttribute("title","Edit Task");
+            model.addAttribute("btnName","edit");
             return "tasks/create";
         }
 
