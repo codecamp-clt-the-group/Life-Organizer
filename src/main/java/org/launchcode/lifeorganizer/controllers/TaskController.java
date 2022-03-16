@@ -120,6 +120,7 @@ public class TaskController {
             // process the form to edit the task
             requestedTask.get().setName(task.getName());
             requestedTask.get().setTimeRequired(task.getTimeRequired());
+            requestedTask.get().setPriority(task.getPriority());
             taskRepository.save(requestedTask.get());
             return "redirect:/tasks";
         }
