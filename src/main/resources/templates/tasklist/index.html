@@ -4,31 +4,16 @@
 <body>
 <nav th:replace="fragments::navbar"></nav>
 
-<div class="col">
-    <h2>Selected Tasks</h2>
-    <ul th:each="tasklist : ${tasklists}">
-        <li th:each="task :${tasklist.getTasks()}" th:text="${task.name}"></li>
-    </ul>
-</div>
-<div class="col">
-    <table>
-        <tr>
-            <th>Task name</th>
-        </tr>
-        <tr th:each="task : ${tasks}">
-            <td>
-                <span th:if="${task.isComplete}" style="text-decoration: line-through"><a th:href="${'/tasks/'+ task.id}" th:text="${task.name}"></a></span>
-                <span th:unless="${task.isComplete}"><a th:href="${'/tasks/'+ task.id}" th:text="${task.name}"></a></span>
-            </td>
-            <td th:text="${task.timeRequired}"></td>
-            <td>
-                <form method="post" action="/tasks/delete">
-                    <input type="hidden" name="id" th:value="${task.id}">
-                    <button>Delete</button>
-                </form>
-            </td>
-        </tr>
-    </table>
+<div>
+    <h1>Tasklists</h1>
+    <div th:each="tasklist : ${tasklists}">
+        <h2><a th:href="${tasklist.id}" th:text="${tasklist.name}"></a></h2>
+        <ul>
+            <li th:each="task :${tasklist.getTasks()}">
+                <a th:replace="fragments :: displayTaskWithLink"></a> <span th:replace="fragments :: displayRequiredTime"></span>
+            </li>
+        </ul>
+    </div>
 </div>
 
 </body>

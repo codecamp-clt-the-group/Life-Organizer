@@ -71,6 +71,12 @@ public class TasklistController {
     public String processForm(@RequestParam int timeAvailable, HttpServletRequest request, Model model) {
         User user = authenticationController.getUserFromSession(request.getSession());
 
+        // check if the time variable if valid
+        if (Math.signum(timeAvailable) != 1.0) {
+            model.addAttribute("error", "No tasks available for your timeframe of " + timeAvailable + " minutes.");
+            return "tasklist/generator";
+        }
+
         // find all tasks owned by user
         Iterable<Task> allTasks = taskRepository.findAllByUserId(user.getId());
 
@@ -95,6 +101,8 @@ public class TasklistController {
         // if there is any tasks fit in allocated available time
         if (suggestedTasks.size() > 0) {
             model.addAttribute("suggestedTasks", suggestedTasks);
+        } else {
+            model.addAttribute("suggestedTasks", null);
         }
 
         return "tasklist/suggested";
@@ -111,6 +119,7 @@ public class TasklistController {
         // checking if the user owns that tasklist
         if (tasklist.isPresent() && tasklist.get().getUser().getId() == user.getId()) {
             model.addAttribute("tasks", tasklist.get().getTasks());
+            model.addAttribute("tasklist", tasklist.get().getName());
             return "tasklist/list";
         }
 

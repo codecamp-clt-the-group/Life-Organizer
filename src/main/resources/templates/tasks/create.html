@@ -10,8 +10,9 @@
     </label>
     <p th:errors="${task.name}"></p>
     <label>Time Required (optional):
-        <input type="number" th:field="${task.timeRequired}">
+        <input type="number" min="0" th:field="${task.timeRequired}">
     </label>
+    <p th:errors="${task.timeRequired}"></p>
     <button>Submit</button>
 </form>
 

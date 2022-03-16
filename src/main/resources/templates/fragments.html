@@ -51,7 +51,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="taskListDropdown">
                     <a class="dropdown-item" th:href="@{/tasklist/generator}">Create</a>
-                    <a class="dropdown-item" th:href="@{/tasklist}">View all</a>
+                    <a class="dropdown-item" th:href="@{/tasklist/}">View all</a>
                 </div>
             </li>
 
@@ -62,7 +62,8 @@
                     Profile
                 </a>
                 <div class="dropdown-menu" aria-labelledby="profileDropdown">
-                    <a class="dropdown-item" href="#">Update</a>
+                    <a class="dropdown-item" th:href="@{/profile}">View</a>
+                    <a class="dropdown-item" th:href="@{/profile/options}">Options</a>
                     <a class="dropdown-item" th:href="@{/logout}">Sign out</a>
                 </div>
             </li>
@@ -83,5 +84,10 @@
         </ul>
     </div>
 </nav>
+
+<a th:fragment="displayTaskWithLink" th:href="|/tasks/${task.id}|" th:text="${task.name}" th:class="${task.isComplete}? 'text-decoration-line-through'"></a>
+<span th:fragment="displayTask" th:text="${task.name}"></span>
+
+<span th:fragment="displayRequiredTime" th:text="|(${task.timeRequired} minutes)|"></span>
 </body>
 </html>
