@@ -4,6 +4,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,9 @@ public class User {
     @NotBlank(message = "Password required")
     @Size(min = 6)
     private String pwdHash;
+
+    @NotNull
+    private boolean admin = false;
 
     //no-args-constructor
     public User() {
@@ -91,6 +95,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
     }
 
     public boolean verifyPassword(String verifyPassword) {
