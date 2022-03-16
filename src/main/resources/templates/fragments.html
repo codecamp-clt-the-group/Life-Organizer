@@ -40,16 +40,17 @@
                     <a class="nav-link" th:href='@{/}'>Home</a>
                 </li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="taskDropdown" role="button" data-toggle="dropdown"
-                       aria-expanded="false">
-                        Task
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="taskDropdown">
-                        <a class="dropdown-item" th:href="@{/tasks/create}">Create</a>
-                        <a class="dropdown-item" th:href="@{/tasks}">View all</a>
-                    </div>
-                </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="taskDropdown" role="button" data-toggle="dropdown"
+                   aria-expanded="false">
+                    Task
+                </a>
+                <div class="dropdown-menu" aria-labelledby="taskDropdown">
+                    <a class="dropdown-item" th:href="@{/tasks/create}">Create</a>
+                    <a class="dropdown-item" th:href="@{/tasks/default}">Add tasks from default</a>
+                    <a class="dropdown-item" th:href="@{/tasks}">View all</a>
+                </div>
+            </li>
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="taskListDropdown" role="button"
@@ -63,20 +64,33 @@
                     </div>
                 </li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
-                       data-toggle="dropdown"
-                       aria-expanded="false">
-                        Profile
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="profileDropdown">
-                        <a class="dropdown-item" th:href="@{/profile}">View</a>
-                        <a class="dropdown-item" th:href="@{/profile/options}">Options</a>
-                        <a class="dropdown-item" th:href="@{/logout}">Sign out</a>
-                    </div>
-                </li>
-            </ul>
-        </div>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
+                   data-toggle="dropdown"
+                   aria-expanded="false">
+                    Profile
+                </a>
+                <div class="dropdown-menu" aria-labelledby="profileDropdown">
+                    <a class="dropdown-item" th:href="@{/profile}">View</a>
+                    <a class="dropdown-item" th:href="@{/profile/options}">Options</a>
+                    <a class="dropdown-item" th:href="@{/logout}">Sign out</a>
+                </div>
+            </li>
+
+        <th:block th:if="${user} and ${user.admin}">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="AdminDropdown" role="button"
+                   data-toggle="dropdown"
+                   aria-expanded="false">
+                    Admin
+                </a>
+                <div class="dropdown-menu" aria-labelledby="AdminDropdown">
+                    <a class="dropdown-item" th:href="@{/admin/default-create}">Create default task</a>
+<!--                  <a class="dropdown-item" th:href="@{/logout}"></a>-->
+                </div>
+            </li>
+        </th:block>
+        </ul>
     </div>
 </nav>
 

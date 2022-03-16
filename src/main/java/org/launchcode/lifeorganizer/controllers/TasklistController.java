@@ -21,7 +21,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("tasklist")
-public class TasklistController {
+public class TasklistController extends BaseController{
 
     @Autowired
     private TasklistRepository tasklistRepository;
@@ -31,9 +31,6 @@ public class TasklistController {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private AuthenticationController authenticationController;
 
     private static final String userSessionKey = "user";
 
