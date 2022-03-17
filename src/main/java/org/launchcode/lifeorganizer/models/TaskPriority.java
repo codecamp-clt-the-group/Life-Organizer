@@ -1,10 +1,9 @@
 package org.launchcode.lifeorganizer.models;
 
 public enum TaskPriority {
-    NA("N/A"),
-    HIGH("High"),
+    LOW("Low"),
     MEDIUM("Medium"),
-    LOW("Low");
+    HIGH("High");
 
     private final String displayName;
 
