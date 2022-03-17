@@ -72,12 +72,14 @@
 </nav>
 
 <select th:name="priority" th:fragment="selectPriority">
-    <option th:each="i: ${T(org.launchcode.lifeorganizer.models.TaskPriority).values()}" th:value="${i}" th:text="${i.displayName}"></option>
+    <option th:each="tp: ${T(org.launchcode.lifeorganizer.models.TaskPriority).values()}" th:value="${tp}" th:text="${tp}"></option>
+
+    <!--    <option th:each="priority: ${T(org.launchcode.lifeorganizer.models.TaskPriority).values()}" th:selected="priority == 'NA'" th:value="${priority}" th:text="${priority.displayName}"></option>-->
 </select>
 
 <a th:fragment="displayTaskWithLink" th:href="|/tasks/${task.id}|" th:text="${task.name}" th:class="${task.isComplete}? 'text-decoration-line-through'"></a>
 <span th:fragment="displayTask" th:text="${task.name}"></span>
-
+<span th:fragment="displayPriority" th:text="${task.priority}"></span>
 <span th:fragment="displayRequiredTime" th:text="|(${task.timeRequired} minutes)|"></span>
 </body>
 </html>
