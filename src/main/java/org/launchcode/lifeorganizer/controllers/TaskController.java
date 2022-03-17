@@ -5,6 +5,7 @@ import org.launchcode.lifeorganizer.data.TaskRepository;
 import org.launchcode.lifeorganizer.data.UserRepository;
 import org.launchcode.lifeorganizer.models.DefaultTask;
 import org.launchcode.lifeorganizer.models.Task;
+import org.launchcode.lifeorganizer.models.TaskPriority;
 import org.launchcode.lifeorganizer.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,7 @@ public class TaskController {
     private DefaultTaskRepository defaultTaskRepository;
 
     private static final String userSessionKey = "user";
+    private TaskPriority tPriority;
 
     public User getUserFromSession(HttpSession session) {
         Integer userId = (Integer) session.getAttribute(userSessionKey);
