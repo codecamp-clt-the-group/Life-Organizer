@@ -32,7 +32,9 @@
                                     <td>
                                         <span th:replace="fragments :: displayRequiredTime"></span>
                                     </td>
-                                    <td th:text="${task.priority.displayName}"></td>
+                                    <td>
+                                        <span th:replace="fragments :: displayPriority"></span>
+                                    </td>
                                     <td>
                                         <form method="post" action="/tasks/delete">
                                             <input type="hidden" name="id" th:value="${task.id}">
