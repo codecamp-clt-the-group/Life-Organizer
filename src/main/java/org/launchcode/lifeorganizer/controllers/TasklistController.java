@@ -21,7 +21,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("tasklist")
-public class TasklistController {
+public class TasklistController extends BaseController{
 
     @Autowired
     private TasklistRepository tasklistRepository;
@@ -32,12 +32,13 @@ public class TasklistController {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private AuthenticationController authenticationController;
-
     private static final String userSessionKey = "user";
 
     public User getUserFromSession(HttpSession session) {
+        return getLoggedUser(session, userSessionKey, userRepository);
+    }
+
+    static User getLoggedUser(HttpSession session, String userSessionKey, UserRepository userRepository) {
         Integer userId = (Integer) session.getAttribute(userSessionKey);
         if (userId == null) {
             return null;
@@ -68,11 +69,12 @@ public class TasklistController {
     }
 
     @PostMapping("generator")
-    public String processForm(@RequestParam int timeAvailable, HttpServletRequest request, Model model) {
+    public String processForm(@RequestParam int timeAvailable,HttpServletRequest request, Model model) {
         User user = authenticationController.getUserFromSession(request.getSession());
 
+
         // check if the time variable if valid
-        if (Math.signum(timeAvailable) != 1.0) {
+        if (Math.signum(timeAvailable) != 1) {
             model.addAttribute("error", "No tasks available for your timeframe of " + timeAvailable + " minutes.");
             return "tasklist/generator";
         }
@@ -90,7 +92,7 @@ public class TasklistController {
         model.addAttribute("allTasks", availableTasks);
 
         // generate suggested tasks for available time allocation
-        List<Task> suggestedTasks=new ArrayList<>();
+        List<Task> suggestedTasks = new ArrayList<>();
         for (Task task : availableTasks) {
             if (task.getTimeRequired() > 0 && timeAvailable > task.getTimeRequired()) {
                 suggestedTasks.add(task);
@@ -101,11 +103,10 @@ public class TasklistController {
         // if there is any tasks fit in allocated available time
         if (suggestedTasks.size() > 0) {
             model.addAttribute("suggestedTasks", suggestedTasks);
-        } else {
-            model.addAttribute("suggestedTasks", null);
-        }
 
-        return "tasklist/suggested";
+        }
+        model.addAttribute("fillTask","fill");
+        return "tasklist/generator";
     }
 
     @GetMapping("{id}")
@@ -135,16 +136,17 @@ public class TasklistController {
                                  HttpServletRequest request) {
         User user = authenticationController.getUserFromSession(request.getSession());
 
+
         // if errors or task_ids not provided, redirect to tasklist index
-        if (errors.hasErrors() || !(taskIds.length > 0)) {
+        if (errors.hasErrors() || taskIds==null) {
             return "redirect:generator";
         }
 
         // remove duplications from task_ids
         List<Integer> ids = new ArrayList<>();
-        for(int c : taskIds) {
-            if(!ids.contains(c)) {
-              ids.add(c);
+        for (int c : taskIds) {
+            if (!ids.contains(c)) {
+                ids.add(c);
             }
         }
 

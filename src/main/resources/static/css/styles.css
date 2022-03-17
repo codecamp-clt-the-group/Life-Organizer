@@ -9,9 +9,9 @@ select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
     border: 1px solid white;
-    color: rgba(97,160,255,0) !important;
+    color: rgba(97, 160, 255, 0) !important;
     -webkit-text-fill-color: white !important;
-    -webkit-box-shadow: 0 0 0 1000px rgba(97,160,255,0) inset !important;
+    -webkit-box-shadow: 0 0 0 1000px rgba(97, 160, 255, 0) inset !important;
     transition: background-color 5000s ease-in-out 0s !important;
 }
 
@@ -25,14 +25,20 @@ body {
     background-attachment: fixed;
 }
 
-input{
-    background-color: rgba(97,160,255,0) !important;
+body.index{
+    background-color:aliceblue ;
 }
 
-/*nav{*/
-/*    max-width: 900px;*/
-/*}*/
-.login-register-card{
+input {
+    background-color: rgba(97, 160, 255, 0) !important;
+}
+
+svg {
+    width: auto;
+    height: 100%;
+}
+
+.login-register-card {
     justify-content: center;
     align-items: center;
     margin: 0;
@@ -41,7 +47,7 @@ input{
     background-attachment: fixed;
 }
 
-.login-section{
+.login-section {
     background-image: linear-gradient(to right top, #83a4d4, #86bbe3, #8fd1ee, #9fe6f7, #b6fbff);
     justify-content: center;
     align-items: center;
@@ -50,9 +56,8 @@ input{
     background-attachment: fixed;
 }
 
-.register-section{
+.register-section {
     background-image: linear-gradient(to right top, #83a4d4, #86bbe3, #8fd1ee, #9fe6f7, #b6fbff);
-
     justify-content: center;
     align-items: center;
     margin: 0;
@@ -60,37 +65,62 @@ input{
     background-attachment: fixed;
 }
 
-
-
-.error_span{
-    font-size:0.75rem;
+.error_span {
+    font-size: 0.75rem;
 }
 
-.table-scroll{
+.table-scroll {
     overflow-y: auto;
     max-height: 100%;
 }
 
-.list-view{
-    min-height: 60vh!important;
-    max-height: 60vh!important;
+.list-view {
+    min-height: 60vh !important;
+    max-height: 60vh !important;
     overflow-y: auto;
 }
 
-.list-card{
+.createTask-view {
+    min-height: 30vh !important;
+    max-height: 40vh !important;
+}
+
+.list-card {
     justify-content: center;
     align-items: center;
     margin: 0;
-    /*background-image: linear-gradient(to top, #0f2027, #12252c, #152931, #192e37, #1c333c, #1e3741, #213c46, #23404b, #254551, #274957, #2a4e5e, #2c5364);*/
     background-blend-mode: multiply, multiply;
     background-attachment: fixed;
 }
 
-.logged-in-section{
+.logged-in-section {
     /*background-image: linear-gradient( 174.2deg,  rgba(43,157,255,0.38) 7.1%, rgba(240,246,238,1) 67.4% );*/
     justify-content: center;
     align-items: center;
     margin: 0;
     background-blend-mode: multiply, multiply;
     background-attachment: fixed;
+}
+
+.img-taskList-container {
+    max-height: 40vh !important;
+    min-height: 30vh !important;
+    max-width: 80vw !important;
+    overflow: hidden !important;
+}
+
+.img-index-container {
+    overflow: hidden !important;
+}
+
+
+
+.list-view-no-scroll {
+    min-height: 60vh !important;
+    max-height: 60vh !important;
+    overflow: hidden;
+}
+
+.form-check-input:checked {
+    background-color: #1266f1!important;
 }
