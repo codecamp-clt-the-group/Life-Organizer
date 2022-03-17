@@ -27,6 +27,7 @@
                                     <td th:text="${defaultTask.name}"></td>
                                     <td th:text="${defaultTask.timeRequired}"></td>
                                     <td>
+                                    <td>
                                         <form method="post" action="/tasks/convert-default-task">
                                             <input type="hidden" name="id" th:value="${defaultTask.id}">
                                             <button>Add to my tasks</button>
@@ -43,6 +44,7 @@
         </div>
     </div>
 </section>
+
 
 </body>
 </html>

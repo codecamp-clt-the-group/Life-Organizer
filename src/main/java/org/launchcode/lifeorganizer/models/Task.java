@@ -35,10 +35,11 @@ public class Task {
 
     public Task () {}
 
-    public Task(String name, int timeRequired, boolean isComplete) {
+    public Task(String name, int timeRequired, boolean isComplete, TaskPriority priority) {
         this.name = name;
         this.timeRequired = timeRequired;
         this.isComplete = isComplete;
+        this.priority = priority;
     }
 
     public int getId() {

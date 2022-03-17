@@ -158,7 +158,7 @@ public class TaskController extends BaseController{
 
     @PostMapping("convert-default-task")
     public String processConvertDefaultTask(@RequestParam(required = false) int id,HttpServletRequest request, Model model) {
-        Task newTask = new Task(defaultTaskRepository.findById(id).get().getName(), defaultTaskRepository.findById(id).get().getTimeRequired(), false);
+        Task newTask = new Task(defaultTaskRepository.findById(id).get().getName(), defaultTaskRepository.findById(id).get().getTimeRequired(), false, TaskPriority.LOW);
         User user = authenticationController.getUserFromSession(request.getSession());
 
         newTask.setUser(user);
