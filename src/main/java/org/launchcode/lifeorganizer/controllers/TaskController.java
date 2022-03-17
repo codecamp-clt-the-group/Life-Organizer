@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.Optional;
 
 import static org.launchcode.lifeorganizer.controllers.TasklistController.getLoggedUser;
@@ -50,7 +51,10 @@ public class TaskController extends BaseController{
     @GetMapping("create")
     public String displayForm(Model model) {
         model.addAttribute("title", "Create new task");
-        model.addAttribute("task", new Task());
+        Date date = new Date();
+        Task task = new Task();
+        task.setDueDate(date);
+        model.addAttribute("task", task);
         model.addAttribute("btnName","Create");
         return "tasks/create";
     }
@@ -125,6 +129,7 @@ public class TaskController extends BaseController{
             requestedTask.get().setName(task.getName());
             requestedTask.get().setTimeRequired(task.getTimeRequired());
             requestedTask.get().setPriority(task.getPriority());
+            requestedTask.get().setDueDate(task.getDueDate());
             taskRepository.save(requestedTask.get());
             return "redirect:/tasks";
         }
@@ -157,7 +162,8 @@ public class TaskController extends BaseController{
 
     @PostMapping("convert-default-task")
     public String processConvertDefaultTask(@RequestParam(required = false) int id,HttpServletRequest request, Model model) {
-        Task newTask = new Task(defaultTaskRepository.findById(id).get().getName(), defaultTaskRepository.findById(id).get().getTimeRequired(), false, TaskPriority.LOW);
+        Date newDate = new Date();
+        Task newTask = new Task(defaultTaskRepository.findById(id).get().getName(), defaultTaskRepository.findById(id).get().getTimeRequired(), false, TaskPriority.LOW, newDate);
         User user = authenticationController.getUserFromSession(request.getSession());
 
         newTask.setUser(user);
