@@ -31,7 +31,6 @@
                                           class="error_span text-danger justify-content-end "></span>
                                 </div>
 
-
                                 <div class="form-outline form-black mt-4 mb-0">
                                     <input type="number" min="0" id="time" class="form-control form-control-lg "
                                            th:field="${task.timeRequired}" required/>
@@ -79,6 +78,16 @@
                                           class="error_span text-danger justify-content-end "></span>
                                 </div>
 
+                                <div th:if="${#lists.size(tags) > 0}">
+                                    <h3>Tags (optional):</h3>
+                                    <th:block th:each="tag : ${tags}">
+                                        <div class="form-check form-check-inline">
+                                            <input type="checkbox" th:field="${task.tags}" th:value="${tag.id}" class="form-check-input">
+                                            <label class="form-check-label" th:for="${#ids.prev('tags')}" th:text="${tag.name}"></label>
+                                        </div>
+                                    </th:block>
+                                </div>
+
                                 <button class="btn btn-outline-dark mt-4 btn-sm px-5" type="submit"
                                         th:text="${btnName}"></button>
 
@@ -113,8 +122,6 @@
         });
     </script>
 </section>
-
-
 
 </body>
 </html>
