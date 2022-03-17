@@ -5,7 +5,7 @@
 <body>
 <nav th:replace="fragments::navbar"></nav>
 
-<section class="vh-100 logged-in-section  ">
+<section class=" logged-in-section  " style="height: 93vh">
     <div class="container py-5 h-100">
         <div class="row  justify-content-center align-items-center h-100">
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -30,7 +30,6 @@
                                     <span th:errors="${task.name}"
                                           class="error_span text-danger justify-content-end "></span>
                                 </div>
-
 
                                 <div class="form-outline form-black mt-4 mb-0">
                                     <input type="number" min="0" id="time" class="form-control form-control-lg "

@@ -25,6 +25,10 @@ body {
     background-attachment: fixed;
 }
 
+body.index{
+    background-color:aliceblue ;
+}
+
 input {
     background-color: rgba(97, 160, 255, 0) !important;
 }
@@ -103,9 +107,12 @@ svg {
     min-height: 30vh !important;
     max-width: 80vw !important;
     overflow: hidden !important;
-
-
 }
+
+.img-index-container {
+    overflow: hidden !important;
+}
+
 
 
 .list-view-no-scroll {
