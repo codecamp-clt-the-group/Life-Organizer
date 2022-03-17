@@ -5,15 +5,83 @@
 
 <nav th:replace="fragments::navbar"></nav>
 
-<form method="post">
-    <label>Default Task Name:
-        <input type="text" th:field="${defaultTask.name}">
-    </label>
-    <p th:errors="${defaultTask.name}"></p>
-    <label>Time Required (optional):
-        <input type="number" th:field="${defaultTask.timeRequired}">
-    </label>
-    <button>Submit</button>
-</form>
+
+<section class="vh-100 logged-in-section  ">
+    <div class="container py-5 h-100">
+        <div class="row  justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card list-card text-white shadow-lg" style="border-radius: 1rem;">
+                    <h1 class="text-black p-4" th:text="${title}"></h1>
+                    <div class="createTask-view card-body col-10 col-md-7 col-lg-9 col-xl-9  p-2 text-center">
+                        <div class=" mb-md-2 mt-3 ">
+                            <form class="text-black" method="post">
+
+                                <div class="form-outline form-black  mb-0">
+                                    <input type="text" id="defaultTaskName" class="form-control form-control-lg "
+                                           th:field="${defaultTask.name}"/>
+                                    <label class="form-label" for="defaultTaskName">Default Task Name:</label>
+                                    <div class="form-notch">
+                                        <div class="form-notch-leading" style="width: 9px;"></div>
+                                        <div class="form-notch-middle" style="width: 65px;"></div>
+                                        <div class="form-notch-trailing"></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-outline mb-0 mt-2">
+                                    <span th:errors="${defaultTask.name}"
+                                          class="error_span text-danger justify-content-end "></span>
+                                </div>
+
+
+                                <div class="form-outline form-black mt-4 mb-0">
+                                    <input type="number" min="0" id="time" class="form-control form-control-lg "
+                                           th:field="${defaultTask.timeRequired}" required/>
+                                    <label class="form-label" for="time">Time required</label>
+                                    <div class="form-notch">
+                                        <div class="form-notch-leading" style="width: 9px;"></div>
+                                        <div class="form-notch-middle" style="width: 90px;"></div>
+                                        <div class="form-notch-trailing"></div>
+                                    </div>
+                                </div>
+                                <div class="form-outline  mb-0 mt-2">
+                                    <span th:errors="${defaultTask.timeRequired}"
+                                          class="error_span text-danger justify-content-end "></span>
+                                </div>
+                                <button class="btn btn-outline-dark mt-4 btn-sm px-5" type="submit"
+                                        th:text="${btnName}"></button>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const inputs = document.querySelectorAll("input");
+
+
+
+        inputs.forEach(e => {
+            if (e.value) {
+                e.classList.add('active');
+            }
+        });
+
+        inputs.forEach(el => {
+            el.addEventListener('blur', e => {
+                if (e.target.value) {
+                    e.target.classList.add('active');
+                } else {
+                    e.target.classList.remove('active')
+                }
+            })
+        });
+    </script>
+</section>
+
+
 </body>
 </html>
