@@ -46,6 +46,17 @@
                                 <div class="form-outline  mb-0 mt-2">
                                     <span th:errors="${defaultTask.timeRequired}"
                                           class="error_span text-danger justify-content-end "></span>
+
+                                    <div th:if="${#lists.size(tags) > 0}">
+                                        <h3>Tags (optional):</h3>
+                                        <th:block th:each="tag : ${tags}">
+                                            <div class="form-check form-check-inline">
+                                                <input type="checkbox" th:field="${defaultTask.tags}" th:value="${tag.id}" class="form-check-input">
+                                                <label class="form-check-label" th:for="${#ids.prev('tags')}" th:text="${tag.name}"></label>
+                                            </div>
+                                        </th:block>
+                                    </div>
+
                                 </div>
                                 <button class="btn btn-outline-dark mt-4 btn-sm px-5" type="submit"
                                         th:text="${btnName}"></button>
