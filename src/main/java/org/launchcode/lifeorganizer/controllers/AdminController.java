@@ -41,6 +41,8 @@ public class AdminController extends BaseController{
         model.addAttribute("title", "Create a new default task");
         model.addAttribute("defaultTask", new DefaultTask());
         model.addAttribute("defaultTasks", defaultTaskRepository.findAll());
+        model.addAttribute("btnName","Create");
+
         return "admin/default-create";
     }
 
