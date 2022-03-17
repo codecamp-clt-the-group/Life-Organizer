@@ -41,6 +41,13 @@ public class User {
     @NotNull
     private boolean admin = false;
 
+    @ManyToMany
+    @JoinTable(
+            name = "user_tag",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private List<Tag> tags = new ArrayList<>();
+
     //no-args-constructor
     public User() {
     }
@@ -115,5 +122,13 @@ public class User {
 
     public List<Tasklist> getTasklists() {
         return tasklists;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 }

@@ -69,6 +69,16 @@
             </div>
         </div>
 
+        <div th:if="${#lists.size(tags) > 0}">
+            <h4>Tags (optional):</h4>
+            <th:block th:each="tag : ${tags}">
+                <div class="form-check form-check-inline">
+                    <input type="checkbox" th:field="${user.tags}" th:value="${tag.id}" class="form-check-input">
+                    <label class="form-check-label" th:for="${#ids.prev('tags')}" th:text="${tag.name}"></label>
+                </div>
+            </th:block>
+        </div>
+
         <div class="row form-group justify-content-center">
             <input class="btn btn-success" type="submit" value="Change options"/>
         </div>

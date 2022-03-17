@@ -23,6 +23,9 @@ public class Tag {
     @ManyToMany(mappedBy = "tags")
     private List<Task> tasks = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "tags")
+    private List<User> users = new ArrayList<>();
+
     public Tag () {}
 
     public int getId() {
@@ -43,5 +46,13 @@ public class Tag {
 
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }
