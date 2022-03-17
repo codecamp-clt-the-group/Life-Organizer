@@ -7,6 +7,7 @@ import org.launchcode.lifeorganizer.models.DefaultTask;
 import org.launchcode.lifeorganizer.models.Tag;
 import org.launchcode.lifeorganizer.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -61,12 +62,15 @@ public class AdminController extends BaseController{
     public String displayTagsPage(Model model) {
         model.addAttribute(new Tag());
         model.addAttribute("tags", tagRepository.findAll());
+        model.addAttribute("title", "Add a tag");
         return "admin/tags";
     }
 
     @PostMapping("tags")
-    public String processTags(@ModelAttribute @Valid Tag tag, Errors errors, HttpServletRequest request) {
+    public String processTags(@ModelAttribute @Valid Tag tag, Errors errors, HttpServletRequest request, Model model) {
         if (errors.hasErrors()) {
+            model.addAttribute("tags", tagRepository.findAll());
+            model.addAttribute("title", "Add a tag");
             return "admin/tags";
         }
         tagRepository.save(tag);
