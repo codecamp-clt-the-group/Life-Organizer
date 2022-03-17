@@ -107,5 +107,6 @@
 <span th:fragment="displayTask" th:text="${task.name}"></span>
 <span th:fragment="displayPriority" th:text="${task.priority}"></span>
 <span th:fragment="displayRequiredTime" th:text="|(${task.timeRequired} minutes)|"></span>
+<span th:fragment="displayDueDate" th:text="${{task.dueDate}}"></span>
 </body>
 </html>
