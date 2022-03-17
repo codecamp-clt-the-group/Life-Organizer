@@ -21,6 +21,13 @@ public class Task {
     @ManyToMany(mappedBy = "tasks")
     private List<Tasklist> tasklists = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "task_tag",
+            joinColumns = @JoinColumn(name = "task_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private List<Tag> tags = new ArrayList<>();
+
     @NotEmpty(message = "Task must not be empty.")
     @Size(min = 3, message = "Task name must be at least 3 characters long")
     @Size(max=200,message = "task name must be under 200 characters")
@@ -89,6 +96,14 @@ public class Task {
 
     public void setTasklists(List<Tasklist> tasklists) {
         this.tasklists = tasklists;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 
     public TaskPriority getPriority() {
