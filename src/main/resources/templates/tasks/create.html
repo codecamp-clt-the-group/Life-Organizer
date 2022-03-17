@@ -48,6 +48,22 @@
                                 </div>
 
                                 <div class="form-outline form-black mt-4 mb-0">
+                                    <input type="date" id="dueDate" class="form-control form-control-lg "
+                                           th:field="${{task.dueDate}}">
+                                    <label class="form-label" for="dueDate">Due Date</label>
+
+                                    <div class="form-notch">
+                                        <div class="form-notch-leading" style="width: 9px;"></div>
+                                        <div class="form-notch-middle" style="width: 90px;"></div>
+                                        <div class="form-notch-trailing"></div>
+                                    </div>
+                                </div>
+                                <div class="form-outline  mb-0 mt-2">
+                                    <span th:errors="${{task.dueDate}}"
+                                          class="error_span text-danger justify-content-end "></span>
+                                </div>
+
+                                <div class="form-outline form-black mt-4 mb-0">
 
                                     <label>Priority (optional):
                                         <select th:replace="fragments :: selectPriority"></select>
