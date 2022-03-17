@@ -5,7 +5,6 @@
 <body>
 <nav th:replace="fragments::navbar"></nav>
 
-
 <section class=" logged-in-section  " style="height: 93vh">
     <div class="container py-5 h-100">
         <div class="row  justify-content-center align-items-center h-100">
@@ -47,6 +46,23 @@
                                     <span th:errors="${task.timeRequired}"
                                           class="error_span text-danger justify-content-end "></span>
                                 </div>
+
+                                <div class="form-outline form-black mt-4 mb-0">
+
+                                    <label>Priority (optional):
+                                        <select th:replace="fragments :: selectPriority"></select>
+                                    </label>
+                                    <div class="form-notch">
+                                        <div class="form-notch-leading" style="width: 9px;"></div>
+                                        <div class="form-notch-middle" style="width: 90px;"></div>
+                                        <div class="form-notch-trailing"></div>
+                                    </div>
+                                </div>
+                                <div class="form-outline  mb-0 mt-2">
+                                    <span th:errors="${task.priority}"
+                                          class="error_span text-danger justify-content-end "></span>
+                                </div>
+
                                 <button class="btn btn-outline-dark mt-4 btn-sm px-5" type="submit"
                                         th:text="${btnName}"></button>
 
@@ -81,6 +97,7 @@
         });
     </script>
 </section>
+
 
 
 </body>

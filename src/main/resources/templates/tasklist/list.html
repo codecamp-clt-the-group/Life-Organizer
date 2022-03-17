@@ -4,10 +4,26 @@
 <body>
 <nav th:replace="fragments::navbar"></nav>
 
+<table>
+    <tr>
+        <th colspan="2">Task name</th>
+    </tr>
+    <tr th:each="task : ${tasks}">
+        <td>
+            <span th:if="${task.isComplete}" style="text-decoration: line-through"><a th:href="${'/tasks/'+ task.id}" th:text="${task.name}"></a></span>
+            <span th:unless="${task.isComplete}"><a th:href="${'/tasks/'+ task.id}" th:text="${task.name}"></a></span>
+        </td>
+        <td th:text="${task.timeRequired}"></td>
+        <td th:text="${task.priority.displayName}"></td>
+        <td>
+        </td>
+    </tr>
+</table>
 <h1 th:text="${tasklist}"></h1>
 <ul>
     <li th:each="task : ${tasks}"><a th:replace="fragments :: displayTaskWithLink"></a> <span th:replace="fragments :: displayRequiredTime"></span></li>
 </ul>
+
 
 </body>
 </html>

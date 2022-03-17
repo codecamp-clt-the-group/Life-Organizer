@@ -19,6 +19,7 @@
                                 <tr>
                                     <th scope="col">Name</th>
                                     <th scope="col">Estimated time</th>
+                                    <th scope="col">Priority</th>
                                     <th scope="col"></th>
                                 </tr>
                                 </thead>
@@ -29,6 +30,9 @@
                                     </td>
                                     <td>
                                         <span th:replace="fragments :: displayRequiredTime"></span>
+                                    </td>
+                                    <td>
+                                        <span th:replace="fragments :: displayPriority"></span>
                                     </td>
                                     <td>
                                         <form method="post" action="/tasks/delete">
