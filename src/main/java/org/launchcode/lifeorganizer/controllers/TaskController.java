@@ -34,7 +34,6 @@ public class TaskController extends BaseController{
     private DefaultTaskRepository defaultTaskRepository;
 
     private static final String userSessionKey = "user";
-    private TaskPriority tPriority;
 
     public User getUserFromSession(HttpSession session) {
         return getLoggedUser(session, userSessionKey, userRepository);
