@@ -46,6 +46,22 @@
                                           class="error_span text-danger justify-content-end "></span>
                                 </div>
 
+                                <div class="form-outline form-black mt-4 mb-0">
+
+                                    <label>Priority (optional):
+                                        <select th:replace="fragments :: selectPriority"></select>
+                                    </label>
+                                    <div class="form-notch">
+                                        <div class="form-notch-leading" style="width: 9px;"></div>
+                                        <div class="form-notch-middle" style="width: 90px;"></div>
+                                        <div class="form-notch-trailing"></div>
+                                    </div>
+                                </div>
+                                <div class="form-outline  mb-0 mt-2">
+                                    <span th:errors="${task.priority}"
+                                          class="error_span text-danger justify-content-end "></span>
+                                </div>
+
                                 <div th:if="${#lists.size(tags) > 0}">
                                     <h3>Tags (optional):</h3>
                                     <th:block th:each="tag : ${tags}">

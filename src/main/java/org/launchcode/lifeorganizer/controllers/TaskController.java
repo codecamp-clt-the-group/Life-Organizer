@@ -7,6 +7,7 @@ import org.launchcode.lifeorganizer.data.UserRepository;
 import org.launchcode.lifeorganizer.models.DefaultTask;
 import org.launchcode.lifeorganizer.models.Tag;
 import org.launchcode.lifeorganizer.models.Task;
+import org.launchcode.lifeorganizer.models.TaskPriority;
 import org.launchcode.lifeorganizer.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -156,6 +157,7 @@ public class TaskController extends BaseController{
             requestedTask.get().setName(task.getName());
             requestedTask.get().setTimeRequired(task.getTimeRequired());
             requestedTask.get().setTags(task.getTags());
+            requestedTask.get().setPriority(task.getPriority());
             taskRepository.save(requestedTask.get());
             return "redirect:/tasks";
         }
@@ -188,7 +190,7 @@ public class TaskController extends BaseController{
 
     @PostMapping("convert-default-task")
     public String processConvertDefaultTask(@RequestParam(required = false) int id,HttpServletRequest request, Model model) {
-        Task newTask = new Task(defaultTaskRepository.findById(id).get().getName(), defaultTaskRepository.findById(id).get().getTimeRequired(), false);
+        Task newTask = new Task(defaultTaskRepository.findById(id).get().getName(), defaultTaskRepository.findById(id).get().getTimeRequired(), false, TaskPriority.LOW);
         User user = authenticationController.getUserFromSession(request.getSession());
 
         newTask.setUser(user);

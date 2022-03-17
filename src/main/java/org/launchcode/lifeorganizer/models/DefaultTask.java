@@ -42,4 +42,5 @@ public class DefaultTask{
     public void setTimeRequired(int timeRequired) {
         this.timeRequired = timeRequired;
     }
+
 }
