@@ -59,5 +59,29 @@
         </div>
     </div>
 
+    <script>
+        const inputs = document.querySelectorAll("input");
+
+
+
+        inputs.forEach(e => {
+            if (e.value) {
+                e.classList.add('active');
+            }
+        });
+
+        inputs.forEach(el => {
+            el.addEventListener('blur', e => {
+                if (e.target.value) {
+                    e.target.classList.add('active');
+                } else {
+                    e.target.classList.remove('active')
+                }
+            })
+        });
+    </script>
+</section>
+
+
 </body>
 </html>
