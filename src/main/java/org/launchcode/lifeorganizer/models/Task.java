@@ -1,11 +1,14 @@
 package org.launchcode.lifeorganizer.models;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -33,13 +36,17 @@ public class Task {
 
     private TaskPriority priority;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date dueDate;
+
     public Task () {}
 
-    public Task(String name, int timeRequired, boolean isComplete, TaskPriority priority) {
+    public Task(String name, int timeRequired, boolean isComplete, TaskPriority priority, Date dueDate) {
         this.name = name;
         this.timeRequired = timeRequired;
         this.isComplete = isComplete;
         this.priority = priority;
+        this.dueDate = dueDate;
     }
 
     public int getId() {
@@ -97,5 +104,13 @@ public class Task {
 
     public void setPriority(TaskPriority priority) {
         this.priority = priority;
+    }
+
+    public Date getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
     }
 }
