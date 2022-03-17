@@ -1,5 +1,6 @@
 package org.launchcode.lifeorganizer.controllers;
 
+import org.launchcode.lifeorganizer.data.TagRepository;
 import org.launchcode.lifeorganizer.models.*;
 import org.launchcode.lifeorganizer.data.TasklistRepository;
 import org.launchcode.lifeorganizer.data.UserRepository;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("profile")
@@ -24,6 +27,8 @@ public class ProfileController extends BaseController{
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    private TagRepository tagRepository;
 
     @GetMapping
     public String displayProfile(HttpServletRequest request, Model model){
@@ -44,13 +49,14 @@ public class ProfileController extends BaseController{
         newOption.setFirstName(current.getFirstName());
         newOption.setLastName(current.getLastName());
         newOption.setUserName(current.getUserName());
+        model.addAttribute("tags", tagRepository.findAll());
         model.addAttribute("optionFormDTO",newOption);
         model.addAttribute("user",current);
         return "profile/options";
     }
 
     @PostMapping("options")
-    public String processDisplayChangeForm(@ModelAttribute @Valid OptionFormDTO optionFormDTO, Errors errors, HttpServletRequest request, Model model){
+    public String processDisplayChangeForm(@ModelAttribute @Valid OptionFormDTO optionFormDTO, Errors errors, HttpServletRequest request, Model model, @RequestParam int[] tags){
         User current = authenticationController.getUserFromSession(request.getSession());
         User toUpdate = userRepository.findById(current.getId()).get();
 
@@ -61,6 +67,11 @@ public class ProfileController extends BaseController{
         String newLast = optionFormDTO.getLastName();
         String newEmail = optionFormDTO.getEmail();
 
+        List<Tag> selectedTags = new ArrayList<>();
+        for (int id : tags) {
+            Optional<Tag> tag = tagRepository.findById(id);
+            tag.ifPresent(selectedTags::add);
+        }
 
         if(!newPass.equals("") || !verify.equals("") || !curPass.equals("")) {
             if (!current.verifyPassword(curPass)) {
@@ -79,6 +90,7 @@ public class ProfileController extends BaseController{
         }
 
         model.addAttribute("title", "Options");
+        model.addAttribute("tags", tagRepository.findAll());
         if (errors.hasErrors()) {
             return "profile/options";
         }
@@ -90,7 +102,7 @@ public class ProfileController extends BaseController{
         toUpdate.setFirstName(newFirst);
         toUpdate.setLastName(newLast);
         toUpdate.setEmail(newEmail);
-
+        toUpdate.setTags(selectedTags);
 
         userRepository.save(toUpdate);
         model.addAttribute("msg","Profile updated successfully");

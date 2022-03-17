@@ -22,5 +22,15 @@
         </table>
     </div>
 </div>
+
+<div th:if="${#lists.size(user.tags) > 0}">
+    <h4>Tags:</h4>
+    <ul>
+    <th:block th:each="tag : ${user.tags}">
+        <li th:text="${tag.name}"></li>
+    </th:block>
+    </ul>
+</div>
+
 </body>
 </html>
