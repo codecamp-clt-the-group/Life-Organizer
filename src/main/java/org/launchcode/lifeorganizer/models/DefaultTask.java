@@ -1,10 +1,10 @@
 package org.launchcode.lifeorganizer.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class DefaultTask{
@@ -17,6 +17,13 @@ public class DefaultTask{
     private String name;
 
     private int timeRequired;
+
+    @ManyToMany
+    @JoinTable(
+            name = "defaultTask_tag",
+            joinColumns = @JoinColumn(name = "defaultTask_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private List<Tag> tags = new ArrayList<>();
 
     public DefaultTask () {}
 
@@ -43,4 +50,11 @@ public class DefaultTask{
         this.timeRequired = timeRequired;
     }
 
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
 }
