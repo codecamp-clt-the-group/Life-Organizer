@@ -19,6 +19,7 @@
                                 <tr>
                                     <th scope="col">Name</th>
                                     <th scope="col">Estimated time</th>
+                                    <th scope="col">Due Date</th>
                                     <th scope="col">Priority</th>
                                     <th scope="col"></th>
                                 </tr>
@@ -30,6 +31,9 @@
                                     </td>
                                     <td>
                                         <span th:replace="fragments :: displayRequiredTime"></span>
+                                    </td>
+                                    <td>
+                                        <span th:replace="fragments :: displayDueDate"></span>
                                     </td>
                                     <td>
                                         <span th:replace="fragments :: displayPriority"></span>
