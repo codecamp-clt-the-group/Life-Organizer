@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body>
+<nav th:replace="fragments::navbar"></nav>
+
+<div class="container">
+    <form method="post">
+        <label>Tag Name:
+            <input type="text" th:field="${tag.name}">
+        </label>
+        <p th:errors="${tag.name}"></p>
+        <button>Submit</button>
+    </form>
+    <h1>Tags</h1>
+    <ul th:unless="${#lists.isEmpty(tags)}">
+        <li th:each="tag : ${tags}" th:text="${tag.name}"></li>
+    </ul>
+    <h2 th:if="${#lists.isEmpty(tags)}">No tags added yet. Add a tag from the form above.</h2>
+
+</div>
+
+</body>
+</html>

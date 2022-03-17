@@ -17,13 +17,13 @@ import java.util.List;
 
 @Controller
 @RequestMapping("profile")
-public class ProfileController {
+public class ProfileController extends BaseController{
     @Autowired
     TasklistRepository tasklistRepository;
+
     @Autowired
     UserRepository userRepository;
-    @Autowired
-    AuthenticationController authenticationController;
+
 
     @GetMapping
     public String displayProfile(HttpServletRequest request, Model model){
