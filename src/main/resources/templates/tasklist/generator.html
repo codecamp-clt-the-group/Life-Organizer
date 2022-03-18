@@ -352,49 +352,104 @@
                                                required>
                                     </div>
 
-                                    <div>
-                                        <h2>Suggested Tasks</h2>
-                                        <hr/>
-                                        <div class="container" th:if="${suggestedTasks}">
-                                            <div class="row" style="text-align:start!important;"
-                                                 th:each="task : ${suggestedTasks}">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" name="taskIds"
-                                                           th:value="${task.id}" th:id="${task.id}">
-                                                    <label class="form-check-label" th:for="${task.id}"
-                                                           th:text="${task.name}">
-                                                    </label>
+                                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <a class="nav-link active" id="suggested-tab" data-toggle="tab" href="#suggested" role="tab" aria-controls="suggested" aria-selected="true">Suggested</a>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <a class="nav-link" id="all-tasks-tab" data-toggle="tab" href="#all-tasks" role="tab" aria-controls="all-tasks" aria-selected="false">All Available Tasks</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content" id="myTabContent">
+                                        <div class="tab-pane fade show active" id="suggested" role="tabpanel" aria-labelledby="suggested-tab">
+                                            <div class="accordion" id="accordionExample">
+                                                <div class="card">
+                                                    <div class="card-header" id="headingOne">
+                                                        <h2 class="mb-0">
+                                                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                                By your available time
+                                                            </button>
+                                                        </h2>
+                                                    </div>
+
+                                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                                        <div class="card-body">
+                                                            <div class="container" th:if="${suggestedTasks}">
+                                                                <div class="row" style="text-align:start!important;"
+                                                                     th:each="task : ${suggestedTasks}">
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="checkbox" name="taskIds"
+                                                                               th:value="${task.id}" th:id="|${task.id}-suggestedByTime|">
+                                                                        <label class="form-check-label" th:for="|${task.id}-suggestedByTime|"
+                                                                               th:text="|${task.name} - Priority: ${task.priority} - (${task.timeRequired} minutes)|">
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <h4 class="text-black-50" th:unless="${suggestedTasks}">No tasks suggested for your timeframe</h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card">
+                                                    <div class="card-header" id="headingTwo">
+                                                        <h2 class="mb-0">
+                                                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                                By due date
+                                                            </button>
+                                                        </h2>
+                                                    </div>
+                                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                                        <div class="card-body">
+                                                            <div class="container">
+                                                                <div class="row" style="text-align:start!important;"
+                                                                     th:each="task : ${tasksWithDueDate}">
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="checkbox" name="taskIds"
+                                                                               th:value="${task.id}" th:id="|${task.id}-suggestedByDueDate|">
+                                                                        <label class="form-check-label" th:for="|${task.id}-suggestedByDueDate|"
+                                                                               th:text="|${task.name} - Priority: ${task.priority} - Due date: ${#dates.format(task.getDueDate(), 'dd/MM/yyyy')}|">
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card">
+                                                    <div class="card-header" id="headingThree">
+                                                        <h2 class="mb-0">
+                                                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                                By priority
+                                                            </button>
+                                                        </h2>
+                                                    </div>
+                                                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                                        <div class="card-body">
+                                                            And lastly, the placeholder content for the third and final accordion panel. This panel is hidden by default.
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <h4 class="text-black-50" th:unless="${suggestedTasks}">No tasks suggested for your
-                                        timeframe</h4>
-                                    <hr/>
-                                    <div>
-                                        <h2>All available Tasks</h2>
-                                        <hr/>
-                                        <div class="container" th:if="${allTasks}">
-                                            <div class="row" style="text-align:start!important;"
-                                                 th:each="task : ${allTasks}">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" name="taskIds"
-                                                           th:value="${task.id}" th:id="${task.id+'at'}">
-                                                    <label class="form-check-label" th:for="${task.id+'at'}"
-                                                           th:text="${task.name}">
-                                                    </label>
+                                        <div class="tab-pane fade" id="all-tasks" role="tabpanel" aria-labelledby="all-tasks-tab">
+                                            <div class="container" th:if="${allTasks}">
+                                                <div class="row" style="text-align:start!important;"
+                                                     th:each="task : ${allTasks}">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" name="taskIds"
+                                                               th:value="${task.id}" th:id="${task.id+'at'}">
+                                                        <label class="form-check-label" th:for="${task.id+'at'}"
+                                                               th:text="${task.name}">
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <div class="form-outline mb-0 mt-2">
+                                                <span th:if="${emptyIds}" th:text="${emptyIds}" class="error_span text-danger justify-content-end "></span>
+                                            </div>
+                                            <h4 class="text-black-50" th:unless="${allTasks.size()>0}">No tasks to pick from</h4>
                                         </div>
-                                    </div>
-
-                                    <h4 class="text-black-50" th:unless="${allTasks.size()>0}">No tasks to pick
-                                        from</h4>
-
-                                    <div class="form-outline mb-0 mt-2">
-                                        <span th:if="${emptyIds}" th:text="${emptyIds}"
-                                              class="error_span text-danger justify-content-end "></span>
                                     </div>
 
                                     <div th:if="${allTasks.size()>0}">
