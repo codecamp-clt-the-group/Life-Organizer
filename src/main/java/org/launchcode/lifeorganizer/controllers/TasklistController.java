@@ -87,17 +87,23 @@ public class TasklistController extends BaseController{
         }
         model.addAttribute("allTasks", availableTasks);
 
-        // generate suggested tasks for available time allocation
+        // generate suggested tasks for available time allocation and with due date
         List<Task> suggestedTasks = new ArrayList<>();
         List<Task> sortPriority = new ArrayList<>();
-
+        List<Task> availableTasksWithDueDate = new ArrayList<>();
         Comparator priorityComp = new PriorityComparator();
+
         for (Task task : availableTasks) {
             if (task.getTimeRequired() > 0 && timeAvailable > task.getTimeRequired()) {
                 suggestedTasks.add(task);
                 timeAvailable = timeAvailable - task.getTimeRequired();
             }
+
             sortPriority = suggestedTasks;
+
+            if (task.getDueDate() != null) {
+                availableTasksWithDueDate.add(task);
+            }
         }
 
         sortPriority.sort(new PriorityComparator());
@@ -107,6 +113,10 @@ public class TasklistController extends BaseController{
             model.addAttribute("sortPriority", sortPriority);
 
         }
+
+        //sorting due dates
+        availableTasksWithDueDate.sort(Comparator.comparing(Task::getDueDate));
+        model.addAttribute("tasksWithDueDate", availableTasksWithDueDate);
         model.addAttribute("fillTask","fill");
         return "tasklist/generator";
     }
