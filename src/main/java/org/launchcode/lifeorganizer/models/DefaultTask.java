@@ -1,7 +1,6 @@
 package org.launchcode.lifeorganizer.models;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,4 +56,10 @@ public class DefaultTask{
     public void setTags(List<Tag> tags) {
         this.tags = tags;
     }
+
+//    public Task createTask() {
+//        Date newDate = new Date();
+//        Task newTask = new Task(defaultTaskRepository.findById(id).get().getName(), defaultTaskRepository.findById(id).get().getTimeRequired(), false, TaskPriority.LOW, newDate);
+//        return newTask;
+//    }
 }
