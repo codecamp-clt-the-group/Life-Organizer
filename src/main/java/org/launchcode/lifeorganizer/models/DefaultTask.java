@@ -1,13 +1,8 @@
 package org.launchcode.lifeorganizer.models;
 
-import org.launchcode.lifeorganizer.data.DefaultTaskRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
