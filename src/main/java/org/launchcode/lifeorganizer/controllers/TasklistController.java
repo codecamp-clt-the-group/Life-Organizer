@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping("tasklist")
@@ -91,12 +89,17 @@ public class TasklistController extends BaseController{
         }
         model.addAttribute("allTasks", availableTasks);
 
-        // generate suggested tasks for available time allocation
+        // generate suggested tasks for available time allocation and with due date
         List<Task> suggestedTasks = new ArrayList<>();
+        List<Task> availableTasksWithDueDate = new ArrayList<>();
         for (Task task : availableTasks) {
             if (task.getTimeRequired() > 0 && timeAvailable > task.getTimeRequired()) {
                 suggestedTasks.add(task);
                 timeAvailable = timeAvailable - task.getTimeRequired();
+            }
+
+            if (task.getDueDate() != null) {
+                availableTasksWithDueDate.add(task);
             }
         }
 
@@ -105,6 +108,10 @@ public class TasklistController extends BaseController{
             model.addAttribute("suggestedTasks", suggestedTasks);
 
         }
+
+        //sorting due dates
+        availableTasksWithDueDate.sort(Comparator.comparing(Task::getDueDate));
+        model.addAttribute("tasksWithDueDate", availableTasksWithDueDate);
         model.addAttribute("fillTask","fill");
         return "tasklist/generator";
     }
