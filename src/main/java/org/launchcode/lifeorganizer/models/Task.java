@@ -128,4 +128,8 @@ public class Task {
     public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
+
+    public void addTags(List<Tag> tags) {
+        this.tags.addAll(tags);
+    }
 }
