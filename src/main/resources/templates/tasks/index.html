@@ -1,68 +1,103 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head th:replace="fragments :: head"></head>
-<body>
-<nav th:replace="fragments::navbar"></nav>
+<th:block th:replace="fragments :: header"></th:block>
+<th:block th:insert="fragments::navbar"></th:block>
 
+<div class="signin-container">
+    <main class="app-container text-center">
+            <h1 class="display-1"><th:block th:insert="fragments :: brandLogo"></th:block></h1>
+            <h1 class="h1 my-3 fw-bold" th:insert="fragments :: appName"></h1>
+            <h1 class="h3 my-3 fw-bold" th:text="${title}"></h1>
 
-<section class=" logged-in-section  " style="height: 93vh">
-
-    <div class="container py-5 h-100">
-        <div class="row  justify-content-center align-items-center h-100">
-            <div class="col-12  col-md-8 col-lg-10 col-xl-10">
-                <div class="card list-card text-white shadow-lg" style="border-radius: 1rem;">
-                    <h1 class="text-black">My Tasks</h1>
-                    <div class="list-view card-body col-10 col-md-7 col-lg-9 col-xl-9  p-2 text-center">
-                        <div class=" mb-md-2 mt-3 ">
-                            <table class=" table ">
-                                <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Estimated time</th>
-                                    <th scope="col">Due Date</th>
-                                    <th scope="col">Priority</th>
-                                    <th scope="col"></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="task : ${tasks}">
-                                    <td>
-                                        <a th:replace="fragments :: displayTaskWithLink"></a>
-                                    </td>
-                                    <td>
-                                        <span th:replace="fragments :: displayRequiredTime"></span>
-                                    </td>
-                                    <td>
-                                        <span th:replace="fragments :: displayDueDate"></span>
-                                    </td>
-                                    <td>
-                                        <span th:replace="fragments :: displayPriority"></span>
-                                    </td>
-                                    <td>
-                                        <form method="post" action="/tasks/delete">
-                                            <input type="hidden" name="id" th:value="${task.id}">
-                                            <a th:href="${'/tasks/'+ task.id + '/edit'}" class="btn btn-sm btn-outline-success">EDIT</a>
-                                            <button class="btn btn-sm btn-outline-danger">Delete</button>
-                                        </form>
-                                    </td>
-                                </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <a class="pb-1" th:href="@{/tasks/create}">
-                        <button th:href="@{/tasks/create}" class="btn btn-sm btn-outline-success">New task</button>
-                    </a>
-
+            <div class="card my-2">
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">First</th>
+                            <th scope="col">Last</th>
+                            <th scope="col">Handle</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Jacob</td>
+                            <td>Thornton</td>
+                            <td>@fat</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td colspan="2">Larry the Bird</td>
+                            <td>@twitter</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
+
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+            <p class="mt-2 text-muted">Don't have an account? <a th:href="@{signup}">Sign Up</a></p>
+        </form>
+    </main>
+</div>
+
+<th:block th:replace="fragments :: footer"></th:block>
+
+<!--                            <table class=" table ">-->
+<!--                                <thead class="thead-dark">-->
+<!--                                <tr>-->
+<!--                                    <th scope="col">Name</th>-->
+<!--                                    <th scope="col">Estimated time</th>-->
+<!--                                    <th scope="col">Due Date</th>-->
+<!--                                    <th scope="col">Priority</th>-->
+<!--                                    <th scope="col"></th>-->
+<!--                                </tr>-->
+<!--                                </thead>-->
+<!--                                <tbody>-->
+<!--                                <tr th:each="task : ${tasks}">-->
+<!--                                    <td>-->
+<!--                                        <a th:replace="fragments :: displayTaskWithLink"></a>-->
+<!--                                    </td>-->
+<!--                                    <td>-->
+<!--                                        <span th:replace="fragments :: displayRequiredTime"></span>-->
+<!--                                    </td>-->
+<!--                                    <td>-->
+<!--                                        <span th:replace="fragments :: displayDueDate"></span>-->
+<!--                                    </td>-->
+<!--                                    <td>-->
+<!--                                        <span th:replace="fragments :: displayPriority"></span>-->
+<!--                                    </td>-->
+<!--                                    <td>-->
+<!--                                        <form method="post" action="/tasks/delete">-->
+<!--                                            <input type="hidden" name="id" th:value="${task.id}">-->
+<!--                                            <a th:href="${'/tasks/'+ task.id + '/edit'}" class="btn btn-sm btn-outline-success">EDIT</a>-->
+<!--                                            <button class="btn btn-sm btn-outline-danger">Delete</button>-->
+<!--                                        </form>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+
+<!--                                </tbody>-->
+<!--                            </table>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <a class="pb-1" th:href="@{/tasks/create}">-->
+<!--                        <button th:href="@{/tasks/create}" class="btn btn-sm btn-outline-success">New task</button>-->
+<!--                    </a>-->
+
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
 
 
 
 
-</body>
-</html>
+<!--</body>-->
+<!--</html>-->
