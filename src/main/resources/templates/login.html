@@ -3,8 +3,9 @@
 <div class="signin-container">
     <main class="form-signin text-center">
         <form method="post" th:object="${loginFormDTO}">
-            <h1 class="display-1"><i class="bi bi-calendar-plus"></i></h1>
-            <h1 class="h2 my-3 fw-bold">Life-Organizer</h1>
+            <h1 class="display-1"><th:block th:insert="fragments :: brandLogo"></th:block></h1>
+            <h1 class="h1 my-3 fw-bold" th:insert="fragments :: appName"></h1>
+            <h1 class="h3 my-3 fw-bold">Log in</h1>
 
             <div th:if="${#fields.hasAnyErrors()}" class="card my-2">
                 <div class="card-body text-start text-danger">
