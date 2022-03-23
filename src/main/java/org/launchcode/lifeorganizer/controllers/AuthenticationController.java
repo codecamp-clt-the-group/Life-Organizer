@@ -26,8 +26,6 @@ public class AuthenticationController{
     @Autowired
     UserRepository userRepository;
 
-    static final String SIGN_UP_TITLE = "Sign-Up";
-
     private static final String userSessionKey = "user";
 
     public User getUserFromSession(HttpSession session) {
@@ -41,7 +39,7 @@ public class AuthenticationController{
     @GetMapping("/signup")
     public String displaySignupForm(Model model) {
         model.addAttribute(new SignupFormDTO());
-        model.addAttribute("title", SIGN_UP_TITLE);
+        model.addAttribute("title", "Create an account");
         return "signup";
     }
 
@@ -63,7 +61,7 @@ public class AuthenticationController{
             errors.rejectValue("pwdHash", "pwdHash.mismatch", "Passwords must match");
         }
         if (errors.hasErrors()) {
-            model.addAttribute("title", SIGN_UP_TITLE);
+            model.addAttribute("title", "Errors occur in account creation. Invalid data.");
             return "signup";
         }
         User newUser = new User(signupFormDTO.getUserName(), signupFormDTO.getFirstName(), signupFormDTO.getLastName(), signupFormDTO.getEmail(), signupFormDTO.getPwdHash());
@@ -80,6 +78,7 @@ public class AuthenticationController{
     @GetMapping("login")
     public String displayLoginForm(Model model) {
         model.addAttribute(new LoginFormDTO());
+        model.addAttribute("title", "Log in");
         return "login";
     }
 
@@ -91,6 +90,7 @@ public class AuthenticationController{
 
         if (userRepository.findByUserName(loginFormDTO.getUserName()) == null){
             errors.rejectValue("userName", "userName.invalid", "The username provided is not valid");
+            model.addAttribute("title", "Errors occur. Please log in with valid credentials.");
             return "login";
         }
         User theUser = userRepository.findByUserName(loginFormDTO.getUserName());
@@ -101,6 +101,7 @@ public class AuthenticationController{
             errors.rejectValue("pwdHash", "pwdHash.invalid", "Invalid Password");
         }
         if (errors.hasErrors()) {
+            model.addAttribute("title", "Errors occur. Please log in with valid credentials.");
             return "login";
         }
         setUserInSession(request.getSession(), theUser);
@@ -109,7 +110,7 @@ public class AuthenticationController{
         User user = getUserFromSession(session);
 
         model.addAttribute("user", user);
-
+        model.addAttribute("title", "User Homepage.");
         return "index";
     }
 

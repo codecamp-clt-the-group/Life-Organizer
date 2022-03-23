@@ -1,151 +1,50 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head th:replace="fragments :: head"></head>
-<body>
+<th:block th:replace="fragments :: header"></th:block>
 
-<section class="vh-100 register-section">
-    <div class="container py-5 h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-                <div class="card login-register-card text-white shadow-lg" style="border-radius: 1rem;">
-                    <div class="card-body p-8 text-center">
-                        <div class="mb-md-5 mt-4 ">
-                            <h2 class="fw-bold mb-4 text-uppercase">CREATE AN ACCOUNT</h2>
-                            <form method="post">
-                                <div class="form-outline  form-white mb-2">
-                                    <input autocomplete="off" type="text" id="username"
-                                           class="form-control form-control-lg"
-                                           th:field="${signupFormDTO.userName}"/>
-                                    <label class="form-label" for="username">Username</label>
-                                    <div class="form-notch">
-                                        <div class="form-notch-leading" style="width: 9px;"></div>
-                                        <div class="form-notch-middle" style="width: 65px;"></div>
-                                        <div class="form-notch-trailing"></div>
-                                    </div>
-                                </div>
-                                <div class="justify-content-end mb-1">
-                                    <span th:errors="${signupFormDTO.userName}"
-                                          class="error_span text-warning "></span>
-                                </div>
+<div class="signin-container">
+    <main class="form-signin text-center">
+        <form method="post" th:object="${signupFormDTO}">
+            <h1 class="display-1"><i class="bi bi-calendar-plus"></i></h1>
+            <h1 class="h2 my-3 fw-bold">Create an account</h1>
 
-
-                                <div class="form-outline  form-white mb-2">
-                                    <input type="text" id="firstname" class="form-control form-control-lg"
-                                           th:field="${signupFormDTO.firstName}"/>
-                                    <label class="form-label" for="firstname">First name</label>
-                                    <div class="form-notch">
-                                        <div class="form-notch-leading" style="width: 9px;"></div>
-                                        <div class="form-notch-middle" style="width: 66px;"></div>
-                                        <div class="form-notch-trailing"></div>
-                                    </div>
-                                </div>
-                                <div class=" mb-1  justify-content-end ">
-                                    <span th:errors="${signupFormDTO.firstName}"
-                                          class="error_span text-warning"></span>
-                                </div>
-
-
-                                <div class="form-outline  form-white mb-2">
-                                    <input type="text" id="lastName" class="form-control form-control-lg"
-                                           th:field="${signupFormDTO.lastName}"/>
-                                    <label class="form-label" for="lastName">Last name</label>
-                                    <div class="form-notch">
-                                        <div class="form-notch-leading" style="width: 9px;"></div>
-                                        <div class="form-notch-middle" style="width: 66px;"></div>
-                                        <div class="form-notch-trailing"></div>
-                                    </div>
-                                </div>
-                                <div class="form-outline  mb-1  justify-content-end ">
-                                    <span th:errors="${signupFormDTO.lastName}"
-                                          class="error_span text-warning"></span>
-                                </div>
-
-
-                                <div class="form-outline  form-white mb-2">
-                                    <input type="email" id="email" class="form-control form-control-lg"
-                                           th:field="${signupFormDTO.email}"/>
-                                    <label class="form-label" for="email">Email</label>
-                                    <div class="form-notch">
-                                        <div class="form-notch-leading" style="width: 9px;"></div>
-                                        <div class="form-notch-middle" style="width: 40px;"></div>
-                                        <div class="form-notch-trailing"></div>
-                                    </div>
-                                </div>
-                                <div class="form-outline  mb-1  justify-content-end ">
-                                    <span th:errors="${signupFormDTO.email}"
-                                          class="error_span text-warning"></span>
-                                </div>
-
-
-                                <div class="form-outline form-white mb-2">
-                                    <input type="password" id="typePasswordX"
-                                           class="form-control form-control-lg "
-                                           th:field="${signupFormDTO.pwdHash}"/>
-                                    <label class="form-label" for="typePasswordX">Password</label>
-                                    <div class="form-notch">
-                                        <div class="form-notch-leading" style="width: 9px;"></div>
-                                        <div class="form-notch-middle" style="width: 62px;"></div>
-                                        <div class="form-notch-trailing"></div>
-                                    </div>
-                                </div>
-                                <div class="form-outline  mb-1">
-                                    <span th:errors="${signupFormDTO.pwdHash}"
-                                          class="error_span text-warning justify-content-end "></span>
-                                </div>
-
-
-                                <div class="form-outline form-white mb-2">
-                                    <input type="password" id="verifyPassword"
-                                           class="form-control form-control-lg "
-                                           th:field="${signupFormDTO.verifyPassword}"/>
-                                    <label class="form-label" for="verifyPassword">Repeat Password</label>
-                                    <div class="form-notch">
-                                        <div class="form-notch-leading" style="width: 9px;"></div>
-                                        <div class="form-notch-middle" style="width: 110px;"></div>
-                                        <div class="form-notch-trailing"></div>
-                                    </div>
-                                </div>
-                                <div class="form-outline  mb-1">
-                                    <span th:errors="${signupFormDTO.verifyPassword}"
-                                          class="error_span text-warning justify-content-end "></span>
-                                </div>
-
-                                <button class="btn btn-outline-light btn-sm px-5" type="submit">Create account</button>
-                            </form>
-                        </div>
-                        <div>
-                            <p class="mb-0">Have already an account? <a th:href="@{sigin}"
-                                                                        class="text-white-50 fw-bold">Login
-                                Here</a></p>
-                        </div>
-                    </div>
+            <div th:if="${#fields.hasAnyErrors()}" class="card my-2">
+                <div class="card-body text-start text-danger">
+                    <ul class="list-unstyled m-0">
+                        <li th:each="err : ${#fields.allErrors()}" class="text-start text-danger small">
+                            <i class="bi bi-exclamation-circle-fill"></i>
+                            <span th:text="${err}"></span>
+                        </li>
+                    </ul>
                 </div>
             </div>
-        </div>
-    </div>
 
+            <div class="form-floating mb-2">
+                <input type="text" th:class="${#fields.hasErrors('userName')} ? 'form-control is-invalid' : 'form-control'" id="userName" placeholder="Username" th:field="*{userName}">
+                <label for="userName">Username</label>
+            </div>
+            <div class="form-floating mb-2">
+                <input type="text" th:class="${#fields.hasErrors('firstName')} ? 'form-control is-invalid' : 'form-control'" id="firstName" placeholder="First Name" th:field="*{firstName}">
+                <label for="firstName">First Name</label>
+            </div>
+            <div class="form-floating mb-2">
+                <input type="text" th:class="${#fields.hasErrors('lastName')} ? 'form-control is-invalid' : 'form-control'" id="lastName" placeholder="Last Name" th:field="*{lastName}">
+                <label for="lastName">Last Name</label>
+            </div>
+            <div class="form-floating mb-2">
+                <input type="email" th:class="${#fields.hasErrors('email')} ? 'form-control is-invalid' : 'form-control'" id="email" placeholder="Email" th:field="*{email}">
+                <label for="email">Email</label>
+            </div>
+            <div class="form-floating mb-2">
+                <input type="password" th:class="${#fields.hasErrors('pwdHash')} ? 'form-control is-invalid' : 'form-control'" id="pwdHash" placeholder="Password" th:field="*{pwdHash}">
+                <label for="pwdHash">Password</label>
+            </div>
+            <div class="form-floating mb-2">
+                <input type="password" th:class="*{pwdHash != verifyPassword} ? 'form-control is-invalid' : 'form-control'" id="verifyPassword" placeholder="Confirm Password" th:field="*{verifyPassword}">
+                <label for="verifyPassword">Confirm Password</label>
+            </div>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Create account</button>
+            <p class="mt-2 text-muted">Already have an account? <a th:href="@{login}">Login Here</a></p>
+        </form>
+    </main>
+</div>
 
-    <script>
-        const inputs = document.querySelectorAll("input");
-
-        inputs.forEach(el => {
-            el.addEventListener('blur', e => {
-                if (e.target.value) {
-                    e.target.classList.add('active');
-                } else {
-                    e.target.classList.remove('active')
-                }
-            })
-        });
-
-        inputs.forEach(e => {
-            if (e.value) {
-                e.classList.add('active');
-            }
-        });
-    </script>
-</section>
-
-
-</body>
-</html>
+<th:block th:replace="fragments :: footer"></th:block>

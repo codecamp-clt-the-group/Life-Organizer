@@ -9,14 +9,14 @@ public class SignupFormDTO extends LoginFormDTO {
 
     private String verifyPassword;
 
-    @NotBlank(message = "Name required")
+    @NotBlank(message = "First name required")
     @NotNull
-    @Size(max = 25)
+    @Size(max = 25, message = "First name has 25 characters maximum")
     private String firstName;
 
     @NotBlank(message = "Last name required")
     @NotNull
-    @Size(max = 50)
+    @Size(max = 50, message = "Last name has 50 characters maximum")
     private String lastName;
 
     @Email

@@ -7,23 +7,19 @@
             <h1 class="h2 my-3 fw-bold">Life-Organizer</h1>
 
             <div th:if="${#fields.hasAnyErrors()}" class="card my-2">
-                <div class="card-body">
-                    <ul class="list-unstyled m-0">
-                        <li th:each="err : ${#fields.allErrors()}" class="text-start text-danger small">
-                            <i class="bi bi-exclamation-circle-fill"></i>
-                            <span th:text="${err}"></span>
-                        </li>
-                    </ul>
+                <div class="card-body text-start text-danger">
+                    <i class="bi bi-exclamation-circle-fill"></i>
+                    <span>Username or Password is not valid</span>
                 </div>
             </div>
 
-            <div class="form-floating">
-                <input type="text" th:class="${#fields.hasErrors('userName')} ? 'form-control is-invalid' : 'form-control'" id="floatingInput" placeholder="Username" th:field="*{userName}">
-                <label for="floatingInput">Username</label>
+            <div class="form-floating mb-2">
+                <input type="text" class="form-control" id="userName" placeholder="Username" th:field="*{userName}">
+                <label for="userName">Username</label>
             </div>
-            <div class="form-floating">
-                <input type="password" th:class="${#fields.hasErrors('pwdHash')} ? 'form-control is-invalid' : 'form-control'" id="floatingPassword" placeholder="Password" th:field="*{pwdHash}">
-                <label for="floatingPassword">Password</label>
+            <div class="form-floating mb-2">
+                <input type="password" class="form-control" id="pwdHash" placeholder="Password" th:field="*{pwdHash}">
+                <label for="pwdHash">Password</label>
             </div>
             <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
             <p class="mt-2 text-muted">Don't have an account? <a th:href="@{signup}">Sign Up</a></p>
