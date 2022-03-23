@@ -1,126 +1,40 @@
-/* Change autocomplete styles in WebKit */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover,
-textarea:-webkit-autofill:focus,
-select:-webkit-autofill,
-select:-webkit-autofill:hover,
-select:-webkit-autofill:focus {
-    border: 1px solid white;
-    color: rgba(97, 160, 255, 0) !important;
-    -webkit-text-fill-color: white !important;
-    -webkit-box-shadow: 0 0 0 1000px rgba(97, 160, 255, 0) inset !important;
-    transition: background-color 5000s ease-in-out 0s !important;
-}
-
-
+html,
 body {
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-    background-image: linear-gradient(to right bottom, #c5eff2, #bde9f3, #b8e3f3, #b5dcf3, #b4d5f2, #b3d6f3, #b3d6f3, #b2d7f4, #b1dff7, #b3e7f8, #b8eff7, #bff6f6);
-    background-blend-mode: multiply, multiply;
-    background-attachment: fixed;
-}
-
-body.index{
-    background-color:aliceblue ;
-}
-
-input {
-    background-color: rgba(97, 160, 255, 0) !important;
-}
-
-svg {
-    width: auto;
     height: 100%;
 }
 
-.login-register-card {
-    justify-content: center;
+.signin-container {
+    height: 100%;
+    display: flex;
     align-items: center;
-    margin: 0;
-    background-image: linear-gradient(to top, #0f2027, #12252c, #152931, #192e37, #1c333c, #1e3741, #213c46, #23404b, #254551, #274957, #2a4e5e, #2c5364);
-    background-blend-mode: multiply, multiply;
-    background-attachment: fixed;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #f5f5f5;
 }
 
-.login-section {
-    background-image: linear-gradient(to right top, #83a4d4, #86bbe3, #8fd1ee, #9fe6f7, #b6fbff);
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-    background-blend-mode: multiply, multiply;
-    background-attachment: fixed;
+.form-signin {
+  width: 100%;
+  max-width: 400px;
+  padding: 15px;
+  margin: auto;
 }
 
-.register-section {
-    background-image: linear-gradient(to right top, #83a4d4, #86bbe3, #8fd1ee, #9fe6f7, #b6fbff);
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-    background-blend-mode: multiply, multiply;
-    background-attachment: fixed;
+.form-signin .is-invalid {
+    border-color: #ced4da;
 }
 
-.error_span {
-    font-size: 0.75rem;
+.form-signin .form-floating:focus-within {
+  z-index: 2;
 }
 
-.table-scroll {
-    overflow-y: auto;
-    max-height: 100%;
+.form-signin input[type="text"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
-.list-view {
-    min-height: 60vh !important;
-    max-height: 60vh !important;
-    overflow-y: auto;
-}
-
-.createTask-view {
-    min-height: 30vh !important;
-    max-height: 40vh !important;
-}
-
-.list-card {
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-    background-blend-mode: multiply, multiply;
-    background-attachment: fixed;
-}
-
-.logged-in-section {
-    /*background-image: linear-gradient( 174.2deg,  rgba(43,157,255,0.38) 7.1%, rgba(240,246,238,1) 67.4% );*/
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-    background-blend-mode: multiply, multiply;
-    background-attachment: fixed;
-}
-
-.img-taskList-container {
-    max-height: 40vh !important;
-    min-height: 30vh !important;
-    max-width: 80vw !important;
-    overflow: hidden !important;
-}
-
-.img-index-container {
-    overflow: hidden !important;
-}
-
-
-
-.list-view-no-scroll {
-    min-height: 60vh !important;
-    max-height: 60vh !important;
-    overflow: hidden;
-}
-
-.form-check-input:checked {
-    background-color: #1266f1!important;
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
