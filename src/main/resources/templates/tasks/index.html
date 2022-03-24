@@ -1,103 +1,46 @@
 <th:block th:replace="fragments :: header"></th:block>
 <th:block th:insert="fragments::navbar"></th:block>
 
-<div class="signin-container">
-    <main class="app-container text-center">
-            <h1 class="display-1"><th:block th:insert="fragments :: brandLogo"></th:block></h1>
-            <h1 class="h1 my-3 fw-bold" th:insert="fragments :: appName"></h1>
-            <h1 class="h3 my-3 fw-bold" th:text="${title}"></h1>
-
-            <div class="card my-2">
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Handle</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td colspan="2">Larry the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-            <p class="mt-2 text-muted">Don't have an account? <a th:href="@{signup}">Sign Up</a></p>
-        </form>
-    </main>
-</div>
+<main class="app-container">
+    <h1 class="display-1 text-center"><th:block th:insert="fragments :: brandLogo"></th:block></h1>
+    <h1 class="h1 my-3 fw-bold text-center" th:insert="fragments :: appName"></h1>
+    <div class="card my-2 shadow-lg">
+        <h2 class="h3 card-header fw-bold text-center" th:text="${title}"></h2>
+        <div class="card-body table-responsive">
+            <a class="w-100 btn btn-primary mb-2" th:href="@{/tasks/create}">Create a New Task</a>
+            <table class="table align-middle">
+                <caption>List of tasks</caption>
+                <thead>
+                <tr>
+                    <th scope="col">Task</th>
+                    <th scope="col">Task List</th>
+                    <th scope="col">Due Date</th>
+                    <th scope="col">Priority</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="task : ${tasks}">
+                    <td scope="row">
+                        <a th:href="|/tasks/${task.id}|" th:title="${task.isComplete} ? 'Mark as Not Completed' : 'Mark as Completed'"><i th:class="${task.isComplete} ? 'bi bi-check-circle-fill text-success' : 'bi bi-check-circle-fill text-secondary'"></i></a>
+                        <span th:replace="fragments :: displayTask"></span>
+                        (<span th:replace="fragments :: displayRequiredTime"></span> minutes)
+                    </td>
+                    <td th:text="${task.getTasklists().size() > 0} ? ${task.getTasklists().get(0).name} : 'None'"></td>
+                    <td><span th:replace="fragments :: displayDueDate"></span></td>
+                    <td><span th:replace="fragments :: displayPriority"></td>
+                    <td>
+                        <a th:href="${'/tasks/'+ task.id + '/edit'}" class="btn btn-sm btn-success d-block w-100 mb-1"><i class="bi bi-pencil"></i> Edit</a>
+                        <form method="post" action="/tasks/delete">
+                            <input type="hidden" name="id" th:value="${task.id}">
+                            <button class="btn btn-danger btn-sm d-block w-100"><i class="bi bi-trash"></i> Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
 
 <th:block th:replace="fragments :: footer"></th:block>
-
-<!--                            <table class=" table ">-->
-<!--                                <thead class="thead-dark">-->
-<!--                                <tr>-->
-<!--                                    <th scope="col">Name</th>-->
-<!--                                    <th scope="col">Estimated time</th>-->
-<!--                                    <th scope="col">Due Date</th>-->
-<!--                                    <th scope="col">Priority</th>-->
-<!--                                    <th scope="col"></th>-->
-<!--                                </tr>-->
-<!--                                </thead>-->
-<!--                                <tbody>-->
-<!--                                <tr th:each="task : ${tasks}">-->
-<!--                                    <td>-->
-<!--                                        <a th:replace="fragments :: displayTaskWithLink"></a>-->
-<!--                                    </td>-->
-<!--                                    <td>-->
-<!--                                        <span th:replace="fragments :: displayRequiredTime"></span>-->
-<!--                                    </td>-->
-<!--                                    <td>-->
-<!--                                        <span th:replace="fragments :: displayDueDate"></span>-->
-<!--                                    </td>-->
-<!--                                    <td>-->
-<!--                                        <span th:replace="fragments :: displayPriority"></span>-->
-<!--                                    </td>-->
-<!--                                    <td>-->
-<!--                                        <form method="post" action="/tasks/delete">-->
-<!--                                            <input type="hidden" name="id" th:value="${task.id}">-->
-<!--                                            <a th:href="${'/tasks/'+ task.id + '/edit'}" class="btn btn-sm btn-outline-success">EDIT</a>-->
-<!--                                            <button class="btn btn-sm btn-outline-danger">Delete</button>-->
-<!--                                        </form>-->
-<!--                                    </td>-->
-<!--                                </tr>-->
-
-<!--                                </tbody>-->
-<!--                            </table>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <a class="pb-1" th:href="@{/tasks/create}">-->
-<!--                        <button th:href="@{/tasks/create}" class="btn btn-sm btn-outline-success">New task</button>-->
-<!--                    </a>-->
-
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</section>-->
-
-
-
-
-<!--</body>-->
-<!--</html>-->

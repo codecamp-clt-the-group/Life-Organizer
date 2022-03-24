@@ -64,7 +64,7 @@
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <th:block th:text="${user.admin} ? 'Admin' : 'Profile'"></th:block>
+                        <th:block th:text="${user.userName}"></th:block>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" th:href="@{/profile}">View Profile</a></li>
@@ -94,5 +94,5 @@
 
 <span th:fragment="displayTask" th:text="${task.name}"></span>
 <span th:fragment="displayPriority" th:text="${task.priority}"></span>
-<span th:fragment="displayRequiredTime" th:text="|(${task.timeRequired} minutes)|"></span>
-<span th:fragment="displayDueDate" th:text="${{task.dueDate}}"></span>
+<span th:fragment="displayRequiredTime" th:text="${task.timeRequired}"></span>
+<span th:fragment="displayDueDate" th:text="${#dates.format(task.getDueDate(), 'dd/MM/yyyy')}"></span>

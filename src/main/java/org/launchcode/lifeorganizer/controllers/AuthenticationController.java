@@ -106,12 +106,13 @@ public class AuthenticationController{
         }
         setUserInSession(request.getSession(), theUser);
 
-        HttpSession session = request.getSession();
-        User user = getUserFromSession(session);
-
-        model.addAttribute("user", user);
-        model.addAttribute("title", "User Homepage.");
-        return "index";
+//        HttpSession session = request.getSession();
+//        User user = getUserFromSession(session);
+//
+//        model.addAttribute("user", user);
+//        model.addAttribute("title", "User Homepage.");
+//        return "index";
+        return "redirect:";
     }
 
     @GetMapping("/logout")

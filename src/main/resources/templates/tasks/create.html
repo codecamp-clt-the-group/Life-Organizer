@@ -1,124 +1,67 @@
 <th:block th:replace="fragments :: header"></th:block>
 <th:block th:insert="fragments::navbar"></th:block>
 
-<div class="signin-container">
-    <main class="form-signin text-center">
-        <form method="post" th:object="${task}">
-            <h1 class="display-1"><th:block th:insert="fragments :: brandLogo"></th:block></h1>
-            <h1 class="h1 my-3 fw-bold" th:insert="fragments :: appName"></h1>
-            <h1 class="h3 my-3 fw-bold" th:text="${title}"></h1>
-
-            <div th:if="${#fields.hasAnyErrors()}" class="card my-2">
-                <div class="card-body text-start text-danger">
-                    <i class="bi bi-exclamation-circle-fill"></i>
-                    <span>Username or Password is not valid</span>
+<main class="app-container">
+    <h1 class="display-1 text-center"><th:block th:insert="fragments :: brandLogo"></th:block></h1>
+    <h1 class="h1 my-3 fw-bold text-center" th:insert="fragments :: appName"></h1>
+    <div class="card my-2 shadow-lg">
+        <h2 class="h3 card-header fw-bold text-center" th:text="${title}"></h2>
+        <div class="card-body">
+            <form method="post" th:object="${task}">
+                <div th:if="${#fields.hasAnyErrors()}" class="card my-2">
+                    <div class="card-body text-start text-danger">
+                        <ul class="list-unstyled m-0">
+                            <li th:each="err : ${#fields.allErrors()}" class="text-start text-danger small">
+                                <i class="bi bi-exclamation-circle-fill"></i>
+                                <span th:text="${err}"></span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-floating mb-2">
-                <input type="text" class="form-control" id="name" placeholder="name" th:field="*{name}">
-                <label for="name">Task name</label>
-            </div>
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" id="name" placeholder="Task Name" th:field="*{name}" required>
+                    <label for="name">Task Name</label>
+                </div>
+                <div class="row row-cols-1 row-cols-md-3">
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="number" class="form-control" id="time" placeholder="Time Required (Optional)" th:field="${task.timeRequired}">
+                            <label for="time">Time Required (Optional)</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <input type="date" class="form-control" id="dueDate" placeholder="Due Date (Optional)" th:field="${task.dueDate}">
+                            <label for="dueDate">Due Date (Optional)</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating mb-2">
+                            <select class="form-select" id="priority" aria-label="Floating label select priority" th:name="priority">
+                                <th:block th:each="tp : ${T(org.launchcode.lifeorganizer.models.TaskPriority).values()}">
+                                    <option th:value="${tp}" th:text="${tp}" th:selected="${task.priority == tp} ? 'selected'"></option>
+                                </th:block>
+                            </select>
+                            <label for="priority">Priority (optional)</label>
+                        </div>
+                    </div>
+                </div>
 
-            <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-            <p class="mt-2 text-muted">Don't have an account? <a th:href="@{signup}">Sign Up</a></p>
-        </form>
-    </main>
-</div>
+                <div th:if="${#lists.size(tags) > 0}" class="p-3">
+                    <h3 class="card-title">Tags (optional):</h3>
+                    <th:block th:each="tag : ${tags}">
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" th:field="${task.tags}" th:value="${tag.id}" class="form-check-input">
+                            <label class="form-check-label" th:for="${#ids.prev('tags')}" th:text="${tag.name}"></label>
+                        </div>
+                    </th:block>
+                </div>
+
+                <button class="w-100 btn btn-lg btn-primary" type="submit" th:text="${btnName}"></button>
+            </form>
+        </div>
+    </div>
+</main>
 
 <th:block th:replace="fragments :: footer"></th:block>
-
-<!--                                <div class="form-outline form-black mt-4 mb-0">-->
-<!--                                    <input type="number" min="0" id="time" class="form-control form-control-lg "-->
-<!--                                           th:field="${task.timeRequired}" required/>-->
-<!--                                    <label class="form-label" for="time">Time required</label>-->
-<!--                                    <div class="form-notch">-->
-<!--                                        <div class="form-notch-leading" style="width: 9px;"></div>-->
-<!--                                        <div class="form-notch-middle" style="width: 90px;"></div>-->
-<!--                                        <div class="form-notch-trailing"></div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="form-outline  mb-0 mt-2">-->
-<!--                                    <span th:errors="${task.timeRequired}"-->
-<!--                                          class="error_span text-danger justify-content-end "></span>-->
-<!--                                </div>-->
-
-<!--                                <div class="form-outline form-black mt-4 mb-0">-->
-<!--                                    <input type="date" id="dueDate" class="form-control form-control-lg "-->
-<!--                                           th:field="${{task.dueDate}}">-->
-<!--                                    <label class="form-label" for="dueDate">Due Date</label>-->
-
-<!--                                    <div class="form-notch">-->
-<!--                                        <div class="form-notch-leading" style="width: 9px;"></div>-->
-<!--                                        <div class="form-notch-middle" style="width: 90px;"></div>-->
-<!--                                        <div class="form-notch-trailing"></div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="form-outline  mb-0 mt-2">-->
-<!--                                    <span th:errors="${{task.dueDate}}"-->
-<!--                                          class="error_span text-danger justify-content-end "></span>-->
-<!--                                </div>-->
-
-<!--                                <div class="form-outline form-black mt-4 mb-0">-->
-
-<!--                                    <label>Priority (optional):-->
-<!--                                        <select th:replace="fragments :: selectPriority"></select>-->
-<!--                                    </label>-->
-<!--                                    <div class="form-notch">-->
-<!--                                        <div class="form-notch-leading" style="width: 9px;"></div>-->
-<!--                                        <div class="form-notch-middle" style="width: 90px;"></div>-->
-<!--                                        <div class="form-notch-trailing"></div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <div class="form-outline  mb-0 mt-2">-->
-<!--                                    <span th:errors="${task.priority}"-->
-<!--                                          class="error_span text-danger justify-content-end "></span>-->
-<!--                                </div>-->
-
-<!--                                <div th:if="${#lists.size(tags) > 0}">-->
-<!--                                    <h3>Tags (optional):</h3>-->
-<!--                                    <th:block th:each="tag : ${tags}">-->
-<!--                                        <div class="form-check form-check-inline">-->
-<!--                                            <input type="checkbox" th:field="${task.tags}" th:value="${tag.id}" class="form-check-input">-->
-<!--                                            <label class="form-check-label" th:for="${#ids.prev('tags')}" th:text="${tag.name}"></label>-->
-<!--                                        </div>-->
-<!--                                    </th:block>-->
-<!--                                </div>-->
-
-<!--                                <button class="btn btn-outline-dark mt-4 btn-sm px-5" type="submit"-->
-<!--                                        th:text="${btnName}"></button>-->
-
-<!--                            </form>-->
-
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-
-<!--    <script>-->
-<!--        const inputs = document.querySelectorAll("input");-->
-
-
-
-<!--        inputs.forEach(e => {-->
-<!--            if (e.value) {-->
-<!--                e.classList.add('active');-->
-<!--            }-->
-<!--        });-->
-
-<!--        inputs.forEach(el => {-->
-<!--            el.addEventListener('blur', e => {-->
-<!--                if (e.target.value) {-->
-<!--                    e.target.classList.add('active');-->
-<!--                } else {-->
-<!--                    e.target.classList.remove('active')-->
-<!--                }-->
-<!--            })-->
-<!--        });-->
-<!--    </script>-->
-<!--</section>-->
-
-<!--</body>-->
-<!--</html>-->

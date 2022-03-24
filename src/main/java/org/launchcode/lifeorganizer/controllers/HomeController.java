@@ -9,7 +9,7 @@ public class HomeController extends BaseController{
 
     @GetMapping("")
     public String displayHomePage(Model model) {
-
+        model.addAttribute("title", "User Homepage.");
         return "index";
     }
 }

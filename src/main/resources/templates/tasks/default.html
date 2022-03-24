@@ -1,50 +1,39 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head th:replace="fragments :: head"></head>
-<body>
+<th:block th:replace="fragments :: header"></th:block>
+<th:block th:insert="fragments::navbar"></th:block>
 
-<nav th:replace="fragments::navbar"></nav>
-
-<section class="vh-100 logged-in-section  ">
-
-    <div class="container py-5 h-100">
-        <div class="row  justify-content-center align-items-center h-100">
-            <div class="col-12  col-md-8 col-lg-10 col-xl-10">
-                <div class="card list-card text-white shadow-lg" style="border-radius: 1rem;">
-                    <h1 class="text-black">Task Name</h1>
-                    <div class="list-view card-body col-10 col-md-7 col-lg-9 col-xl-9  p-2 text-center">
-                        <div class=" mb-md-2 mt-3 ">
-                            <table class=" table ">
-                                <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Estimated time</th>
-                                    <th scope="col">Priority</th>
-                                    <th scope="col"></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="defaultTask : ${defaultTasks}">
-                                    <td th:text="${defaultTask.name}"></td>
-                                    <td th:text="${defaultTask.timeRequired}"></td>
-                                    <td>
-                                        <form method="post" action="/tasks/convert-default-task">
-                                            <input type="hidden" name="id" th:value="${defaultTask.id}">
-                                            <button>Add to my tasks</button>
-                                        </form>
-                                    </td>
-                                </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<main class="app-container">
+    <h1 class="display-1 text-center"><th:block th:insert="fragments :: brandLogo"></th:block></h1>
+    <h1 class="h1 my-3 fw-bold text-center" th:insert="fragments :: appName"></h1>
+    <div class="card my-2 shadow-lg">
+        <h2 class="h3 card-header fw-bold text-center" th:text="${title}"></h2>
+        <div class="card-body table-responsive">
+            <a class="w-100 btn btn-primary mb-2" th:if="${user.admin}" th:href="@{/admin/default-create}">Create a New Task from Default Tasks</a>
+            <table class="table align-middle">
+                <caption>List of default tasks</caption>
+                <thead>
+                <tr>
+                    <th scope="col">Task</th>
+                    <th scope="col">Estimated Time</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="task : ${defaultTasks}">
+                    <td scope="row">
+                        <span th:replace="fragments :: displayTask"></span>
+                    </td>
+                    <td><span th:replace="fragments :: displayRequiredTime"></span> minutes</td>
+                    <td>
+                        <form method="post" action="/tasks/convert-default-task">
+                            <input type="hidden" name="id" th:value="${task.id}">
+                            <button class="btn btn-success btn-sm d-block w-100"><i class="bi bi-plus-circle"></i> Add to my tasks</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-</section>
+</main>
 
-
-</body>
-</html>
+<th:block th:replace="fragments :: footer"></th:block>
