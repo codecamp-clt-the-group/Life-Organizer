@@ -123,7 +123,6 @@ public class TasklistController extends BaseController{
 
     @GetMapping("{id}")
     public String displayTaskList(Model model, @PathVariable int id, HttpServletRequest session) {
-        model.addAttribute("title", "Generated Task List");
         User user = getUserFromSession(session.getSession());
 
         // find the tasklist by id
@@ -131,8 +130,8 @@ public class TasklistController extends BaseController{
 
         // checking if the user owns that tasklist
         if (tasklist.isPresent() && tasklist.get().getUser().getId() == user.getId()) {
+            model.addAttribute("title", "Tasklist: " + tasklist.get().getName());
             model.addAttribute("tasks", tasklist.get().getTasks());
-            model.addAttribute("tasklist", tasklist.get().getName());
             return "tasklist/list";
         }
 

@@ -1,52 +1,30 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head th:replace="fragments :: head"></head>
-<body>
-<nav th:replace="fragments::navbar"></nav>
+<th:block th:replace="fragments :: header"></th:block>
+<th:block th:insert="fragments::navbar"></th:block>
 
-<section class="logged-in-section " style="height: 93vh">
-    <div class="container py-5 h-100">
-        <div class="row  justify-content-center align-items-center h-100">
-            <div class="col-12  col-md-8 col-lg-10 col-xl-10">
-                <div class="card list-card text-white shadow-lg" style="border-radius: 1rem;">
-                    <h1 class="text-black">My Task Lists</h1>
-                    <div class="list-view card-body col-10 col-md-7 col-lg-9 col-xl-9  p-2 text-center">
-                        <div class=" mb-md-2 mt-3 ">
-                            <table class=" table ">
-                                <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Tasks</th>
-                                    <th scope="col"></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="tasklist : ${tasklists}">
-                                    <td>
-                                        <a th:href="${tasklist.id}" th:text="${tasklist.name}"></a>
-                                    </td>
-                                    <td>
-                                        <ul style="list-style: none">
-                                            <li th:each="task :${tasklist.getTasks()}"
-                                                th:text="${task.name + ' ' + '(' + task.timeRequired + ' minutes)'}"></li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <a class="pb-1" th:href="@{/tasklist/generator}">
-                        <button  class="btn btn-sm btn-outline-success">New tasks list</button>
-                    </a>
+<main class="container">
+    <h1 class="display-1 mt-3 text-center"><th:block th:insert="fragments :: brandLogo"></th:block></h1>
+    <h1 class="h1 my-3 fw-bold text-center" th:text="${title}"></h1>
+
+    <div class="text-center">
+        <a class="btn btn-primary mb-2" th:href="@{/tasklist/generator}"><i class="bi bi-plus-circle"></i> Create a New Task List</a>
+    </div>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-2">
+        <div class="col" th:each="tasklist : ${tasklists}">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><a th:href="${tasklist.id}" th:text="${tasklist.name}"></a> (<span th:text="${tasklist.getTasks().size()}"></span> tasks)</h5>
+                    <ul class="list-unstyled fs-6 mb-0">
+                        <li th:each="task :${tasklist.getTasks()}">
+                            <a th:href="|/tasks/${task.id}|" th:title="${task.isComplete} ? 'Mark as Not Completed' : 'Mark as Completed'"><i th:class="${task.isComplete} ? 'bi bi-check-circle-fill text-success' : 'bi bi-check-circle-fill text-secondary'"></i></a>
+                            <span th:replace="fragments :: displayTask"></span>
+                            (<span th:replace="fragments :: displayRequiredTime"></span> minutes)
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
-</section>
+</main>
 
-
-
-
-</body>
-</html>
+<th:block th:replace="fragments :: footer"></th:block>
