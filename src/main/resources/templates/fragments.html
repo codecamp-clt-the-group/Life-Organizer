@@ -96,3 +96,11 @@
 <span th:fragment="displayPriority" th:text="${task.priority}"></span>
 <span th:fragment="displayRequiredTime" th:text="${task.timeRequired}"></span>
 <span th:fragment="displayDueDate" th:text="${#dates.format(task.getDueDate(), 'dd/MM/yyyy')}"></span>
+
+<th:block th:fragment="displayTaskPropertiesForGenerator">
+<ul class="ps-2 fs-tiny text-secondary list-unstyled">
+    <li><i class="bi bi-exclamation-circle"></i> Priority: <span th:text="${task.priority}"></span></li>
+    <li><i class="bi bi-clock"></i> Time Required: <span th:text="${task.timeRequired}"></span> minutes</li>
+    <li><i class="bi bi-calendar3"></i> Due Date: <span th:class="${#dates.format(task.getDueDate(), 'dd/MM/yyyy') < #dates.format(#dates.createNow(), 'dd/MM/yyyy')} ? 'text-danger'" th:text="${#dates.format(task.getDueDate(), 'dd/MM/yyyy')}"></span></li>
+</ul>
+</th:block>

@@ -3,22 +3,23 @@
 
 <main class="container">
     <h1 class="display-1 mt-3 text-center"><th:block th:insert="fragments :: brandLogo"></th:block></h1>
+    <h1 class="h1 my-3 fw-bold text-center" th:insert="fragments :: appName"></h1>
     <h1 class="h1 my-3 fw-bold text-center" th:text="${title}"></h1>
 
     <div class="text-center">
         <a class="btn btn-primary mb-2" th:href="@{/tasklist/generator}"><i class="bi bi-plus-circle"></i> Create a New Task List</a>
     </div>
 
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-2">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-2 mb-4">
         <div class="col" th:each="tasklist : ${tasklists}">
             <div class="card h-100 shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title"><a th:href="${tasklist.id}" th:text="${tasklist.name}"></a> (<span th:text="${tasklist.getTasks().size()}"></span> tasks)</h5>
                     <ul class="list-unstyled fs-6 mb-0">
-                        <li th:each="task :${tasklist.getTasks()}">
+                        <li th:each="task :${tasklist.getTasks()}" class="mb-2">
                             <a th:href="|/tasks/${task.id}|" th:title="${task.isComplete} ? 'Mark as Not Completed' : 'Mark as Completed'"><i th:class="${task.isComplete} ? 'bi bi-check-circle-fill text-success' : 'bi bi-check-circle-fill text-secondary'"></i></a>
                             <span th:replace="fragments :: displayTask"></span>
-                            (<span th:replace="fragments :: displayRequiredTime"></span> minutes)
+                            <th:block th:insert="fragments :: displayTaskPropertiesForGenerator"></th:block>
                         </li>
                     </ul>
                 </div>

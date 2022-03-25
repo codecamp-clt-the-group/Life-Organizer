@@ -42,7 +42,7 @@
                 <input type="password" th:class="*{pwdHash != verifyPassword} ? 'form-control is-invalid' : 'form-control'" id="verifyPassword" placeholder="Confirm Password" th:field="*{verifyPassword}">
                 <label for="verifyPassword">Confirm Password</label>
             </div>
-            <button class="w-100 btn btn-lg btn-primary" type="submit">Create account</button>
+            <button class="w-100 btn btn-primary" type="submit">Create account</button>
             <p class="mt-2 text-muted">Already have an account? <a th:href="@{login}">Login Here</a></p>
         </form>
     </main>

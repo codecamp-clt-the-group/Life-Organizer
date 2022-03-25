@@ -165,7 +165,7 @@ public class TaskController extends BaseController{
             requestedTask.get().setPriority(task.getPriority());
             requestedTask.get().setDueDate(task.getDueDate());
             taskRepository.save(requestedTask.get());
-            return "redirect:/tasks";
+            return "redirect:" + request.getHeader("Referer");
         }
 
         return "redirect:";
