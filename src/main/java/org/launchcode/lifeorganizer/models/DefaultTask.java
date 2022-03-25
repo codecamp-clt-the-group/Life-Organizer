@@ -2,6 +2,8 @@ package org.launchcode.lifeorganizer.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,9 +14,11 @@ public class DefaultTask{
     @GeneratedValue
     private Integer id;
 
-    @NotEmpty
+    @NotEmpty(message = "Task must not be empty.")
+    @Size(min = 3, message = "Task name must be at least 3 characters long")
     private String name;
 
+    @PositiveOrZero(message = "The time has to be positive or 0.")
     private int timeRequired;
 
     @ManyToMany
