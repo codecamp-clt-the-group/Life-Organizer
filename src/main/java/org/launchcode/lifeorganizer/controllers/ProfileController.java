@@ -33,9 +33,8 @@ public class ProfileController extends BaseController{
     @GetMapping
     public String displayProfile(HttpServletRequest request, Model model){
         User current = authenticationController.getUserFromSession(request.getSession());
-        List<Tasklist> taskLst = (List<Tasklist>) tasklistRepository.findAll();
-        model.addAttribute("TaskLists", taskLst);
-        model.addAttribute("user",current);
+        model.addAttribute("user", current);
+        model.addAttribute("title", "View Profile");
         return "profile/index";
     }
 
