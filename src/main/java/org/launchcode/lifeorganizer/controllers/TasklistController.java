@@ -71,7 +71,8 @@ public class TasklistController extends BaseController{
 
         // check if the time variable if valid
         if (Math.signum(timeAvailable) != 1) {
-            model.addAttribute("error", "No tasks available for your timeframe of " + timeAvailable + " minutes.");
+            model.addAttribute("error", "Please type a valid positive number of minutes.");
+            model.addAttribute("title", "Generate Task List. Error occur.");
             return "tasklist/generator";
         }
 
@@ -98,13 +99,15 @@ public class TasklistController extends BaseController{
                 suggestedTasks.add(task);
                 timeAvailable = timeAvailable - task.getTimeRequired();
             }
+        }
 
-            sortPriority = suggestedTasks;
-
+        for (Task task : suggestedTasks) {
             if (task.getDueDate() != null) {
                 availableTasksWithDueDate.add(task);
             }
         }
+
+        sortPriority = suggestedTasks;
 
         sortPriority.sort(new PriorityComparator());
         // if there is any tasks fit in allocated available time
@@ -112,18 +115,19 @@ public class TasklistController extends BaseController{
             model.addAttribute("suggestedTasks", suggestedTasks);
             model.addAttribute("sortPriority", sortPriority);
 
+            //sorting due dates
+            availableTasksWithDueDate.sort(Comparator.comparing(Task::getDueDate));
+            model.addAttribute("tasksWithDueDate", availableTasksWithDueDate);
+
         }
 
-        //sorting due dates
-        availableTasksWithDueDate.sort(Comparator.comparing(Task::getDueDate));
-        model.addAttribute("tasksWithDueDate", availableTasksWithDueDate);
         model.addAttribute("fillTask","fill");
+        model.addAttribute("title", "Generated Suggestions for a Task List.");
         return "tasklist/generator";
     }
 
     @GetMapping("{id}")
     public String displayTaskList(Model model, @PathVariable int id, HttpServletRequest session) {
-        model.addAttribute("title", "Generated Task List");
         User user = getUserFromSession(session.getSession());
 
         // find the tasklist by id
@@ -131,8 +135,8 @@ public class TasklistController extends BaseController{
 
         // checking if the user owns that tasklist
         if (tasklist.isPresent() && tasklist.get().getUser().getId() == user.getId()) {
+            model.addAttribute("title", "Tasklist: " + tasklist.get().getName());
             model.addAttribute("tasks", tasklist.get().getTasks());
-            model.addAttribute("tasklist", tasklist.get().getName());
             return "tasklist/list";
         }
 

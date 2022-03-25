@@ -1,29 +1,21 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head th:replace="fragments :: head"></head>
-<body>
-<nav th:replace="fragments::navbar"></nav>
+<th:block th:replace="fragments :: header"></th:block>
+<th:block th:insert="fragments::navbar"></th:block>
 
-<table>
-    <tr>
-        <th colspan="2">Task name</th>
-    </tr>
-    <tr th:each="task : ${tasks}">
-        <td>
-            <span th:if="${task.isComplete}" style="text-decoration: line-through"><a th:href="${'/tasks/'+ task.id}" th:text="${task.name}"></a></span>
-            <span th:unless="${task.isComplete}"><a th:href="${'/tasks/'+ task.id}" th:text="${task.name}"></a></span>
-        </td>
-        <td th:text="${task.timeRequired}"></td>
-        <td th:text="${task.priority.displayName}"></td>
-        <td>
-        </td>
-    </tr>
-</table>
-<h1 th:text="${tasklist}"></h1>
-<ul>
-    <li th:each="task : ${tasks}"><a th:replace="fragments :: displayTaskWithLink"></a> <span th:replace="fragments :: displayRequiredTime"></span></li>
-</ul>
+<main class="container">
+    <h1 class="display-1 mt-3 text-center"><th:block th:insert="fragments :: brandLogo"></th:block></h1>
+    <h1 class="h1 my-3 fw-bold text-center" th:insert="fragments :: appName"></h1>
+    <h1 class="h1 my-3 fw-bold text-center" th:text="${title}"></h1>
 
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-2 mb-4">
+        <div class="col" th:each="task : ${tasks}">
+            <div th:class="'card h-100 shadow-sm' + (${task.isComplete} ? ' bg-success bg-opacity-10')">
+                <div class="card-body">
+                    <h5 class="card-title"><a th:href="|/tasks/${task.id}|" class="stretched-link" th:title="${task.isComplete} ? 'Mark as Not Completed' : 'Mark as Completed'"><i th:class="${task.isComplete} ? 'bi bi-check-circle-fill text-success' : 'bi bi-check-circle-fill text-secondary'"></i></a> <span th:replace="fragments :: displayTask"></span></h5>
+                    <th:block th:insert="fragments :: displayTaskPropertiesForGenerator"></th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
 
-</body>
-</html>
+<th:block th:replace="fragments :: footer"></th:block>

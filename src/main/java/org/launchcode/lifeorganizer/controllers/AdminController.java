@@ -41,17 +41,18 @@ public class AdminController extends BaseController{
         model.addAttribute("tags", tagRepository.findAll());
         model.addAttribute("title", "Create a new default task");
         model.addAttribute("defaultTask", new DefaultTask());
-        model.addAttribute("defaultTasks", defaultTaskRepository.findAll());
         model.addAttribute("btnName","Create");
 
         return "admin/default-create";
     }
 
     @PostMapping("default-create")
-    public String processDefaultForm(@ModelAttribute @Valid DefaultTask defaultTask,
-                                     @RequestParam(required = false) List<Integer> tags,
-                                     HttpServletRequest request,Errors errors, Model model) {
-//        User user = authenticationController.getUserFromSession(request.getSession());
+    public String processDefaultForm(
+            @ModelAttribute @Valid DefaultTask defaultTask,
+             Errors errors,
+             @RequestParam(required = false) List<Integer> tags,
+             HttpServletRequest request,
+             Model model) {
         if (tags != null) {
             //stream tags into a list
             List<Tag> selectedTags = StreamSupport
@@ -63,12 +64,11 @@ public class AdminController extends BaseController{
         }
 
         if (errors.hasErrors()) {
-            model.addAttribute("title", "Invalid data. Create a new task");
+            model.addAttribute("title", "Create a new default task. Error occur.");
             model.addAttribute("tags", tagRepository.findAll());
             model.addAttribute("btnName","Create");
-            return "tasks/default";
+            return "admin/default-create";
         }
-//       task.setUser(user);
         defaultTaskRepository.save(defaultTask);
         model.addAttribute("defaultTasks", defaultTaskRepository.findAll());
 
