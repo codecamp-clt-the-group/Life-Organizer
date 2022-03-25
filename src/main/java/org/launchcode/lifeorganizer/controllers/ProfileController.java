@@ -49,8 +49,8 @@ public class ProfileController extends BaseController{
         newOption.setLastName(current.getLastName());
         newOption.setUserName(current.getUserName());
         model.addAttribute("tags", tagRepository.findAll());
-        model.addAttribute("optionFormDTO",newOption);
-        model.addAttribute("user",current);
+        model.addAttribute("optionFormDTO", newOption);
+        model.addAttribute("user", current);
         return "profile/options";
     }
 
