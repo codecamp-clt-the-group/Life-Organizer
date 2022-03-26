@@ -55,7 +55,7 @@ public class ProfileController extends BaseController{
     }
 
     @PostMapping("options")
-    public String processDisplayChangeForm(@ModelAttribute @Valid OptionFormDTO optionFormDTO, Errors errors, HttpServletRequest request, Model model, @RequestParam int[] tags){
+    public String processDisplayChangeForm(@ModelAttribute @Valid OptionFormDTO optionFormDTO, Errors errors, HttpServletRequest request, Model model, @RequestParam(required = false) List<Integer> tags){
         User current = authenticationController.getUserFromSession(request.getSession());
         User toUpdate = userRepository.findById(current.getId()).get();
 
@@ -67,9 +67,13 @@ public class ProfileController extends BaseController{
         String newEmail = optionFormDTO.getEmail();
 
         List<Tag> selectedTags = new ArrayList<>();
-        for (int id : tags) {
-            Optional<Tag> tag = tagRepository.findById(id);
-            tag.ifPresent(selectedTags::add);
+
+        // check if any tags selected
+        if (tags != null) {
+            for (int id : tags) {
+                Optional<Tag> tag = tagRepository.findById(id);
+                tag.ifPresent(selectedTags::add);
+            }
         }
 
         if(!newPass.equals("") || !verify.equals("") || !curPass.equals("")) {
