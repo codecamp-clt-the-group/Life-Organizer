@@ -187,4 +187,19 @@ public class TasklistController extends BaseController{
         tasklistRepository.save(tasklist);
         return "redirect:";
     }
+
+    @PostMapping("delete")
+    public String deleteTasklist(@RequestParam int id, HttpServletRequest request) {
+        User user = authenticationController.getUserFromSession(request.getSession());
+
+        // find the requested task
+        Optional<Tasklist> tasklist = tasklistRepository.findById(id);
+
+        // check if the user owns that task
+        if (tasklist.isPresent() && tasklist.get().getUser().getId() == user.getId()) {
+            // Remove
+            tasklistRepository.deleteById(id);
+        }
+        return "redirect:" + request.getHeader("Referer");
+    }
 }
