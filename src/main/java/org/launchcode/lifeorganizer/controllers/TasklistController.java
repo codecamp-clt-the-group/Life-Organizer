@@ -95,7 +95,7 @@ public class TasklistController extends BaseController{
         Comparator priorityComp = new PriorityComparator();
 
         for (Task task : availableTasks) {
-            if (task.getTimeRequired() > 0 && timeAvailable > task.getTimeRequired()) {
+            if (task.getTimeRequired() > 0 && timeAvailable >= task.getTimeRequired()) {
                 suggestedTasks.add(task);
                 timeAvailable = timeAvailable - task.getTimeRequired();
             }
