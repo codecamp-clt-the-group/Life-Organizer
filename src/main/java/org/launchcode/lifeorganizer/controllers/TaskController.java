@@ -1,11 +1,7 @@
 package org.launchcode.lifeorganizer.controllers;
 
 import org.launchcode.lifeorganizer.data.*;
-import org.launchcode.lifeorganizer.models.DefaultTask;
-import org.launchcode.lifeorganizer.models.Tag;
-import org.launchcode.lifeorganizer.models.Task;
-import org.launchcode.lifeorganizer.models.TaskPriority;
-import org.launchcode.lifeorganizer.models.User;
+import org.launchcode.lifeorganizer.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -182,6 +178,7 @@ public class TaskController extends BaseController{
         if (task.isPresent() && task.get().getUser().getId() == user.getId()) {
             // Remove
             taskRepository.deleteById(id);
+
 
         }
         return "redirect:" + request.getHeader("Referer");

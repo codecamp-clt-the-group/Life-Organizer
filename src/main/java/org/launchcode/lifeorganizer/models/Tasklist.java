@@ -7,8 +7,7 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.persistence.CascadeType.DETACH;
-import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.CascadeType.*;
 
 @Entity
 public class Tasklist {
@@ -24,11 +23,11 @@ public class Tasklist {
     @ManyToOne
     private User user;
 
-    @ManyToMany
+    @ManyToMany(cascade = {ALL})
     @JoinTable(
             name = "tasklist_task",
-            joinColumns = @JoinColumn(name = "tasklist_id"),
-            inverseJoinColumns = @JoinColumn(name = "task_id"))
+            joinColumns = {@JoinColumn(name = "tasklist_id")},
+            inverseJoinColumns = {@JoinColumn(name = "task_id")})
     private List<Task> tasks = new ArrayList<>();
 
     public Tasklist () {}
