@@ -1,9 +1,6 @@
 package org.launchcode.lifeorganizer.controllers;
 
-import org.launchcode.lifeorganizer.data.DefaultTaskRepository;
-import org.launchcode.lifeorganizer.data.TagRepository;
-import org.launchcode.lifeorganizer.data.TaskRepository;
-import org.launchcode.lifeorganizer.data.UserRepository;
+import org.launchcode.lifeorganizer.data.*;
 import org.launchcode.lifeorganizer.models.DefaultTask;
 import org.launchcode.lifeorganizer.models.Tag;
 import org.launchcode.lifeorganizer.models.Task;
@@ -43,6 +40,9 @@ public class TaskController extends BaseController{
 
     @Autowired
     private TagRepository tagRepository;
+
+    @Autowired
+    private TasklistRepository tasklistRepository;
 
     private static final String userSessionKey = "user";
 
@@ -182,6 +182,7 @@ public class TaskController extends BaseController{
         if (task.isPresent() && task.get().getUser().getId() == user.getId()) {
             // Remove
             taskRepository.deleteById(id);
+
         }
         return "redirect:" + request.getHeader("Referer");
     }
