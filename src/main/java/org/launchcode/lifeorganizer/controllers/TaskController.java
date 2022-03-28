@@ -1,14 +1,7 @@
 package org.launchcode.lifeorganizer.controllers;
 
-import org.launchcode.lifeorganizer.data.DefaultTaskRepository;
-import org.launchcode.lifeorganizer.data.TagRepository;
-import org.launchcode.lifeorganizer.data.TaskRepository;
-import org.launchcode.lifeorganizer.data.UserRepository;
-import org.launchcode.lifeorganizer.models.DefaultTask;
-import org.launchcode.lifeorganizer.models.Tag;
-import org.launchcode.lifeorganizer.models.Task;
-import org.launchcode.lifeorganizer.models.TaskPriority;
-import org.launchcode.lifeorganizer.models.User;
+import org.launchcode.lifeorganizer.data.*;
+import org.launchcode.lifeorganizer.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,6 +36,9 @@ public class TaskController extends BaseController{
 
     @Autowired
     private TagRepository tagRepository;
+
+    @Autowired
+    private TasklistRepository tasklistRepository;
 
     private static final String userSessionKey = "user";
 
@@ -180,6 +176,19 @@ public class TaskController extends BaseController{
 
         // check if the user owns that task
         if (task.isPresent() && task.get().getUser().getId() == user.getId()) {
+
+            // if a task in a tasklist, need to remove it from the tasklist
+            // relationship owner is Tasklist
+            if (task.get().getTasklists().size() > 0) {
+                Optional <Tasklist> tasklist = tasklistRepository.findById(task.get().getTasklists().get(0).getId());
+                tasklist.get().getTasks().remove(task.get());
+                tasklistRepository.save(tasklist.get());
+
+                if (tasklist.get().getTasks().size() == 0) {
+                    tasklistRepository.deleteById(tasklist.get().getId());
+                }
+            }
+
             // Remove
             taskRepository.deleteById(id);
         }
