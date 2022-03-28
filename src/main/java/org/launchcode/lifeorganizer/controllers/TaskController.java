@@ -201,6 +201,8 @@ public class TaskController extends BaseController{
         Task newTask = new Task(defaultTaskRepository.findById(id).get().getName(), defaultTaskRepository.findById(id).get().getTimeRequired(), false, TaskPriority.LOW, newDate);
         User user = authenticationController.getUserFromSession(request.getSession());
 
+        newTask.addTags(defaultTaskRepository.findById(id).get().getTags());
+
         newTask.setUser(user);
         taskRepository.save(newTask);
         return "redirect:";
