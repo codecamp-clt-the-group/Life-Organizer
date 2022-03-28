@@ -110,7 +110,7 @@ public class AuthenticationController{
 
         model.addAttribute("user", user);
 
-        return "index";
+        return "redirect:";
     }
 
     @GetMapping("/logout")
