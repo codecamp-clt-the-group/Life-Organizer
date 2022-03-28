@@ -33,9 +33,8 @@ public class ProfileController extends BaseController{
     @GetMapping
     public String displayProfile(HttpServletRequest request, Model model){
         User current = authenticationController.getUserFromSession(request.getSession());
-        List<Tasklist> taskLst = (List<Tasklist>) tasklistRepository.findAll();
-        model.addAttribute("TaskLists", taskLst);
-        model.addAttribute("user",current);
+        model.addAttribute("user", current);
+        model.addAttribute("title", "View Profile");
         return "profile/index";
     }
 
@@ -50,13 +49,13 @@ public class ProfileController extends BaseController{
         newOption.setLastName(current.getLastName());
         newOption.setUserName(current.getUserName());
         model.addAttribute("tags", tagRepository.findAll());
-        model.addAttribute("optionFormDTO",newOption);
-        model.addAttribute("user",current);
+        model.addAttribute("optionFormDTO", newOption);
+        model.addAttribute("user", current);
         return "profile/options";
     }
 
     @PostMapping("options")
-    public String processDisplayChangeForm(@ModelAttribute @Valid OptionFormDTO optionFormDTO, Errors errors, HttpServletRequest request, Model model, @RequestParam int[] tags){
+    public String processDisplayChangeForm(@ModelAttribute @Valid OptionFormDTO optionFormDTO, Errors errors, HttpServletRequest request, Model model, @RequestParam(required = false) List<Integer> tags){
         User current = authenticationController.getUserFromSession(request.getSession());
         User toUpdate = userRepository.findById(current.getId()).get();
 
@@ -68,9 +67,13 @@ public class ProfileController extends BaseController{
         String newEmail = optionFormDTO.getEmail();
 
         List<Tag> selectedTags = new ArrayList<>();
-        for (int id : tags) {
-            Optional<Tag> tag = tagRepository.findById(id);
-            tag.ifPresent(selectedTags::add);
+
+        // check if any tags selected
+        if (tags != null) {
+            for (int id : tags) {
+                Optional<Tag> tag = tagRepository.findById(id);
+                tag.ifPresent(selectedTags::add);
+            }
         }
 
         if(!newPass.equals("") || !verify.equals("") || !curPass.equals("")) {

@@ -1,90 +1,70 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head th:replace="fragments :: head"></head>
-<body>
-<nav th:replace="fragments::navbar"></nav>
-<section class="align-content-center mt-4">
-    <h1 class="text-center" th:text="${title}"></h1>
-    <p class="text-center text-success bg-success" th:text="${msg}"></p>
-    <form method="post" class="container-fluid pt-4">
-        <input type="hidden" th:field="${optionFormDTO.pwdHash}">
-        <input type="hidden" th:field="${optionFormDTO.userName}">
-        <h4>Password</h4>
-        <div class="form-group row justify-content-center">
-            <div class="col-sm-4 ">
-                <div class="row">
-                    <label class="col-3">Current:</label>
-                    <input type="password" class="form-control col-9" th:field="${optionFormDTO.currentPassword}">
-                </div>
-                <span th:errors="${optionFormDTO.currentPassword}" class="row text-danger justify-content-end "></span>
-            </div>
-        </div>
-        <div class="form-group row justify-content-center">
-            <div class="col-sm-4 ">
-                <div class="row">
-                    <label class="col-3">New:</label>
-                    <input type="password" class="form-control col-9" th:field="${optionFormDTO.newPassword}">
-                </div>
-                <span th:errors="${optionFormDTO.newPassword}" th:if="${optionFormDTO.newPassword}" class="row text-danger justify-content-end "></span>
-            </div>
-        </div>
-        <div class="form-group row justify-content-center">
-            <div class="col-sm-4 ">
-                <div class="row">
-                    <label class="col-3">Verify:</label>
-                    <input type="password" class="form-control col-9" th:field="${optionFormDTO.verifyPassword}">
-                </div>
-                <span th:errors="${optionFormDTO.verifyPassword}" class="row text-danger justify-content-end "></span>
-            </div>
-        </div>
+<th:block th:replace="fragments :: header"></th:block>
+<th:block th:insert="fragments::navbar"></th:block>
 
-        <h4>Name</h4>
-        <div class="form-group row justify-content-center">
-            <div class="col-sm-4 ">
-                <div class="row">
-                    <label class="col-3">First:</label>
-                    <input type="text" class="form-control col-9" th:field="${optionFormDTO.firstName}">
+
+
+<main class="app-container narrow">
+    <h1 class="display-1 text-center"><th:block th:insert="fragments :: brandLogo"></th:block></h1>
+    <h1 class="h1 my-3 fw-bold text-center" th:insert="fragments :: appName"></h1>
+    <div class="card my-2 shadow-lg">
+        <h2 class="h3 card-header fw-bold text-center" th:text="${title}"></h2>
+        <div class="card-body">
+            <div class="alert alert-success" role="alert"th:if="${msg}" th:text="${msg}"></div>
+            <form method="post" th:object="${optionFormDTO}">
+                <div th:if="${#fields.hasAnyErrors()}" class="card my-2">
+                    <div class="card-body text-start text-danger">
+                        <ul class="list-unstyled m-0">
+                            <li th:each="err : ${#fields.allErrors()}" class="text-start text-danger small">
+                                <i class="bi bi-exclamation-circle-fill"></i>
+                                <span th:text="${err}"></span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <span th:errors="${optionFormDTO.firstName}" class="row text-danger justify-content-end "></span>
-            </div>
-        </div>
-        <div class="form-group row justify-content-center">
-            <div class="col-sm-4 ">
-                <div class="row">
-                    <label class="col-3">Last:</label>
-                    <input type="text" class="form-control col-9" th:field="${optionFormDTO.lastName}">
+
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" id="firstName" placeholder="First Name" th:field="*{firstName}">
+                    <label for="firstName">First Name</label>
                 </div>
-                <span th:errors="${optionFormDTO.lastName}" class="row text-danger justify-content-end "></span>
-            </div>
-        </div>
-
-        <h4>Email</h4>
-        <div class="form-group row justify-content-center">
-            <div class="col-sm-4 ">
-                <div class="row">
-                    <label class="col-3">Email:</label>
-                    <input type="text" class="form-control col-9" th:field="${optionFormDTO.email}">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" id="lastName" placeholder="Last Name" th:field="*{lastName}">
+                    <label for="lastName">Last Name</label>
                 </div>
-                <span th:errors="${optionFormDTO.email}" class="row text-danger justify-content-end "></span>
-            </div>
-        </div>
-
-        <div th:if="${#lists.size(tags) > 0}">
-            <h4>Tags (optional):</h4>
-            <th:block th:each="tag : ${tags}">
-                <div class="form-check form-check-inline">
-                    <input type="checkbox" th:field="${user.tags}" th:value="${tag.id}" class="form-check-input">
-                    <label class="form-check-label" th:for="${#ids.prev('tags')}" th:text="${tag.name}"></label>
+                <div class="form-floating mb-2">
+                    <input type="email" class="form-control" id="email" placeholder="Email" th:field="*{email}">
+                    <label for="email">Email</label>
                 </div>
-            </th:block>
+
+                <h3 class="card-title">Password Change:</h3>
+                <input type="hidden" th:field="*{pwdHash}">
+                <input type="hidden" th:field="*{userName}">
+                <div class="form-floating mb-2">
+                    <input type="password" class="form-control" id="currentPassword" placeholder="Current Password" th:field="*{currentPassword}">
+                    <label for="currentPassword">Current Password</label>
+                </div>
+                <div class="form-floating mb-2">
+                    <input type="password" class="form-control" id="newPassword" placeholder="New Password" th:field="*{newPassword}">
+                    <label for="newPassword">New Password</label>
+                </div>
+                <div class="form-floating mb-2">
+                    <input type="password" class="form-control" id="verifyPassword" placeholder="Verify Password" th:field="*{verifyPassword}">
+                    <label for="verifyPassword">Verify Password</label>
+                </div>
+
+                <div th:if="${#lists.size(tags) > 0}" class="py-3">
+                    <h3 class="card-title">Tags (optional):</h3>
+                    <th:block th:each="tag : ${tags}">
+                        <div class="form-check form-check-inline">
+                            <input type="checkbox" th:field="${user.tags}" th:value="${tag.id}" class="form-check-input">
+                            <label class="form-check-label" th:for="${#ids.prev('tags')}" th:text="${tag.name}"></label>
+                        </div>
+                    </th:block>
+                </div>
+
+                <button class="w-100 btn btn-primary" type="submit">Save Changes</button>
+            </form>
         </div>
+    </div>
+</main>
 
-        <div class="row form-group justify-content-center">
-            <input class="btn btn-success" type="submit" value="Change options"/>
-        </div>
-
-    </form>
-
-</section>
-</body>
-</html>
+<th:block th:replace="fragments :: footer"></th:block>

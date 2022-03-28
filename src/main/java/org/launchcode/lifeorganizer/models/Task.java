@@ -32,7 +32,6 @@ public class Task {
 
     @NotEmpty(message = "Task must not be empty.")
     @Size(min = 3, message = "Task name must be at least 3 characters long")
-    @Size(max=200,message = "task name must be under 200 characters")
     private String name;
 
     @PositiveOrZero(message = "The time has to be positive or 0.")

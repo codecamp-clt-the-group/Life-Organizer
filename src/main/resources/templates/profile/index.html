@@ -1,36 +1,66 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head th:replace="fragments :: head"></head>
-<body>
-<nav th:replace="fragments::navbar"></nav>
+<th:block th:replace="fragments :: header"></th:block>
+<th:block th:insert="fragments::navbar"></th:block>
 
-<div>
-    <table>
-        <tr><th>User name</th><td th:text="${user.userName}"></td></tr>
-        <tr><th>Name</th><td th:text="${user.firstName}+' '+${user.lastName}"></td></tr>
-        <tr><th>Email</th><td th:text="${user.email}"></td></tr>
-        <tr><td><a th:href="@{profile/options}" th:text="Settings"></a></td></tr>
-    </table>
-</div>
-<div>
-<!--    <p th:if="${TaskList}==null"></p>-->
-    <div th:each="tasklist: ${TaskLists}">
-<!--        th:if="${TaskLists} ?: 'No task lists available'">-->
-        <table>
-<!--            <tr><td th:text="${tasklist.id}"></td></tr>-->
-            <tr th:each="task: ${tasklist.tasks}"><td th:text="${task.name}"></td><td th:text="${task.timeRequired}"></td><td><button th:value="${task.isComplete}" th:text="done"></button></td></tr>
-        </table>
+<main class="app-container narrow">
+    <h1 class="display-1 text-center"><th:block th:insert="fragments :: brandLogo"></th:block></h1>
+    <h1 class="h1 my-3 fw-bold text-center" th:insert="fragments :: appName"></h1>
+    <div class="card my-2 shadow-lg">
+        <h2 class="h3 card-header fw-bold text-center" th:text="${title}"></h2>
+        <div class="card-body">
+            <ul>
+                <li>User name: <span th:text="${user.userName}"></span></li>
+                <li>First name: <span th:text="${user.firstName}"></span></li>
+                <li>Last name: <span th:text="${user.lastName}"></span></li>
+                <li>Email: <span th:text="${user.userName}"></span></li>
+            </ul>
+
+            <div class="text-center">
+                <a class="btn btn-primary mb-2" th:href="@{/profile/options}"><i class="bi bi-pencil"></i> Make changes</a>
+            </div>
+
+            <h4 class="text-center my-5" th:if="${user.getTasks().size() < 1}">No tasks yet</h4>
+            <div class="accordion my-2 accordion-flush" id="accordionSuggestions" th:if="${user.getTasks().size() > 0}">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            All your tasks
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionSuggestions">
+                        <div class="accordion-body p-0">
+                            <div class="container my-4">
+                                <div th:each="task : ${user.getTasks()}">
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <a th:href="|/tasks/${task.id}|" th:title="${task.isComplete} ? 'Mark as Not Completed' : 'Mark as Completed'"><i th:class="${task.isComplete} ? 'bi bi-check-circle-fill text-success' : 'bi bi-check-circle-fill text-secondary'"></i></a> <span th:replace="fragments :: displayTask"></span>
+                                            <th:block th:insert="fragments :: displayTaskPropertiesForGenerator"></th:block>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            All your task lists
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionSuggestions">
+                        <div class="accordion-body">
+                            <h4 class="text-center my-5" th:if="${user.getTasklists().size() < 1}">No tasks lists yet</h4>
+                            <div class="container my-4" th:if="${user.getTasklists().size() > 0}">
+                                <a th:each="tasklist : ${user.getTasklists()}" th:href="|/tasklist/${tasklist.id}|" class="btn btn-primary m-1"><i class="bi bi-list-task"></i> <span th:text="|${tasklist.name} (${tasklist.getTasks().size()} tasks)|"></span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
     </div>
-</div>
+</main>
 
-<div th:if="${#lists.size(user.tags) > 0}">
-    <h4>Tags:</h4>
-    <ul>
-    <th:block th:each="tag : ${user.tags}">
-        <li th:text="${tag.name}"></li>
-    </th:block>
-    </ul>
-</div>
-
-</body>
-</html>
+<th:block th:replace="fragments :: footer"></th:block>

@@ -1,91 +1,31 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head th:replace="fragments :: head"></head>
+<th:block th:replace="fragments :: header"></th:block>
 
+<div class="signin-container">
+    <main class="form-signin text-center">
+        <form method="post" th:object="${loginFormDTO}">
+            <h1 class="display-1"><th:block th:insert="fragments :: brandLogo"></th:block></h1>
+            <h1 class="h1 my-3 fw-bold" th:insert="fragments :: appName"></h1>
+            <h1 class="h3 my-3 fw-bold">Log in</h1>
 
-<body>
-
-<section class="vh-100 login-section ">
-    <div class="container py-5 h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-                <div class="card login-register-card text-white shadow-lg" style="border-radius: 1rem;">
-                    <div class="card-body p-5 text-center">
-                        <div class="mb-md-5 mt-md-4 pb-5">
-                            <h2 class="fw-bold mb-2 text-uppercase">Life Organizer</h2>
-                            <p class="text-white-50 mb-5">Please enter your username and password!</p>
-                            <form method="post">
-                                <div class="form-outline  form-white mb-4">
-                                    <input type="text" id="typeUsername" class="form-control form-control-lg active"
-                                           th:field="${loginFormDTO.userName}"/>
-                                    <label class="form-label" for="typeUsername">Username</label>
-                                    <div class="form-notch">
-                                        <div class="form-notch-leading" style="width: 9px;"></div>
-                                        <div class="form-notch-middle" style="width: 65px;"></div>
-                                        <div class="form-notch-trailing"></div>
-                                    </div>
-                                </div>
-
-
-                                <div class="form-outline  mb-4  justify-content-end ">
-                                    <span th:errors="${loginFormDTO.userName}"
-                                          class="error_span text-warning"></span>
-                                </div>
-
-                                <div class="form-outline form-white mb-4">
-                                    <input type="password" id="typePasswordX"
-                                           class="form-control form-control-lg active"
-                                           th:field="${loginFormDTO.pwdHash}"/>
-                                    <label class="form-label" for="typePasswordX">Password</label>
-                                    <div class="form-notch">
-                                        <div class="form-notch-leading" style="width: 9px;"></div>
-                                        <div class="form-notch-middle" style="width: 60px;"></div>
-                                        <div class="form-notch-trailing"></div>
-                                    </div>
-                                </div>
-
-                                <div class="form-outline  mb-4  justify-content-end">
-                                    <span th:errors="${loginFormDTO.pwdHash}"
-                                          class="error_span text-warning "></span>
-                                </div>
-
-                                <button class="btn btn-outline-light btn-sm px-5" type="submit">Login</button>
-                            </form>
-                        </div>
-                        <div>
-                            <p class="mb-0">Don't have an account? <a th:href="@{signup}" class="text-white-50 fw-bold">Sign
-                                Up</a></p>
-                        </div>
-                    </div>
+            <div th:if="${#fields.hasAnyErrors()}" class="card my-2">
+                <div class="card-body text-start text-danger">
+                    <i class="bi bi-exclamation-circle-fill"></i>
+                    <span>Username or Password is not valid</span>
                 </div>
             </div>
-        </div>
-    </div>
 
+            <div class="form-floating mb-2">
+                <input type="text" class="form-control" id="userName" placeholder="Username" th:field="*{userName}">
+                <label for="userName">Username</label>
+            </div>
+            <div class="form-floating mb-2">
+                <input type="password" class="form-control" id="pwdHash" placeholder="Password" th:field="*{pwdHash}">
+                <label for="pwdHash">Password</label>
+            </div>
+            <button class="w-100 btn btn-primary" type="submit">Sign in</button>
+            <p class="mt-2 text-muted">Don't have an account? <a th:href="@{signup}">Sign Up</a></p>
+        </form>
+    </main>
+</div>
 
-    <script>
-        const inputs = document.querySelectorAll("input");
-
-        inputs.forEach(e => {
-            if (e.value) {
-                e.classList.add('active');
-            }
-        });
-
-        inputs.forEach(el => {
-            el.addEventListener('blur', e => {
-                if (e.target.value) {
-                    e.target.classList.add('active');
-                } else {
-                    e.target.classList.remove('active')
-                }
-            })
-        });
-
-
-    </script>
-</section>
-
-
-</body>
-</html>
+<th:block th:replace="fragments :: footer"></th:block>
