@@ -61,7 +61,7 @@ public class MailController implements WebMvcConfigurer {
         String ranGen = forgotPassword();
         user.setPwdHash(ranGen);
         String text = user.getFirstName() + " " + user.getLastName()+ ", here is a temporary password to login.\n\t" + ranGen + "\nUse this to login, but make sure to change it!";
-        sendForgotPassword(user.getEmail(), text);
+        mail.sendMessage(user.getEmail(), "Forgot Password", text);
         userRepository.save(user);
         model.addAttribute("msg","A temporary password has been sent to your email.");
         return "redirect:/login";
