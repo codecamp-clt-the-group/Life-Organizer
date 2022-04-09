@@ -20,7 +20,7 @@ public class AuthenticationFilter extends HandlerInterceptorAdapter {
     @Autowired
     AuthenticationController authenticationController;
 
-    private static final List<String> whitelist = Arrays.asList("/signup", "/login", "/css", "/logout", "/webjars");
+    private static final List<String> whitelist = Arrays.asList("/signup", "/login", "/css", "/logout", "/webjars", "/forgot");
 
     @Override
     public boolean preHandle(HttpServletRequest request,
@@ -37,7 +37,11 @@ public class AuthenticationFilter extends HandlerInterceptorAdapter {
         User user = authenticationController.getUserFromSession(session);
 
         if (user == null) {
-            response.sendRedirect("/login");
+            if(requestPath.startsWith("/forget")){
+                response.sendRedirect("/forget");
+            }else{
+                response.sendRedirect("/login");
+            }
             return false;
         }
 

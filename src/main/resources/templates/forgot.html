@@ -2,29 +2,26 @@
 
 <div class="signin-container">
     <main class="form-signin text-center">
-        <form method="post" th:object="${loginFormDTO}">
+        <form method="post" th:object="${mail}">
             <h1 class="display-1"><th:block th:insert="fragments :: brandLogo"></th:block></h1>
             <h1 class="h1 my-3 fw-bold" th:insert="fragments :: appName"></h1>
-            <h1 class="h3 my-3 fw-bold">Log in</h1>
+            <h1 class="h3 my-3 fw-bold">Forgot password</h1>
 
             <div th:if="${#fields.hasAnyErrors()}" class="card my-2">
                 <div class="card-body text-start text-danger">
                     <i class="bi bi-exclamation-circle-fill"></i>
-                    <span>Username or Password is not valid</span>
+                    <span>Email is not valid</span>
                 </div>
             </div>
 
             <div class="form-floating mb-2">
-                <input type="text" class="form-control" id="userName" placeholder="Username" th:field="*{userName}">
-                <label for="userName">Username</label>
+                <input type="email" class="form-control" id="email" placeholder="Email" th:field="*{email}">
+                <label for="email">Email</label>
             </div>
-            <div class="form-floating mb-2">
-                <input type="password" class="form-control" id="pwdHash" placeholder="Password" th:field="*{pwdHash}">
-                <label for="pwdHash">Password</label>
-            </div>
-            <button class="w-100 btn btn-primary" type="submit">Sign in</button>
+
+            <button class="w-100 btn btn-primary" type="submit">Send password</button>
             <p class="mt-2 text-muted">Don't have an account? <a th:href="@{signup}">Sign Up</a></p>
-            <p class="mt-2 text-muted"><a th:href="@{forgot}">Forgot Password</a></p>
+            <p class="mt-2 text-muted">Already have an account? <a th:href="@{login}">Log in</a></p>
         </form>
     </main>
 </div>
