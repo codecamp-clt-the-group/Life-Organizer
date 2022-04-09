@@ -27,17 +27,6 @@ import java.util.Random;
 public class MailController implements WebMvcConfigurer {
     @Autowired
     UserRepository userRepository;
-    @Autowired
-    private JavaMailSender mailSender;
-
-    public void sendForgotPassword(String to, String text){
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(to);
-        message.setFrom("info@thegroup.com");
-        message.setSubject("Forgot Password");
-        message.setText(text);
-        mailSender.send(message);
-    }
 
     @GetMapping("forgot")
     public String displayForgot(Model model){
@@ -73,7 +62,7 @@ public class MailController implements WebMvcConfigurer {
         int type = 0;
         int charValue = 0;
         for(int i = 0; i < 6;i++){
-            type = random.nextInt(2 - 0) + 0;
+            type = random.nextInt(2);
             switch(type){
                 case 0:
                     charValue = random.nextInt(57 - 48) + 48;
